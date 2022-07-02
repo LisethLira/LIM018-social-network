@@ -1,5 +1,5 @@
 {
-  "name": "social-network",
+  "name": "puurrlove",
   "version": "1.0.0",
   "description": "Social Network @ Laboratoria",
   "main": "src/index.html",
@@ -34,5 +34,17 @@
   },
   "engines": {
     "node": ">=14"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deleina/LIM018-social-network.git"
+  },
+  "author": "Deleina LLamocca Chipa",
+  "bugs": {
+    "url": "https://github.com/Deleina/LIM018-social-network/issues"
+  },
+  "homepage": "https://github.com/Deleina/LIM018-social-network#readme"
 }
