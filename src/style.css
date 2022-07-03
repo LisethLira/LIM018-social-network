@@ -1,0 +1,156 @@
+body{
+    background-color: #FFF3E7;
+    margin: 0;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'League Spartan';
+    font-size: 40px;
+    line-height: 37px;
+    color: #62442F;
+    font-weight: 800;
+    margin:10px;
+    padding: 0;
+}
+
+h2 {
+    font-family: 'Montserrat';
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+
+    color: #FFF3E7;
+
+}
+
+.secLogin , .secRegister{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.nameLogo{
+    background-color: #DC7A5D;
+
+}
+
+.formLogin, .formRegister{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    width: 270px;
+    height: 36px;
+}
+
+label{
+    display: flex;
+    align-items: center;
+    width: 270px;
+    height: 40px;
+    font-family:'Lato';
+    font-size: 20px;
+    line-height: 24px;
+    color: #62442F;
+}
+
+legend{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 270px;
+    height: 32px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #62442F;
+
+}
+
+.gatitoLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 124px;
+    height: 103.19px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.btnLogin, .btnRegister{
+    width: 287px;
+    height: 50px;
+    background: #C29650;
+    border-radius: 100px;
+    margin-top: 15px;
+
+    font-family: 'Lato';
+    font-weight: 700;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #FFF3E7;
+
+}
+
+.btnLoginGoogle, .btnRegisterGoogle{
+    width: 287px;
+    height: 50px;
+    border: 1px solid #62442F;
+    border-radius: 100px;
+
+    font-family: 'Lato';
+    font-weight: 600;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #62442F;
+}
+
+.ntcRegis{
+    display: flex;
+    align-items: center;
+}
+
+p{
+    font-family: 'Lato';
+    font-weight: 600;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #62442F;
+}
+
+.hrefRegistrate{
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #62442F;
+    margin-left: 20px;
+}
+
