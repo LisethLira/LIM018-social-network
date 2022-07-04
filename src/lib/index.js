@@ -5,16 +5,9 @@ const changeView = (name) => {
   const container = document.getElementById('container');
   container.innerHTML = ' ';
   switch (name) {
-    case '': { container.appendChild(components.login());
-      console.log(document.getElementById("btnRegister"));}
-    break;
-    case '#/login': { container.appendChild(components.login()); 
-      console.log(document.getElementById("btnRegister"));}
-    break;
-    
-    case '#/Registrate': { container.appendChild(components.registro());
-      console.log();}
-    break;
+    case '': { return container.appendChild(components.login()); }
+    case '#/login': { return container.appendChild(components.login()); }
+    case '#/Registrate': { return container.appendChild(components.registro()); }
     default: { return container.appendChild(components.login()); }
   }
 };

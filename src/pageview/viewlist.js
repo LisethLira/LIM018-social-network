@@ -6,7 +6,4 @@ const components = {
   registro: Registro,
 };
 
-
-console.log(components.login)
-
 export { components };

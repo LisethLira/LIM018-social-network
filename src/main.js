@@ -2,7 +2,7 @@
 
 import { changeView } from './lib/index.js';
 import { components } from '../pageview/viewlist.js';
-//import { hola } from './firebaseConfig.js';
+
 
 const init = () => {
   changeView(window.location.hash);
@@ -39,10 +39,6 @@ window.addEventListener('load', init);
 // btnRegister.addEventListener('click',()=>{
 //     console.log("funciona");
 // });
-
-
-
-
 
 //let registerInput= components.registro().firstElementChild.firstElementChild[4];
 //let registerInput= components.registro().firstElementChild.firstElementChild;
