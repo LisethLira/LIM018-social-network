@@ -1,4 +1,5 @@
 export default () => {
+
   const viewRegister = `<header class="nameLogo">
   <img class="gatitoLogo" src="GATITO LOGO.png">
   <h1>PUUR LOVE</h1>
@@ -31,3 +32,4 @@ export default () => {
 
   return divElem;
 };
+
