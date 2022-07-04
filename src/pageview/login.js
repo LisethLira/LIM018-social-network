@@ -1,5 +1,5 @@
 export default () => {
-  const viewLogin = `<section>
+  const viewHome = `<section>
   <form id="login">
     <legend>Inicia sesión</legend>
     <label>Correo electrónico:</label>
@@ -21,7 +21,6 @@ export default () => {
 </section>`;
 
   const divElem = document.createElement('div');
-  divElem.innerHTML = viewLogin;
-
+  divElem.innerHTML = viewHome;
   return divElem;
 };
