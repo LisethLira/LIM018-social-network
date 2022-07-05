@@ -6,13 +6,13 @@ export default () => {
    <a href="#/login"></a>
 </header>
   <section class="secLogin">
-  <form class="formLogin" id="login">
+  <form class="formLogin" id="formLogin">
     <legend>Inicia sesión</legend>
     <label>Correo electrónico:</label>
-    <input id="emailLogin">
+    <input type="email" id="emailLogin" required>
     <label>Contraseña:</label>
-    <input id="passwordLogin">
-    <button class="btnLogin" id="btnLogin">Inicia Sesión</button>
+    <input type="password" id="passwordLogin" required>
+    <button type="submit" class="btnLogin" id="btnLogin">Inicia Sesión</button>
     <legend>o</legend>
   </form>
   <div>
@@ -30,4 +30,15 @@ export default () => {
   divElem.innerHTML = viewLogin;
 
   return divElem;
+};
+
+export const loginActive = (idElementoForm) => {
+  const idForm = document.getElementById(idElementoForm);
+  idForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('emailLogin').value;
+    const password = document.getElementById('passwordLogin').value;
+    // aqui se puede colocar el método del firebase
+    console.log(email, password);
+  });
 };
