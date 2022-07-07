@@ -1,3 +1,4 @@
+
 export default () => {
   const viewLogin = `<header class="nameLogo">
   <img class="gatitoLogo" src="GATITO LOGO.png">
