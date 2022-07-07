@@ -6,13 +6,20 @@ export default () => {
    <a href="#/login"></a>
 </header>
   <section class="secLogin">
-  <form class="formLogin" id="login">
+  <form class="formLogin" id="formLogin">
     <legend>Inicia sesión</legend>
     <label>Correo electrónico:</label>
-    <input id="emailLogin">
+    <input type="email" id="emailLogin" class="emaillogin" required>
     <label>Contraseña:</label>
-    <input id="passwordLogin">
-    <button class="btnLogin" id="btnLogin">Inicia Sesión</button>
+    <div class="container-password-login">
+      <input type="password" class="passwordLogin" id="passwordLogin" required>
+      <div>
+        <button class="button-password-login"  id="btn-password-login"> 
+          <img src="face.png" class="img-button-password">
+        </button>
+      </div>
+    </div>
+    <button type="submit" class="btnLogin" id="btnLogin">Inicia Sesión</button>
     <legend>o</legend>
   </form>
   <div>
@@ -29,4 +36,30 @@ export default () => {
   const divElem = document.createElement('div');
   divElem.innerHTML = viewLogin;
   return divElem;
+};
+
+export const loginActive = (idElementoForm) => {
+  const idForm = document.getElementById(idElementoForm);
+  idForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('emailLogin').value;
+    const password = document.getElementById('passwordLogin').value;
+    // aqui se puede colocar el método del firebase
+    console.log(email, password);
+  });
+};
+
+export const buttonShow = (idbtn, idInput) => {
+  const password = document.getElementById(idInput);
+  const viewPassword = document.getElementById(idbtn);
+  let click = false;
+  viewPassword.addEventListener('click', () => {
+    if (!click) {
+      password.type = 'text';
+      click = true;
+    } else if (click) {
+      password.type = 'password';
+      click = false;
+    }
+  });
 };
