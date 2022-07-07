@@ -9,14 +9,28 @@ export default () => {
   <form  id="formRegister" class="formRegister">
     <legend>Crea tu cuenta</legend>
     <label>Nombre de usuario</label>
-    <input id="userName" required>
+    <input id="userName" class="userName" required>
     <label>Correo electrónico:</label>
-    <input type="email" id="emailRegister" required>
+    <input type="email" id="emailRegister" class="emailRegister" required>
     <label>Crear contraseña:</label>
-    <input type="password" id="passwordRegister" required>
+    <div class="container-password-register">
+      <input type="password" id="passwordRegister" class="passwordRegister" required>
+      <div>
+        <button class="btn-passwor-register"  id="btnRegister"> 
+          <img src="face.png" class="img-password-register">
+        </button>
+      </div>
+    </div>
     <label>Repetir contraseña:</label>
-    <input type="password"id="passwordRepeatRegister" required>
-    <button type="submit" class="btnRegister" id="btnRegister">Registrarte</button>
+    <div class="container-repeat-password">
+      <input type="password" id="passwordRepeatRegister" class="passwordRepeatRegister" required>
+      <div>
+        <button class="btn-passwor-register"  id="btnRepeatRegister"> 
+          <img src="face.png" class="img-password-register">
+        </button>
+      </div>
+    </div>
+    <button type="submit" class="btnRegister" id="btnRegisterRepeat">Registrarte</button>
     <legend>o</legend>
   </form>
   <div>
@@ -42,5 +56,21 @@ export const registerActive = (idElementoForm) => {
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
     // aqui se puede colocar el método del firebase
     console.log(userName, emailRegister, passwordRegister, passwordRepeatRegister);
+  });
+};
+
+export const buttonShowRegister = (idbtn, idInput) => {
+  const viewPassword = document.getElementById(idbtn);
+  const password = document.getElementById(idInput);
+  let click = false;
+  viewPassword.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!click) {
+      password.type = 'text';
+      click = true;
+    } else if (click) {
+      password.type = 'password';
+      click = false;
+    }
   });
 };

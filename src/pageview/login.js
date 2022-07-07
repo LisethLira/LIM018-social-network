@@ -1,5 +1,5 @@
 export default () => {
-  const viewLogin = ` <header class="nameLogo">
+  const viewLogin = `<header class="nameLogo">
   <img class="gatitoLogo" src="GATITO LOGO.png">
   <h1>PUUR LOVE</h1>
   <h2>Una comunidad hecha para los amantes de los gatos.</h2>
@@ -9,9 +9,16 @@ export default () => {
   <form class="formLogin" id="formLogin">
     <legend>Inicia sesión</legend>
     <label>Correo electrónico:</label>
-    <input type="email" id="emailLogin" required>
+    <input type="email" id="emailLogin" class="emaillogin" required>
     <label>Contraseña:</label>
-    <input type="password" id="passwordLogin" required>
+    <div class="container-password-login">
+      <input type="password" class="passwordLogin" id="passwordLogin" required>
+      <div>
+        <button class="button-password-login"  id="btn-password-login"> 
+          <img src="face.png" class="img-button-password">
+        </button>
+      </div>
+    </div>
     <button type="submit" class="btnLogin" id="btnLogin">Inicia Sesión</button>
     <legend>o</legend>
   </form>
@@ -28,7 +35,6 @@ export default () => {
 
   const divElem = document.createElement('div');
   divElem.innerHTML = viewLogin;
-
   return divElem;
 };
 
@@ -40,5 +46,20 @@ export const loginActive = (idElementoForm) => {
     const password = document.getElementById('passwordLogin').value;
     // aqui se puede colocar el método del firebase
     console.log(email, password);
+  });
+};
+
+export const buttonShow = (idbtn, idInput) => {
+  const password = document.getElementById(idInput);
+  const viewPassword = document.getElementById(idbtn);
+  let click = false;
+  viewPassword.addEventListener('click', () => {
+    if (!click) {
+      password.type = 'text';
+      click = true;
+    } else if (click) {
+      password.type = 'password';
+      click = false;
+    }
   });
 };
