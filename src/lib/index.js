@@ -1,7 +1,7 @@
 // aqui exportaras las funciones que necesites
 /* import login from '../pageview/login.js'; */
 import { components } from '../pageview/viewlist.js';
-import { buttonShow, loginActive } from '../pageview/login.js';
+import { buttonShow, loginActive, GoogleBtnActive } from '../pageview/login.js';
 import { registerActive, buttonShowRegister } from '../pageview/register.js';
 
 const changeView = (name) => {
@@ -13,6 +13,7 @@ const changeView = (name) => {
     { container.appendChild(components.login());
       loginActive('formLogin');
       buttonShow('btn-password-login', 'passwordLogin');
+      GoogleBtnActive('btnLoginGoogle');
       break;
     }
 
