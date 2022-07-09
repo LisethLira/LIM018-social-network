@@ -1,18 +1,24 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js";
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
+import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA33HPkczj5Pn1HEaxSuuEkz5LWHDMUTa4",
-  authDomain: "purr-love.firebaseapp.com",
-  projectId: "purr-love",
-  storageBucket: "purr-love.appspot.com",
-  messagingSenderId: "578237034767",
-  appId: "1:578237034767:web:e380c2da3118685a558e7a"
+  apiKey: 'AIzaSyA33HPkczj5Pn1HEaxSuuEkz5LWHDMUTa4',
+  authDomain: 'purr-love.firebaseapp.com',
+  projectId: 'purr-love',
+  storageBucket: 'purr-love.appspot.com',
+  messagingSenderId: '578237034767',
+  appId: '1:578237034767:web:e380c2da3118685a558e7a',
 };
 
 // Initialize Firebase
@@ -37,7 +43,7 @@ export const createUserRegisterDB = (uid, name, email, password) => {
 };
 
 // FUNCIÓN LOGIN
-export const loginUser = (email,password)=> signInWithEmailAndPassword(auth, email, password)
+export const loginUser = (email, password) => signInWithEmailAndPassword(auth, email, password);
 
 // FUNCIÓN LOGIN WITH GOOGLE
 

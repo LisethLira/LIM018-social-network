@@ -2,7 +2,7 @@ import { createUser, createUserRegisterDB } from '../firebaseConfig.js';
 
 export default () => {
   const viewRegister = `<header class="nameLogo">
-  <img class="gatitoLogo" src="GATITO LOGO.png">
+  <img class="gatitoLogo" src="image/GATITO LOGO.png">
   <h1>PUUR LOVE</h1>
   <h2>Una comunidad hecha para los amantes de los gatos.</h2>
    <a href="#/login"></a>
@@ -19,7 +19,7 @@ export default () => {
       <input type="password" id="passwordRegister" class="passwordRegister" required>
       <div>
         <button class="btn-passwor-register"  id="btnRegister"> 
-          <img src="face.png" class="img-password-register">
+          <img src="image/face.png" class="img-password-register">
         </button>
       </div>
     </div>
@@ -28,7 +28,7 @@ export default () => {
       <input type="password" id="passwordRepeatRegister" class="passwordRepeatRegister" required>
       <div>
         <button class="btn-passwor-register"  id="btnRepeatRegister"> 
-          <img src="face.png" class="img-password-register">
+          <img src="image/face.png" class="img-password-register">
         </button>
       </div>
     </div>
@@ -43,6 +43,7 @@ export default () => {
 </section>`;
 
   const divElem = document.createElement('div');
+  divElem.classList.add('divElem');
   divElem.innerHTML = viewRegister;
 
   return divElem;
@@ -60,12 +61,12 @@ export const registerActive = (idElementoForm) => {
     if (passwordRepeatRegister !== passwordRegister) {
       return alert('no es la misma contraseña');
     }
+    
     createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
         console.log(emailRegister);
         // Signed in
         const user = userCredential.user;
-        console.log(user);
         console.log(user.uid);
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
       })

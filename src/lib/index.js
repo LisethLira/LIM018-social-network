@@ -24,6 +24,10 @@ const changeView = (name) => {
       buttonShowRegister('btnRepeatRegister', 'passwordRepeatRegister');
       break; }
 
+    case '#/home':
+    { container.appendChild(components.home());
+      break; }
+
     default:
       break;
   }

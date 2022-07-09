@@ -2,7 +2,7 @@ import { loginGoogle, loginUser } from '../firebaseConfig.js';
 
 export default () => {
   const viewLogin = `<header class="nameLogo">
-  <img class="gatitoLogo" src="GATITO LOGO.png">
+  <img class="gatitoLogo" src="image/GATITO LOGO.png">
   <h1>PUUR LOVE</h1>
   <h2>Una comunidad hecha para los amantes de los gatos.</h2>
    <a href="#/login"></a>
@@ -17,11 +17,11 @@ export default () => {
       <input type="password" class="passwordLogin" id="passwordLogin" required>
       <div>
         <button class="button-password-login"  id="btn-password-login"> 
-          <img src="face.png" class="img-button-password">
+          <img src="image/face.png" class="img-button-password">
         </button>
       </div>
     </div>
-    <button type="submit" class="btnLogin" id="btnLogin">Inicia Sesión</button>
+    <button type="submit" class="btnLogin" id="btnLogin" onclick="window.location.href='#/home';">Inicia Sesión</button>
     <legend>o</legend>
   </form>
   <div>
@@ -36,6 +36,7 @@ export default () => {
 </section>`;
 
   const divElem = document.createElement('div');
+  divElem.classList.add('divElem');
   divElem.innerHTML = viewLogin;
   return divElem;
 };
@@ -57,8 +58,7 @@ export const loginActive = (idElementoForm) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // eslint-disable-next-line no-alert
-        alert(`${errorMessage}revisa tus datos`);
+        alert(errorMessage + "revisa tus datos");
       });
     console.log(email, password);
   });

@@ -6,6 +6,10 @@ body{
     background-color: #FFF3E7;
 }
 
+.divElem{
+    height: 100vh;
+}
+
 header{
     display: flex;
     flex-direction: column;
@@ -30,8 +34,8 @@ h2 {
     font-size: 20px;
     display: flex;
     align-items: center;
-    padding-left: 20px;
     padding-bottom: 20px;
+    text-align: center;
 
     color: #FFF3E7;
 
@@ -52,6 +56,7 @@ h2 {
 .formLogin, .formRegister{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .emaillogin{
@@ -237,45 +242,26 @@ p{
 
 @media only screen and (min-width: 676px){
 
-    /* para media query */
-    #container > div{
-    display: flex;
-    
+    .divElem{
+        display: flex;
     }
 
-    /* .nameLogo {
+    .nameLogo {
         width: 50%;
         display: flex;
         justify-content: center;
     }
 
     .secLogin{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 8.3%;
-    width: 50%;
-    margin-bottom: 8.3%;
-    margin: 0p;
-    justify-content: center;
-    align-content: center;
+        width: 50%;
+        justify-content: center;
+        align-content: center;
     }
 
     .secRegister{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 4.3%;
         width: 50%;
-        margin-bottom: 4.3%;
-        margin: 0p;
         justify-content: center;
-        align-content: center;  
+        align-content: center;
     }
-
-    .formRegister{
-        align-items: center;
-    } */
-
 
 }
