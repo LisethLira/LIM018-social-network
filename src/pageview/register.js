@@ -1,9 +1,8 @@
-import { createUser, createUserRegisterDB } from "../firebaseConfig.js";
-
+import { createUser, createUserRegisterDB } from '../firebaseConfig.js';
 
 export default () => {
   const viewRegister = `<header class="nameLogo">
-  <img class="gatitoLogo" src="GATITO LOGO.png">
+  <img class="gatitoLogo" src="image/GATITO LOGO.png">
   <h1>PUUR LOVE</h1>
   <h2>Una comunidad hecha para los amantes de los gatos.</h2>
    <a href="#/login"></a>
@@ -20,7 +19,7 @@ export default () => {
       <input type="password" id="passwordRegister" class="passwordRegister" required>
       <div>
         <button class="btn-passwor-register"  id="btnRegister"> 
-          <img src="face.png" class="img-password-register">
+          <img src="image/face.png" class="img-password-register">
         </button>
       </div>
     </div>
@@ -29,7 +28,7 @@ export default () => {
       <input type="password" id="passwordRepeatRegister" class="passwordRepeatRegister" required>
       <div>
         <button class="btn-passwor-register"  id="btnRepeatRegister"> 
-          <img src="face.png" class="img-password-register">
+          <img src="image/face.png" class="img-password-register">
         </button>
       </div>
     </div>
@@ -59,28 +58,25 @@ export const registerActive = (idElementoForm) => {
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
     // aqui se puede colocar el método del firebase
-    if (passwordRepeatRegister != passwordRegister) {
-      return alert("no es la misma contraseña");
+    if (passwordRepeatRegister !== passwordRegister) {
+      return alert('no es la misma contraseña');
     }
 
-    createUser(emailRegister,passwordRegister)
+    createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
-       console.log(emailRegister);
-      
-     // Signed in
+        console.log(emailRegister);
+        // Signed in
         const user = userCredential.user;
-      console.log(user.uid);
-      createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert("Revisa tus datos<br>" + errorMessage);
+        console.log(user.uid);
+        createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert('Revisa tus datos<br>' + errorMessage);
       // ..
-    });
-    
-     console.log(userName, emailRegister, passwordRegister, "REGISTRADO");
-      
+      });
+    console.log(userName, emailRegister, passwordRegister, 'REGISTRADO');
   });
 };
 
