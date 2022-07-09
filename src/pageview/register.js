@@ -1,3 +1,6 @@
+import { createUser, createUserRegisterDB } from "../firebaseConfig.js";
+
+
 export default () => {
   const viewRegister = `<header class="nameLogo">
   <img class="gatitoLogo" src="GATITO LOGO.png">
@@ -55,7 +58,28 @@ export const registerActive = (idElementoForm) => {
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
     // aqui se puede colocar el método del firebase
-    console.log(userName, emailRegister, passwordRegister, passwordRepeatRegister);
+    if (passwordRepeatRegister != passwordRegister) {
+      return alert("no es la misma contraseña");
+    }
+
+    createUser(emailRegister,passwordRegister)
+      .then((userCredential) => {
+       console.log(emailRegister);
+      
+     // Signed in
+        const user = userCredential.user;
+      console.log(user.uid);
+      createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert("Revisa tus datos<br>" + errorMessage);
+      // ..
+    });
+    
+     console.log(userName, emailRegister, passwordRegister, "REGISTRADO");
+      
   });
 };
 
@@ -74,3 +98,6 @@ export const buttonShowRegister = (idbtn, idInput) => {
     }
   });
 };
+
+
+

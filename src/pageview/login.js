@@ -1,3 +1,5 @@
+import { loginGoogle, loginUser } from "../firebaseConfig.js";
+
 export default () => {
   const viewLogin = `<header class="nameLogo">
   <img class="gatitoLogo" src="GATITO LOGO.png">
@@ -45,6 +47,18 @@ export const loginActive = (idElementoForm) => {
     const email = document.getElementById('emailLogin').value;
     const password = document.getElementById('passwordLogin').value;
     // aqui se puede colocar el método del firebase
+    loginUser(email,password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log(user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage + "revisa tus datos");
+    });
     console.log(email, password);
   });
 };
@@ -63,3 +77,10 @@ export const buttonShow = (idbtn, idInput) => {
     }
   });
 };
+
+export const GoogleBtnActive = (idbtnGoogle) =>{
+  const btnGoogle = document.getElementById(idbtnGoogle);
+  btnGoogle.addEventListener('click', ()=>{
+    loginGoogle()
+  }); 
+}
