@@ -58,17 +58,17 @@ export const registerActive = (idElementoForm) => {
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
     // aqui se puede colocar el método del firebase
-    if (passwordRepeatRegister != passwordRegister){
+    if (passwordRepeatRegister != passwordRegister) {
       return alert("no es la misma contraseña");
     }
-    else{
+
     createUser(emailRegister,passwordRegister)
-    .then((userCredential) => {
-      console.log(emailRegister);
+      .then((userCredential) => {
+       console.log(emailRegister);
       
-      //Signed in
-      const user = userCredential.user;
-      console.log(user.uid);   
+     // Signed in
+        const user = userCredential.user;
+      console.log(user.uid);
       createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
     })
     .catch((error) => {
@@ -79,7 +79,7 @@ export const registerActive = (idElementoForm) => {
     });
     
      console.log(userName, emailRegister, passwordRegister, "REGISTRADO");
-    }  
+      
   });
 };
 
