@@ -34,6 +34,7 @@ export default () => {
 </section>`;
 
   const divElem = document.createElement('div');
+  divElem.classList.add('divElem');
   divElem.innerHTML = viewLogin;
   return divElem;
 };

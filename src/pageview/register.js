@@ -1,3 +1,5 @@
+import { createUser } from '../firebaseConfig.js';
+
 export default () => {
   const viewRegister = `<header class="nameLogo">
   <img class="gatitoLogo" src="GATITO LOGO.png">
@@ -41,6 +43,7 @@ export default () => {
 </section>`;
 
   const divElem = document.createElement('div');
+  divElem.classList.add('divElem');
   divElem.innerHTML = viewRegister;
 
   return divElem;
@@ -55,6 +58,7 @@ export const registerActive = (idElementoForm) => {
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
     // aqui se puede colocar el método del firebase
+    createUser(emailRegister, passwordRegister);
     console.log(userName, emailRegister, passwordRegister, passwordRepeatRegister);
   });
 };
