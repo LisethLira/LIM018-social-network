@@ -1,5 +1,4 @@
-import { createUser, createUserRegisterDB } from "../firebaseConfig.js";
-
+import { createUser, createUserRegisterDB } from '../firebaseConfig.js';
 
 export default () => {
   const viewRegister = `<header class="nameLogo">
@@ -58,28 +57,29 @@ export const registerActive = (idElementoForm) => {
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
     // aqui se puede colocar el método del firebase
-    if (passwordRepeatRegister != passwordRegister){
-      return alert("no es la misma contraseña");
+    if (passwordRepeatRegister !== passwordRegister) {
+      return alert('no es la misma contraseña');
     }
-    else{
-    createUser(emailRegister,passwordRegister)
-    .then((userCredential) => {
-      console.log(emailRegister);
-      
-      //Signed in
-      const user = userCredential.user;
-      console.log(user.uid);   
-      createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert("Revisa tus datos<br>" + errorMessage);
+    createUser(emailRegister, passwordRegister)
+      .then((userCredential) => {
+        console.log(emailRegister);
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        console.log(user.uid);
+        createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (error === errorCode) {
+          console.log(`error de código ${errorCode}`);
+        }
+        // eslint-disable-next-line no-alert
+        alert(`Revisa tus datos<br> ${errorMessage}`);
       // ..
-    });
-    
-     console.log(userName, emailRegister, passwordRegister, "REGISTRADO");
-    }  
+      });
+    console.log(userName, emailRegister, passwordRegister, 'REGISTRADO');
   });
 };
 
@@ -98,6 +98,3 @@ export const buttonShowRegister = (idbtn, idInput) => {
     }
   });
 };
-
-
-
