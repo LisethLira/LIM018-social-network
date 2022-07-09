@@ -48,7 +48,7 @@ export const loginActive = (idElementoForm) => {
     const email = document.getElementById('emailLogin').value;
     const password = document.getElementById('passwordLogin').value;
     // aqui se puede colocar el método del firebase
-    loginUser(email,password)
+    loginUser(email, password)
       .then((userCredential) => {
       // Signed in
         const user = userCredential.user;

@@ -61,7 +61,7 @@ export const registerActive = (idElementoForm) => {
     if (passwordRepeatRegister !== passwordRegister) {
       return alert('no es la misma contraseña');
     }
-
+    
     createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
         console.log(emailRegister);
@@ -73,7 +73,11 @@ export const registerActive = (idElementoForm) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert('Revisa tus datos<br>' + errorMessage);
+        if (error === errorCode) {
+          console.log(`error de código ${errorCode}`);
+        }
+        // eslint-disable-next-line no-alert
+        alert(`Revisa tus datos<br> ${errorMessage}`);
       // ..
       });
     console.log(userName, emailRegister, passwordRegister, 'REGISTRADO');

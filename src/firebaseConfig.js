@@ -31,7 +31,7 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 // FUNCIÓN REGISTER
-export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password)
+export const createUser = (email,password) => createUserWithEmailAndPassword(auth, email, password)
 
 // Base de datos de registro de usuarios
 export const createUserRegisterDB = (uid, name, email, password) => {
