@@ -6,6 +6,8 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signOut,
+  onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,7 +33,7 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 // FUNCIÓN REGISTER
-export const createUser = (email,password) => createUserWithEmailAndPassword(auth, email, password)
+export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password)
 
 // Base de datos de registro de usuarios
 export const createUserRegisterDB = (uid, name, email, password) => {
@@ -47,29 +49,21 @@ export const loginUser = (email, password) => signInWithEmailAndPassword(auth, e
 
 // FUNCIÓN LOGIN WITH GOOGLE
 
-export const loginGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // ...
-      return console.log('registrado con google');
-    })
-
-    .catch((error) => {
-    // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-      return console.log('no registrado');
-    });
-};
+export const loginGoogle = () => signInWithPopup(auth, provider)
 
 // FUNCIÓN LOGOUT
+export const signOutUser = () => signOut(auth)
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    console.log('Hay un usuario');
+    console.log(uid);
+  } else {
+    // User is signed out
+    // ...
+    console.log('No hay un usuario');
+  }
+});

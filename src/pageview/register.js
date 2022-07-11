@@ -10,11 +10,11 @@ export default () => {
   <section class="secRegister">
   <form  id="formRegister" class="formRegister">
     <legend>Crea tu cuenta</legend>
-    <label>Nombre de usuario</label>
+    <label class= "datosForm">Nombre de usuario</label>
     <input id="userName" class="userName" required>
-    <label>Correo electrónico:</label>
+    <label class= "datosForm">Correo electrónico:</label>
     <input type="email" id="emailRegister" class="emailRegister" required>
-    <label>Crear contraseña:</label>
+    <label class= "datosForm">Crear contraseña:</label>
     <div class="container-password-register">
       <input type="password" id="passwordRegister" class="passwordRegister" required>
       <div>
@@ -23,7 +23,7 @@ export default () => {
         </button>
       </div>
     </div>
-    <label>Repetir contraseña:</label>
+    <label class= "datosForm">Repetir contraseña:</label>
     <div class="container-repeat-password">
       <input type="password" id="passwordRepeatRegister" class="passwordRepeatRegister" required>
       <div>
@@ -57,30 +57,34 @@ export const registerActive = (idElementoForm) => {
     const emailRegister = document.getElementById('emailRegister').value;
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
-    // aqui se puede colocar el método del firebase
+
     if (passwordRepeatRegister !== passwordRegister) {
+      // eslint-disable-next-line no-alert
       return alert('no es la misma contraseña');
     }
-    
+    // aqui se puede colocar el método del firebase
     createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
-        console.log(emailRegister);
         // Signed in
         const user = userCredential.user;
-        console.log(user.uid);
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
+        console.log(userName, emailRegister, passwordRegister, 'Registrado');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        if (error === errorCode) {
-          console.log(`error de código ${errorCode}`);
+        if (errorMessage === 'auth/weak-password') {
+          // eslint-disable-next-line no-alert
+          alert(`La contraseña debe tener mínimo 6 dígitos${errorMessage}`);
+        } else {
+          // eslint-disable-next-line no-alert
+          alert(`Revisa tus datos ${errorMessage}`);
         }
         // eslint-disable-next-line no-alert
-        alert(`Revisa tus datos<br> ${errorMessage}`);
+        alert(error);
+        idForm.reset();
       // ..
       });
-    console.log(userName, emailRegister, passwordRegister, 'REGISTRADO');
   });
 };
 

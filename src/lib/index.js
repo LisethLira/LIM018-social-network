@@ -3,6 +3,7 @@
 import { components } from '../pageview/viewlist.js';
 import { buttonShow, loginActive, GoogleBtnActive } from '../pageview/login.js';
 import { registerActive, buttonShowRegister } from '../pageview/register.js';
+import { SignOutActive } from '../pageview/home.js';
 
 const changeView = (name) => {
   const container = document.getElementById('container');
@@ -26,6 +27,7 @@ const changeView = (name) => {
 
     case '#/home':
     { container.appendChild(components.home());
+      SignOutActive('SignOut');
       break; }
 
     default:
