@@ -10,9 +10,9 @@ export default () => {
   <section class="secLogin">
   <form class="formLogin" id="formLogin">
     <legend>Inicia sesión</legend>
-    <label>Correo electrónico:</label>
+    <label class= "datosForm">Correo electrónico:</label>
     <input type="email" id="emailLogin" class="emaillogin" required>
-    <label>Contraseña:</label>
+    <label class= "datosForm">Contraseña:</label>
     <div class="container-password-login">
       <input type="password" class="passwordLogin" id="passwordLogin" required>
       <div>
@@ -21,7 +21,7 @@ export default () => {
         </button>
       </div>
     </div>
-    <button type="submit" class="btnLogin" id="btnLogin" onclick="window.location.href='#/home';">Inicia Sesión</button>
+    <button type="submit" class="btnLogin" id="btnLogin">Inicia Sesión</button>
     <legend>o</legend>
   </form>
   <div>
@@ -52,15 +52,17 @@ export const loginActive = (idElementoForm) => {
       .then((userCredential) => {
       // Signed in
         const user = userCredential.user;
-        console.log(user);
+        console.log(email, password);
+        window.location.href = '#/home';
       // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorMessage + "revisa tus datos");
+        // eslint-disable-next-line no-alert
+        alert(`${errorMessage} revisa tus datos`);
+        idForm.reset();
       });
-    console.log(email, password);
   });
 };
 
@@ -82,6 +84,27 @@ export const buttonShow = (idbtn, idInput) => {
 export const GoogleBtnActive = (idbtnGoogle) => {
   const btnGoogle = document.getElementById(idbtnGoogle);
   btnGoogle.addEventListener('click', () => {
-    loginGoogle();
+    loginGoogle()
+      .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // ...
+        return console.log('registrado con google');
+      })
+
+      .catch((error) => {
+      // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        alert(errorMessage);
+      });
   });
 };
