@@ -61,7 +61,6 @@ export const registerActive = (idElementoForm) => {
     if (passwordRepeatRegister !== passwordRegister) {
       return alert('no es la misma contraseña');
     }
-    
     createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
         console.log(emailRegister);

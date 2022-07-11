@@ -44,4 +44,7 @@ export default () => {
   divElem.classList.add('divElem');
   divElem.innerHTML = viewHome;
   return divElem;
+
+
+
 };
