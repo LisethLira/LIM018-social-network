@@ -375,6 +375,7 @@ color:#DC7A5D;
 
 .postAddBtn{
     margin: 0px auto;
+    width: 310px;
 }
 
 .formPost{
@@ -482,6 +483,16 @@ color:#DC7A5D;
     font-size: 15px;
 }
 
+.btnSalir{
+    font-family: 'Montserrat';
+    background: none;
+    border:none;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;  
+} 
+
 .btnComment{
     border: 1px solid #62442F;
     border-radius: 100px;
@@ -582,6 +593,22 @@ color:#DC7A5D;
     margin:0px;
     }
 
+    .btnSalir{
+        border: 2px solid #62442F;
+        border-radius: 100px;
+        font-family: 'Lato';
+        font-weight: 700;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #62442F;
+        width: 90px;
+        justify-content: center;  
+        background:none;
+        padding: 8px 10px;
+        text-transform: initial;
+    }
     .searchIcon{
         left:38px;
     }
