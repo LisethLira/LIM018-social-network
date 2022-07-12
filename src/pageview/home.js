@@ -51,7 +51,7 @@ export default () => {
                 </li>
                 <li>
                 
-                    <button id="signOut">Salir</button>
+                    <button class="btnComment" id="signOut">Salir</button>
 
                 </li>
             </ul>
@@ -60,7 +60,7 @@ export default () => {
     <section class= "secHome">
         <div class="postAddBtn">
 
-        <form id="formPost">
+        <form class="formPost" id="formPost">
             <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación:" ></textarea>
             <button type="submit" class="btnPost" id="btnPost" >Publicar</button>
         </form>
