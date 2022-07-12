@@ -1,4 +1,5 @@
-import { signOutUser } from '../firebaseConfig.js';
+import { signOutUser, savePost } from '../firebaseConfig.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 
 export default () => {
   const viewHome = `<section class= "sectionHome">
@@ -49,16 +50,17 @@ export default () => {
                     </div>           
                 </li>
                 <li>
-                    <a id="signOut" href="#/login">Salir</a>
+                    <button id="signOut">Salir</button>
                 </li>
             </ul>
         </nav>
     </header>
     <section class= "secHome">
         <div class="postAddBtn">
-            <textarea class= "addPost" placeholder="Agrega una publicación:"></textarea>
-
-            <button class="btnPost">Publicar</button>
+        <form id="formPost">
+            <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación:" ></textarea>
+            <button type="submit" class="btnPost" id="btnPost" >Publicar</button>
+        </form>
         </div>
         
         <div class="postComplete">
@@ -68,7 +70,6 @@ export default () => {
             </div>
             
             <label class="postDescription">Publicación</label> 
-            
             <div class="likeComment">
                 <div class="likeContainer">
                 <img class="likeIcon" src="image/like.png">
@@ -88,7 +89,10 @@ export default () => {
 
 export const SignOutActive = (idElementSignOut) => {
   const idBtnSignOut = document.getElementById(idElementSignOut);
-  idBtnSignOut.addEventListener('click', () => {
+    console.log(idBtnSignOut);
+    idBtnSignOut.addEventListener('click', () => {
+    window.location.href = '#/login';
+        console.log('salir');
     signOutUser()
       .then(() => {
         // Sign-out successful.
@@ -99,4 +103,16 @@ export const SignOutActive = (idElementSignOut) => {
         console.log('Ocurrió un error al querer salir' + error);
       });
   });
+};
+
+export const postHome = (idPost, formPost) => {
+    const PostH = document.getElementById(formPost);
+    PostH.addEventListener('submit', (e) => {
+        e.preventDefault();
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    const post = document.getElementById(idPost).value;
+        savePost(uid, post);
+        console.log(savePost);
+    });
 };

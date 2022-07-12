@@ -31,6 +31,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 // Google Provider
 const provider = new GoogleAuthProvider();
+const user = auth.currentUser;
 
 // FUNCIÓN REGISTER
 export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password)
@@ -67,3 +68,12 @@ onAuthStateChanged(auth, (user) => {
     console.log('No hay un usuario');
   }
 });
+
+
+export const savePost = (uid, addPost) =>{
+  setDoc(doc(db,'post', uid), {
+    addPost,
+
+});
+};
+

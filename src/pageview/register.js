@@ -67,6 +67,7 @@ export const registerActive = (idElementoForm) => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.warn(user);
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
         console.log(userName, emailRegister, passwordRegister, 'Registrado');
       })
@@ -74,13 +75,10 @@ export const registerActive = (idElementoForm) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         if (errorMessage === 'auth/weak-password') {
-          // eslint-disable-next-line no-alert
           alert(`La contraseña debe tener mínimo 6 dígitos${errorMessage}`);
         } else {
-          // eslint-disable-next-line no-alert
           alert(`Revisa tus datos ${errorMessage}`);
-        }
-        // eslint-disable-next-line no-alert
+        };
         alert(error);
         idForm.reset();
       // ..
