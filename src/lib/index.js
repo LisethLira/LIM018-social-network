@@ -27,7 +27,7 @@ const changeView = (name) => {
 
     case '#/home':
     { container.appendChild(components.home());
-      SignOutActive('SignOut');
+      SignOutActive('signOut');
       break; }
 
     default:

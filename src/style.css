@@ -336,12 +336,18 @@ nav .menuTop li a, .search{
     height: 44px;
 }
 
+.searchIcon{
+    position:relative;
+    left:50px;
+    height: 30px;
+}
+
 .searchInput{
     height: 35px;
     font-family: 'Montserrat';
     color:rgba(145, 111, 88, 1);
     font-size: 18px;
-    padding-left: 15px;
+    padding-left: 43px;
     padding-right: 15px;
     font-weight: 500;
     border-radius: 100px;
@@ -570,6 +576,10 @@ color:#DC7A5D;
     }
     .icon{
     margin:0px;
+    }
+
+    .searchIcon{
+        left:38px;
     }
 
     .postAddBtn{
