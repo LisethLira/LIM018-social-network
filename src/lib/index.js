@@ -23,6 +23,7 @@ const changeView = (name) => {
       registerActive('formRegister');
       buttonShowRegister('btnRegister', 'passwordRegister');
       buttonShowRegister('btnRepeatRegister', 'passwordRepeatRegister');
+      GoogleBtnActive('btnRegisterGoogle');
       break; }
 
     case '#/home':

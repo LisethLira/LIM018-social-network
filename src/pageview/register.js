@@ -1,4 +1,4 @@
-import { createUser, createUserRegisterDB } from '../firebaseConfig.js';
+import { createUser, createUserRegisterDB, loginGoogle } from '../firebaseConfig.js';
 
 export default () => {
   const viewRegister = `<header class="nameLogo">
@@ -69,6 +69,7 @@ export const registerActive = (idElementoForm) => {
         const user = userCredential.user;
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
         console.log(userName, emailRegister, passwordRegister, 'Registrado');
+        window.location.href = '#/home';
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -98,5 +99,12 @@ export const buttonShowRegister = (idbtn, idInput) => {
       password.type = 'password';
       click = false;
     }
+  });
+};
+
+export const GoogleBtnActive = (idbtnGoogle) => {
+  const btnGoogle = document.getElementById(idbtnGoogle);
+  btnGoogle.addEventListener('click', () => {
+    loginGoogle()
   });
 };
