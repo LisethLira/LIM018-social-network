@@ -67,6 +67,8 @@ export default () => {
         
         </div>
         
+        <div id="postContainer"></div>
+
         <div class="postComplete">
             <div class="userNameDots">
                 <label class="userNamePost">Nombre de usuario</label> 
@@ -95,7 +97,6 @@ export const SignOutActive = (idElementSignOut) => {
   const idBtnSignOut = document.getElementById(idElementSignOut);
     idBtnSignOut.addEventListener('click', () => {
     window.location.href = '#/login';
-        console.log('salir');
     signOutUser()
       .then(() => {
         // Sign-out successful.
@@ -118,5 +119,72 @@ export const postHome = (idPost, formPost) => {
     const post = document.getElementById(idPost).value;
         savePost(uid, post);
         console.log(savePost);
+        createPost(post);
     });
 };
+
+function createPost(post){
+const postContainer = document.getElementById('postContainer');
+const postComplete = document.createElement('div');
+postContainer.appendChild(postComplete);
+postComplete.classList.add('postComplete');
+
+const userNameDots = document.createElement('div');
+postComplete.appendChild(userNameDots);
+userNameDots.classList.add('userNameDots');
+
+const userNamePost = document.createElement('label');
+userNameDots.appendChild(userNamePost);
+userNamePost.classList.add('userNamePost');
+userNamePost.innerText= 'Nombre de usuario';
+
+const dots = document.createElement('img');
+userNameDots.appendChild(dots);
+dots.classList.add('dots');
+dots.src='image/tresPuntos.png';
+
+const postDescription = document.createElement('label');
+postComplete.appendChild(postDescription);
+postDescription.innerHTML = post;
+postDescription.classList.add('postDescription');
+
+const likeComment = document.createElement('div');
+postComplete.appendChild(likeComment);
+likeComment.classList.add('likeComment');
+
+const likeContainer = document.createElement('div');
+likeComment.appendChild(likeContainer);
+likeContainer.classList.add('likeContainer');
+
+const likeIcon = document.createElement('img');
+likeContainer.appendChild(likeIcon);
+likeIcon.classList.add('likeIcon');
+likeIcon.src='image/like.png';
+
+const likeNumber = document.createElement('label');
+likeContainer.appendChild(likeNumber);
+likeNumber.classList.add('likeNumber');
+likeNumber.innerText= 'N°';
+
+const btnComment = document.createElement('button');
+likeComment.appendChild(btnComment);
+btnComment.classList.add('btnComment');
+btnComment.innerText= 'Comentar';
+
+}
+
+/* <div class="postComplete">
+            <div class="userNameDots">
+                <label class="userNamePost">Nombre de usuario</label> 
+                <img class="dots" src="image/tresPuntos.png">
+            </div>
+            
+            <label class="postDescription">Publicación</label> 
+            <div class="likeComment">
+                <div class="likeContainer">
+                <img class="likeIcon" src="image/like.png">
+                <label class="likeNumber">N°</label>
+                </div>
+                <button class="btnComment">Comentar</button>
+            </div>
+        </div> */

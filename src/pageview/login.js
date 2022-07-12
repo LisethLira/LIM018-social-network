@@ -8,6 +8,11 @@ export default () => {
    <a href="#/login"></a>
 </header>
   <section class="secLogin">
+  <div id="warningLogin" class="warning">
+      <button type="button" class="cerrar" id="cerrarLogin">X</button>
+      <img class="gatitoWarning" src="image/gatoTriste.png">
+      <p class="warningText" id="warningTextLogin"></p>
+    </div>
   <form class="formLogin" id="formLogin">
     <legend>Inicia sesión</legend>
     <label class= "datosForm">Correo electrónico:</label>
@@ -59,8 +64,44 @@ export const loginActive = (idElementoForm) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // eslint-disable-next-line no-alert
-        alert(`${errorMessage} revisa tus datos`);
+        const warning= document.getElementById('warningLogin');
+        const cerrar= document.getElementById('cerrarLogin');
+        const warningText = document.getElementById('warningTextLogin');
+        const errorMessage1='Firebase: Error (auth/user-not-found).';
+        const errorMessage2= 'Firebase: Error (auth/wrong-password).';
+        let banderita = true;
+        if (errorMessage === errorMessage1) {
+          banderita= true;
+          warning.style.display='flex';
+          cerrar.style.display='flex';
+          warningText.innerText='Usuario no registrado. Registrate';
+        }
+        
+        if(errorMessage === errorMessage2){
+          banderita=true;
+          warning.style.display='flex';
+          cerrar.style.display='flex';
+          warningText.innerText='Contraseña incorrecta';
+        }
+
+        if(errorMessage === 'Firebase: Error (auth/email-already-in-use).'){
+          banderita=true;
+          warning.style.display='flex';
+          cerrar.style.display='flex';
+          warningText.innerText='El correo ya está en uso';
+        }
+        if (errorCode === 'auth/too-many-requests.') {
+          warning.style.display='flex';
+          cerrar.style.display='flex';
+          warningText.innerText='Demasiados intentos de inicio de sesión. Intentalo más tarde';
+        }
+        
+        cerrar.addEventListener('click', ()=>{
+          warning.style.display='none';
+        });
+
+        
+        {alert(error)}
         idForm.reset();
       });
   });
