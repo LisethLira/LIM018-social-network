@@ -374,11 +374,13 @@ color:#DC7A5D;
 }
 
 .postAddBtn{
+    margin: 0px auto;
+}
+
+.formPost{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    width: 310px;
-    margin: 0px auto;
 }
 
 .addPost{
@@ -489,8 +491,10 @@ color:#DC7A5D;
     display: flex;
     align-items: center;
     text-align: center;
-    color: #62442F;  
-    background: none;
+    color: #62442F;
+    width: 102px;
+    justify-content: center;  
+    background:#FFF3E7;
     padding: 8px 10px;
 }
 
