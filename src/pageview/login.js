@@ -16,7 +16,7 @@ export default () => {
     <div class="container-password-login">
       <input type="password" class="passwordLogin" id="passwordLogin" required>
       <div>
-        <button class="button-password-login"  id="btn-password-login"> 
+        <button type="button" class="button-password-login"  id="btn-password-login"> 
           <img src="image/face.png" class="img-button-password">
         </button>
       </div>
@@ -66,10 +66,12 @@ export const loginActive = (idElementoForm) => {
   });
 };
 
+
 export const buttonShow = (idbtn, idInput) => {
   const password = document.getElementById(idInput);
   const viewPassword = document.getElementById(idbtn);
   let click = false;
+
   viewPassword.addEventListener('click', () => {
     if (!click) {
       password.type = 'text';

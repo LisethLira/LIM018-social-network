@@ -67,7 +67,6 @@ export const registerActive = (idElementoForm) => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.warn(user);
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
         console.log(userName, emailRegister, passwordRegister, 'Registrado');
       })

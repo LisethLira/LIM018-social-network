@@ -51,7 +51,7 @@ export default () => {
                 </li>
                 <li>
                 
-                    <button class="btnComment" id="signOut">Salir</button>
+                    <button class="btnSalir" id="signOut">Salir</button>
 
                 </li>
             </ul>
@@ -93,7 +93,6 @@ export default () => {
 
 export const SignOutActive = (idElementSignOut) => {
   const idBtnSignOut = document.getElementById(idElementSignOut);
-    console.log(idBtnSignOut);
     idBtnSignOut.addEventListener('click', () => {
     window.location.href = '#/login';
         console.log('salir');
