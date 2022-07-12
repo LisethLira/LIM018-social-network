@@ -50,17 +50,21 @@ export default () => {
                     </div>           
                 </li>
                 <li>
+                
                     <button id="signOut">Salir</button>
+
                 </li>
             </ul>
         </nav>
     </header>
     <section class= "secHome">
         <div class="postAddBtn">
+
         <form id="formPost">
             <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación:" ></textarea>
             <button type="submit" class="btnPost" id="btnPost" >Publicar</button>
         </form>
+        
         </div>
         
         <div class="postComplete">
@@ -97,6 +101,7 @@ export const SignOutActive = (idElementSignOut) => {
       .then(() => {
         // Sign-out successful.
         console.log('Salió');
+        window.location.href = '#/login';
       })
       .catch((error) => {
         // An error happened.
