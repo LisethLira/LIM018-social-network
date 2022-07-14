@@ -1,5 +1,6 @@
 import { signOutUser, savePost, getPost } from '../firebaseConfig.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
+// import { likeCounter } from '../lib/index.js';
 
 export default () => {
   const viewHome = `<section class= "sectionHome">
@@ -78,8 +79,10 @@ export default () => {
             <label class="postDescription">Publicación</label> 
             <div class="likeComment">
                 <div class="likeContainer">
-                <img class="likeIcon" src="image/like.png">
-                <label class="likeNumber">N°</label>
+                    <button class= "likeBtn" id="likeBtn">
+                        <img class="likeIcon" src="image/likeHeart.png">
+                    </button>
+                    <label id="likeNumber" class="likeNumber">N°</label>
                 </div>
                 <button class="btnComment">Comentar</button>
             </div>
@@ -156,14 +159,20 @@ const likeContainer = document.createElement('div');
 likeComment.appendChild(likeContainer);
 likeContainer.classList.add('likeContainer');
 
+const likeBtn = document.createElement('button');
+likeContainer.appendChild(likeBtn);
+likeBtn.classList.add('likeBtn');
+likeBtn.setAttribute('id', 'likeBtn');
+
 const likeIcon = document.createElement('img');
-likeContainer.appendChild(likeIcon);
+likeBtn.appendChild(likeIcon);
 likeIcon.classList.add('likeIcon');
-likeIcon.src='image/like.png';
+likeIcon.src='image/likeHeart.png';
 
 const likeNumber = document.createElement('label');
 likeContainer.appendChild(likeNumber);
 likeNumber.classList.add('likeNumber');
+likeBtn.setAttribute('id', 'likeNumber');
 likeNumber.innerText= 'N°';
 
 const btnComment = document.createElement('button');
@@ -179,3 +188,17 @@ window.addEventListener('load', (e)=>{
     getPost(uid);
     console.log(getPost);
 });
+
+let counter = 0;
+
+export const btnLikeCounter = (idBtn, idLikeNumber) =>{
+  let counter = 0;
+  const likeBtn = document.getElementById(idBtn);
+  likeBtn.addEventListener('click', (e)=>{
+    counter++;
+    // let like = likeCounter(likeBtn);
+    console.log(counter);
+    document.getElementById(idLikeNumber).innerHTML = counter;
+});
+}
+
