@@ -522,12 +522,18 @@ color:#DC7A5D;
 }
 .likeIcon{
     height: 35px;
+}
+
+.likeBtn{
+    border: none;
+    background: none;
     margin-right: 10px;
 }
 
 .likeNumber{
     font-weight: bold;
     font-size: 15px;
+    color: #62442f;
 }
 
 .btnSalir{
