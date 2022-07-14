@@ -1,4 +1,4 @@
-import { signOutUser, savePost } from '../firebaseConfig.js';
+import { signOutUser, savePost, getPost } from '../firebaseConfig.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 
 export default () => {
@@ -117,7 +117,7 @@ export const postHome = (idPost, formPost) => {
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     const post = document.getElementById(idPost).value;
-        savePost(uid, post);
+        savePost(uid, post);        
         console.log(savePost);
         createPost(post);
     });
@@ -173,18 +173,9 @@ btnComment.innerText= 'Comentar';
 
 }
 
-/* <div class="postComplete">
-            <div class="userNameDots">
-                <label class="userNamePost">Nombre de usuario</label> 
-                <img class="dots" src="image/tresPuntos.png">
-            </div>
-            
-            <label class="postDescription">Publicación</label> 
-            <div class="likeComment">
-                <div class="likeContainer">
-                <img class="likeIcon" src="image/like.png">
-                <label class="likeNumber">N°</label>
-                </div>
-                <button class="btnComment">Comentar</button>
-            </div>
-        </div> */
+window.addEventListener('load', (e)=>{
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    getPost(uid);
+    console.log(getPost);
+});
