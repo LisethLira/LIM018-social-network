@@ -29,9 +29,7 @@ const changeView = (name) => {
     case '#/home':
     { container.appendChild(components.home());
       SignOutActive('signOut');
-
       postHome('addPost', 'formPost');
-
       break; }
 
     default:

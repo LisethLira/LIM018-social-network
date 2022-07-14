@@ -9,7 +9,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
-import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -94,8 +94,27 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-export const savePost = (uid, addPost) =>{
-  setDoc(doc(db,'post',uid), {
-    addPost,
-});
-};
+// export const savePost = (uid, addPost) =>{
+//   setDoc(doc(db,'post', uid), {
+//     addPost,
+// });
+// };
+
+export const savePost = async(uid, addPost) =>{
+  try {
+    const createPost = await addDoc(collection(db, "posts", uid, "newPost"), {
+      addPost,
+    });
+    console.log("Document written with ID: ", createPost.id);
+  } 
+  catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+export const getPost = async(uid) => {
+  const querySnapshot = await getDocs(collection(db, "posts", uid, "newPost"));
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+}
