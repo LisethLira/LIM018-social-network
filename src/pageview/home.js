@@ -1,5 +1,8 @@
-import { signOutUser, savePost, getPost } from '../firebaseConfig.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
+import { signOutUser,
+    savePost,
+} from '../firebaseConfig.js';
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+//import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 // import { likeCounter } from '../lib/index.js';
 
 export default () => {
@@ -67,6 +70,8 @@ export default () => {
         </form>
         
         </div>
+
+        <button type="button" class="btnProbar" id="btnProbar" >Probando</button>
         
         <div id="postContainer"></div>
 
@@ -113,7 +118,7 @@ export const SignOutActive = (idElementSignOut) => {
   });
 };
 
-export const postHome = (idPost, formPost) => {
+/* export const postHome = (idPost, formPost) => {
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -124,9 +129,39 @@ export const postHome = (idPost, formPost) => {
         console.log(savePost);
         createPost(post);
     });
+}; */
+
+export const postHome = (idPost, formPost, idpostContainer) => {
+    const PostH = document.getElementById(formPost);
+    PostH.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fecha = new Date();
+      const newpost = document.getElementById(idPost).value;
+      console.log(savePost(fecha, newpost));
+    });
 };
 
-function createPost(post){
+export const getP = (idbtnProbar, idpostContainer) => {
+const btnProbar = document.getElementById(idbtnProbar);
+const postContainer = document.getElementById(idpostContainer);
+btnProbar.addEventListener('click', (e) => {
+    e.preventDefault();
+    //const getPost = async() => {
+    const querySnapshot = getDocs(collection(db, "posts"));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      console.log(doc.data().fecha);
+      console.log(doc.data().newpost);
+      postContainer.innerHTML += `<div>
+      ${doc.data().fecha}
+      ${doc.data().newpost}
+    </div>`
+    });
+ });
+}
+
+
+/* function createPost(post){
 const postContainer = document.getElementById('postContainer');
 const postComplete = document.createElement('div');
 postContainer.appendChild(postComplete);
@@ -180,14 +215,14 @@ likeComment.appendChild(btnComment);
 btnComment.classList.add('btnComment');
 btnComment.innerText= 'Comentar';
 
-}
+} */
 
-window.addEventListener('load', (e)=>{
+/* window.addEventListener('load', (e)=>{
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     getPost(uid);
     console.log(getPost);
-});
+}); */
 
 let counter = 0;
 
@@ -201,4 +236,3 @@ export const btnLikeCounter = (idBtn, idLikeNumber) =>{
     document.getElementById(idLikeNumber).innerHTML = counter;
 });
 }
-
