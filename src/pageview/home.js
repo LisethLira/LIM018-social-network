@@ -1,4 +1,4 @@
-import { signOutUser, savePost, getPost } from '../firebaseConfig.js';
+import { signOutUser, savePost } from '../firebaseConfig.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 // import { likeCounter } from '../lib/index.js';
 
@@ -188,8 +188,6 @@ window.addEventListener('load', (e)=>{
     getPost(uid);
     console.log(getPost);
 });
-
-let counter = 0;
 
 export const btnLikeCounter = (idBtn, idLikeNumber) =>{
   let counter = 0;

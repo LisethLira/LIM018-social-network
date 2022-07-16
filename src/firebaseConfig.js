@@ -93,7 +93,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-
+console.log(signInWithEmailAndPassword);
 // export const savePost = (uid, addPost) =>{
 //   setDoc(doc(db,'post', uid), {
 //     addPost,
