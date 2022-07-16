@@ -1,3 +1,4 @@
+
 import { signOutUser,
     savePost,
 } from '../firebaseConfig.js';
@@ -223,8 +224,6 @@ btnComment.innerText= 'Comentar';
     getPost(uid);
     console.log(getPost);
 }); */
-
-let counter = 0;
 
 export const btnLikeCounter = (idBtn, idLikeNumber) =>{
   let counter = 0;

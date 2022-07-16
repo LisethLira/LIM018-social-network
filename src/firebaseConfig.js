@@ -117,6 +117,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+
 export const savePost = async(fecha, newpost) => {
   try {
     const cratePost = await addDoc(collection(db, 'posts'), {
