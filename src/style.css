@@ -679,3 +679,8 @@ color:#DC7A5D;
     }
 
 }
+
+.btnProbar{
+    display: flex;
+    margin: 0 auto;
+}
