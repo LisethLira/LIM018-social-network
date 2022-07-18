@@ -9,7 +9,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
-import { getFirestore, doc, addDoc, collection, setDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+import { getFirestore, doc, addDoc, collection, setDoc, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -45,6 +45,8 @@ export const createUserRegisterDB = (uid, name, email, password) => {
     password,
   });
 };
+
+
 
 /* //devuelve un array de ids
 export const getName = async() => {
@@ -118,11 +120,12 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-export const savePost = async(fecha, newpost) => {
+export const savePost = async(fecha, newpost, uid) => {
   try {
     const cratePost = await addDoc(collection(db, 'posts'), {
     fecha,
     newpost,
+    uid,
   });
   console.log("post publicado");
 }
@@ -138,6 +141,26 @@ export const savePost = async(fecha, newpost) => {
     console.log(`${doc.id} => ${doc.data()}`);
   });
 } */
+
+export const getPost = async() =>{ 
+const querySnapshot = await getDocs(collection(db, "posts"));
+return querySnapshot;
+};
+
+export const getUser = async() =>{ 
+  const userInfoPost = await getDocs(collection(db, "users"));
+  return userInfoPost;
+  };
+
+  // getPost()
+// .then((dataPost) => {
+// dataPost.forEach((doc) => {
+//   console.log(doc.data());
+//   const dataNewPost = doc.data();
+//   divContainer.innerHTML += ´<div>${dataNewPost.newPost}</div>
+//   <div>${dataNewPost.fecha}</div>´
+// });
+// });
 
 /* export const getPost = async() => {
   const querySnapshot = await getDocs(collection(db, "posts"));
