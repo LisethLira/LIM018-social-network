@@ -503,7 +503,12 @@ color:#DC7A5D;
     margin-left: 20px;
     flex-grow: 1;
 }
-
+.date{
+    font-size: 13px;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: rgba(128, 128, 128, 0.699);
+}
 .postDescription{
     display: flex;
     align-items: center;

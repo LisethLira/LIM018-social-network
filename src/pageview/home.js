@@ -1,9 +1,9 @@
 
 import { signOutUser,
-    savePost,
+    savePost, getPost, getUser
 } from '../firebaseConfig.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
-//import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 // import { likeCounter } from '../lib/index.js';
 
 export default () => {
@@ -81,7 +81,7 @@ export default () => {
                 <label class="userNamePost">Nombre de usuario</label> 
                 <img class="dots" src="image/tresPuntos.png">
             </div>
-            
+            <label class="date">16 de Junio a las 16:40</label>
             <label class="postDescription">Publicación</label> 
             <div class="likeComment">
                 <div class="likeContainer">
@@ -136,30 +136,70 @@ export const postHome = (idPost, formPost, idpostContainer) => {
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', (e) => {
       e.preventDefault();
-      const fecha = new Date();
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const uid = user.uid;
+    //   const fecha = new Date();
+      const fecha = Date();
       const newpost = document.getElementById(idPost).value;
-      console.log(savePost(fecha, newpost));
+      getUser()
+        .then((dataUser) =>{
+            let arrayId = [];
+            let objectId = {};
+            dataUser.forEach((doc) => {
+                let arrayDocsId = doc.id;
+                arrayId.push(arrayDocsId);
+                let arrayDocsData = doc.data();
+                objectId.name = arrayDocsData.name;
+               arrayId.push(objectId);
+             });
+            console.log(arrayId);
+        });
+
+      console.log(savePost(fecha, newpost, uid));
     });
 };
 
+
 export const getP = (idbtnProbar, idpostContainer) => {
-const btnProbar = document.getElementById(idbtnProbar);
-const postContainer = document.getElementById(idpostContainer);
-btnProbar.addEventListener('click', (e) => {
-    e.preventDefault();
-    //const getPost = async() => {
-    const querySnapshot = getDocs(collection(db, "posts"));
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      console.log(doc.data().fecha);
-      console.log(doc.data().newpost);
-      postContainer.innerHTML += `<div>
-      ${doc.data().fecha}
-      ${doc.data().newpost}
-    </div>`
+  const btnProbar = document.getElementById(idbtnProbar);
+  const postContainer = document.getElementById(idpostContainer);
+  btnProbar.addEventListener('click', (e) => {
+     e.preventDefault();
+     getPost()
+     .then((dataPost) => {
+            dataPost.forEach((doc) => {
+                //console.log(doc.data());
+                const dataNewPost = doc.data();
+                // const dataUid = doc.data().uid;
+                postContainer.innerHTML += `
+                <div class="postComplete">
+                    <div class="userNameDots">
+                        <label class="userNamePost">${dataNewPost.uid}</label>
+                        <img class="dots" src="image/tresPuntos.png">
+                    </div>
+                    <label class="date">${dataNewPost.fecha}</label>
+                    <label class="postDescription">
+                        ${dataNewPost.newpost}
+                    </label> 
+                    <div class="likeComment">
+                        <div class="likeContainer">
+                            <button class= "likeBtn" id="likeBtn">
+                                <img class="likeIcon" src="image/likeHeart.png">
+                            </button>
+                            <label id="likeNumber" class="likeNumber">N°</label>
+                        </div>
+                        <button class="btnComment">Comentar</button>
+                    </div>
+                </div>`
+            });
+      });
     });
- });
-}
+};
+
+
+
+
 
 
 /* function createPost(post){
