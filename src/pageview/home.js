@@ -3,7 +3,7 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.
 // import { likeCounter } from '../lib/index.js';
 
 export default () => {
-  const viewHome = `<section class= "sectionHome">
+    const viewHome = `<section class= "sectionHome">
     <header>
         <nav>
             <input type="checkbox" id="check">
@@ -90,115 +90,116 @@ export default () => {
     </section>
     </section>`;
 
-  const divElem = document.createElement('div');
-  divElem.classList.add('divElem');
-  divElem.innerHTML = viewHome;
-  return divElem;
+    const divElem = document.createElement('div');
+    divElem.classList.add('divElem');
+    divElem.innerHTML = viewHome;
+    return divElem;
 };
 
 export const SignOutActive = (idElementSignOut) => {
-  const idBtnSignOut = document.getElementById(idElementSignOut);
+    const idBtnSignOut = document.getElementById(idElementSignOut);
     idBtnSignOut.addEventListener('click', () => {
-    window.location.href = '#/login';
-    signOutUser()
-      .then(() => {
-        // Sign-out successful.
-        console.log('Salió');
         window.location.href = '#/login';
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log('Ocurrió un error al querer salir' + error);
-      });
-  });
+        signOutUser()
+            .then(() => {
+                // Sign-out successful.
+                console.log('Salió');
+                window.location.href = '#/login';
+            })
+            .catch((error) => {
+                // An error happened.
+                console.log('Ocurrió un error al querer salir' + error);
+            });
+    });
 };
 
 export const postHome = (idPost, formPost) => {
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', (e) => {
         e.preventDefault();
-    const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    const post = document.getElementById(idPost).value;
-        savePost(uid, post);        
+        const auth = getAuth();
+        const uid = auth.currentUser.uid;
+        const post = document.getElementById(idPost).value;
+        savePost(uid, post);
         console.log(savePost);
         createPost(post);
     });
 };
 
-function createPost(post){
-const postContainer = document.getElementById('postContainer');
-const postComplete = document.createElement('div');
-postContainer.appendChild(postComplete);
-postComplete.classList.add('postComplete');
+function createPost(post) {
 
-const userNameDots = document.createElement('div');
-postComplete.appendChild(userNameDots);
-userNameDots.classList.add('userNameDots');
+    const postContainer = document.getElementById('postContainer');
+    const postComplete = document.createElement('div');
+    postContainer.appendChild(postComplete);
+    postComplete.classList.add('postComplete');
 
-const userNamePost = document.createElement('label');
-userNameDots.appendChild(userNamePost);
-userNamePost.classList.add('userNamePost');
-userNamePost.innerText= 'Nombre de usuario';
+    const userNameDots = document.createElement('div');
+    postComplete.appendChild(userNameDots);
+    userNameDots.classList.add('userNameDots');
 
-const dots = document.createElement('img');
-userNameDots.appendChild(dots);
-dots.classList.add('dots');
-dots.src='image/tresPuntos.png';
+    const userNamePost = document.createElement('label');
+    userNameDots.appendChild(userNamePost);
+    userNamePost.classList.add('userNamePost');
+    userNamePost.innerText = 'Nombre de usuario';
 
-const postDescription = document.createElement('label');
-postComplete.appendChild(postDescription);
-postDescription.innerHTML = post;
-postDescription.classList.add('postDescription');
+    const dots = document.createElement('img');
+    userNameDots.appendChild(dots);
+    dots.classList.add('dots');
+    dots.src = 'image/tresPuntos.png';
 
-const likeComment = document.createElement('div');
-postComplete.appendChild(likeComment);
-likeComment.classList.add('likeComment');
+    const postDescription = document.createElement('label');
+    postComplete.appendChild(postDescription);
+    postDescription.innerHTML = post;
+    postDescription.classList.add('postDescription');
 
-const likeContainer = document.createElement('div');
-likeComment.appendChild(likeContainer);
-likeContainer.classList.add('likeContainer');
+    const likeComment = document.createElement('div');
+    postComplete.appendChild(likeComment);
+    likeComment.classList.add('likeComment');
 
-const likeBtn = document.createElement('button');
-likeContainer.appendChild(likeBtn);
-likeBtn.classList.add('likeBtn');
-likeBtn.setAttribute('id', 'likeBtn');
+    const likeContainer = document.createElement('div');
+    likeComment.appendChild(likeContainer);
+    likeContainer.classList.add('likeContainer');
 
-const likeIcon = document.createElement('img');
-likeBtn.appendChild(likeIcon);
-likeIcon.classList.add('likeIcon');
-likeIcon.src='image/likeHeart.png';
+    const likeBtn = document.createElement('button');
+    likeContainer.appendChild(likeBtn);
+    likeBtn.classList.add('likeBtn');
+    likeBtn.setAttribute('id', 'likeBtn');
 
-const likeNumber = document.createElement('label');
-likeContainer.appendChild(likeNumber);
-likeNumber.classList.add('likeNumber');
-likeBtn.setAttribute('id', 'likeNumber');
-likeNumber.innerText= 'N°';
+    const likeIcon = document.createElement('img');
+    likeBtn.appendChild(likeIcon);
+    likeIcon.classList.add('likeIcon');
+    likeIcon.src = 'image/likeHeart.png';
 
-const btnComment = document.createElement('button');
-likeComment.appendChild(btnComment);
-btnComment.classList.add('btnComment');
-btnComment.innerText= 'Comentar';
+    const likeNumber = document.createElement('label');
+    likeContainer.appendChild(likeNumber);
+    likeNumber.classList.add('likeNumber');
+    likeBtn.setAttribute('id', 'likeNumber');
+    likeNumber.innerText = 'N°';
+
+    const btnComment = document.createElement('button');
+    likeComment.appendChild(btnComment);
+    btnComment.classList.add('btnComment');
+    btnComment.innerText = 'Comentar';
 
 }
 
-window.addEventListener('load', (e)=>{
+/*window.addEventListener('load', (e) => {
     const auth = getAuth();
+    console.log(auth.currentUser);
     const uid = auth.currentUser.uid;
-    getPost(uid);
-    console.log(getPost);
-});
+    console.log(getPost(uid));
+});*/
 
 let counter = 0;
 
-export const btnLikeCounter = (idBtn, idLikeNumber) =>{
-  let counter = 0;
-  const likeBtn = document.getElementById(idBtn);
-  likeBtn.addEventListener('click', (e)=>{
-    counter++;
-    // let like = likeCounter(likeBtn);
-    console.log(counter);
-    document.getElementById(idLikeNumber).innerHTML = counter;
-});
+export const btnLikeCounter = (idBtn, idLikeNumber) => {
+    let counter = 0;
+    const likeBtn = document.getElementById(idBtn);
+    likeBtn.addEventListener('click', (e) => {
+        counter++;
+        // let like = likeCounter(likeBtn);
+        console.log(counter);
+        document.getElementById(idLikeNumber).innerHTML = counter;
+    });
 }
 

@@ -84,6 +84,7 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     const uid = user.uid;
+    console.log(getPost(uid));
     console.log('Hay un usuario');
     console.log(uid);
   } else {
@@ -113,8 +114,10 @@ export const savePost = async(uid, addPost) =>{
 }
 
 export const getPost = async(uid) => {
-  const querySnapshot = await getDocs(collection(db, "posts", uid, "newPost"));
+  const querySnapshot = await getDocs(collection(db, "posts"));
+  let arrayPosts = [];
   querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
+      arrayPosts.push(doc.data());
+  }); 
+  return arrayPosts;
 }
