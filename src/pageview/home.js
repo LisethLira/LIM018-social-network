@@ -168,10 +168,11 @@ export const postHome = (idPost, formPost, idpostContainer) => {
 export const getP = (idbtnProbar, idpostContainer) => {
   const btnProbar = document.getElementById(idbtnProbar);
   const postContainer = document.getElementById(idpostContainer);
-  btnProbar.addEventListener('click', (e) => {
+  btnProbar.addEventListener('click', async (e) => {
      e.preventDefault();
-     getPost()
-     .then((dataPost) => {
+     const dataPost = await getPost()
+    //  .then((dataPost) => {
+    
             dataPost.forEach((doc) => {
                 //console.log(doc.data());
                 const dataNewPost = doc.data();
@@ -180,7 +181,11 @@ export const getP = (idbtnProbar, idpostContainer) => {
                 <div class="postComplete">
                     <div class="userNameDots">
                         <label class="userNamePost">${dataNewPost.nameUser}</label>
-                        <img class="dots" src="image/tresPuntos.png">
+                        <img class="dots"  src="image/tresPuntos.png">
+                        <div class="optionSetingsPost">
+                        <label>Editar</label>
+                        <label>Eliminar</label>
+                        </div>
                     </div>
                     <label class="date">${dataNewPost.fecha}</label>
                     <label class="postDescription">
@@ -188,7 +193,7 @@ export const getP = (idbtnProbar, idpostContainer) => {
                     </label> 
                     <div class="likeComment">
                         <div class="likeContainer">
-                            <button class= "likeBtn" id="likeBtn">
+                            <button class= "likeBtn">
                                 <img class="likeIcon" src="image/likeHeart.png">
                             </button>
                             <label id="likeNumber" class="likeNumber">N°</label>
@@ -197,10 +202,46 @@ export const getP = (idbtnProbar, idpostContainer) => {
                     </div>
                 </div>`
             });
+
+            const dots = document.querySelectorAll('.dots');
+            const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
+            dots.forEach(dotsSetings => 
+                dotsSetings.addEventListener('click', () => {
+                    showOptionSetings(optionSetingsPost);
+                    console.log('funciona click');
+                //     optionSetingsPost.forEach( probandoDisplay =>  
+                // probandoDisplay.style.display = 'flex');
+                // })
+            })
+            )      
+            // optionSetingsPost.forEach( probandoDisplay => 
+            //     probandoDisplay.addEventListener('click', (e)=> {
+            //         // console.log("funciona options");
+            //     })
+                    
+            //     );
+            
+         
+            const likeAction = document.querySelectorAll('.likeBtn');
+            likeAction.forEach(btn => 
+            btn.addEventListener('click', () =>{
+                console.log("funciona like");
+            }))
       });
-    });
+
 };
 
+function showOptionSetings(optionSetingsPost){
+    optionSetingsPost.style.display = 'flex';
+}
+
+// export const btnLikeAction = (classBtnLikeAction) => {
+//     const likeAction = document.querySelectorAll(classBtnLikeAction);
+//     likeAction.forEach(btn => 
+//     btn.addEventListener('click', () =>{
+//         console.log("funciona like");
+//     }))
+// /}
 
 export const btnLikeCounter = (idBtn, idLikeNumber) =>{
   let counter = 0;

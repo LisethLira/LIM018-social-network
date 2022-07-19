@@ -30,6 +30,7 @@ const changeView = (name) => {
       postHome('addPost', 'formPost');
       getP('btnProbar', 'postContainer')
       btnLikeCounter('likeBtn', 'likeNumber');
+     // btnLikeAction('.likeBtn');
       break; }
 
     default:

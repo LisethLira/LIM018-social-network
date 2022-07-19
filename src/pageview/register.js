@@ -105,7 +105,7 @@ export const registerActive = (idElementoForm) => {
           cerrar.style.display='flex';
           warningText.innerText='El correo ya está en uso';
         }
-        else {alert(error);}
+        // else {alert(error);}
 
         cerrar.addEventListener('click', ()=>{
           warning.style.display='none';
