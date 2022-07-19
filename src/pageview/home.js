@@ -72,7 +72,7 @@ export default () => {
         
         </div>
 
-        <button type="button" class="btnProbar" id="btnProbar" >Probando</button>
+        <button type="button" class="btnProbar" id="btnProbar" >Ver publicaciones</button>
         
         <div id="postContainer"></div>
 
