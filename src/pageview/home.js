@@ -142,19 +142,29 @@ export const postHome = (idPost, formPost, idpostContainer) => {
     //   const fecha = new Date();
       const fecha = Date();
       const newpost = document.getElementById(idPost).value;
+    let arrayId = [];
       getUser()
         .then((dataUser) =>{
-            let arrayId = [];
-            let objectId = {};
+            //let arrayId = [];
             dataUser.forEach((doc) => {
-                let arrayDocsId = doc.id;
-                arrayId.push(arrayDocsId);
                 let arrayDocsData = doc.data();
+                let objectId = {};
+                objectId.id = doc.id;
                 objectId.name = arrayDocsData.name;
-               arrayId.push(objectId);
+                arrayId.push(objectId);
              });
-            console.log(arrayId);
+            //console.log(arrayId);
         });
+
+
+
+/*         let name;
+        for (let i=0; i<arrayId.length; i++){
+            if (uid == arrayId[i].id) {
+            name = arrayId[i].name
+            }
+            console.log(name);
+        } */
 
       console.log(savePost(fecha, newpost, uid));
     });
