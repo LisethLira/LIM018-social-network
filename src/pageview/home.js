@@ -142,19 +142,43 @@ export const postHome = (idPost, formPost, idpostContainer) => {
     //   const fecha = new Date();
       const fecha = Date();
       const newpost = document.getElementById(idPost).value;
+      let arrayId = [];
       getUser()
         .then((dataUser) =>{
-            let arrayId = [];
-            let objectId = {};
             dataUser.forEach((doc) => {
-                let arrayDocsId = doc.id;
-                arrayId.push(arrayDocsId);
-                let arrayDocsData = doc.data();
-                objectId.name = arrayDocsData.name;
-               arrayId.push(objectId);
-             });
-            console.log(arrayId);
+                    // let arrayDocsId = doc.id;
+                    // // arrayId.push(arrayDocsId);
+                    // let arrayDocsData = doc.data();
+                    // objectId.name = arrayDocsData.name;
+                //    arrayId.push(objectId);
+            
+            // let arrayId = [];
+            // let objectId = {};
+            // dataUser.forEach((doc) => {
+            //     let arrayDocsId = doc.id;
+            //     arrayId.push(arrayDocsId);
+            //     let arrayDocsData = doc.data();
+            //     objectId.name = arrayDocsData.name;
+            //    arrayId.push(objectId);
+            //  });
+            // console.log(arrayId);
+                });
+            
         });
+        // console.log(arrayDocsId);
+        // console.log(arrayDocsData.name);     
+        });
+
+
+        //  let arrayId = [{
+        //     name: 'luisa',
+        //     id: 12345,
+        //  }, 
+        //  { name:'pablo', 
+        //     id: 67891,}];
+        // const newArray = arrayId.map(idVariable => {
+        //     return idVariable.name}); 
+        // console.log(newArray);
 
       console.log(savePost(fecha, newpost, uid));
     });
