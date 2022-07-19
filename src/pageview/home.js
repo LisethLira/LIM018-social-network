@@ -8,7 +8,7 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.
 
 export default () => {
     const viewHome = `<section class= "sectionHome">
-    <header>
+    <header class= "headerHome">
         <nav>
             <input type="checkbox" id="check">
             <label for="check" class="checkbtn">
@@ -73,6 +73,7 @@ export default () => {
         </div>
 
         <button type="button" class="btnProbar" id="btnProbar" >Ver publicaciones</button>
+
         
         <div id="postContainer"></div>
 

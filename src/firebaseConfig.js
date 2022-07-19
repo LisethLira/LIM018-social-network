@@ -128,5 +128,5 @@ export const getNewPost = async() => {
   querySnapshot.forEach((doc) => {
     doc.data().newpost;
   });
-}
+};
 
