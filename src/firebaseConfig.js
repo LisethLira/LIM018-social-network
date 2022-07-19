@@ -109,6 +109,7 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     const uid = user.uid;
+    console.log(getPost(uid));
     console.log('Hay un usuario');
     console.log(uid);
 //getName(uid);
@@ -120,9 +121,10 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-export const savePost = async(fecha, newpost, uid) => {
+export const savePost = async(nameUser, fecha, newpost, uid) => {
   try {
     const cratePost = await addDoc(collection(db, 'posts'), {
+    nameUser,
     fecha,
     newpost,
     uid,
