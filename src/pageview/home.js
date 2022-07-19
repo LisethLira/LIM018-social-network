@@ -129,7 +129,13 @@ export const postHome = (idPost, formPost, idpostContainer) => {
       const user = auth.currentUser;
       const uid = user.uid;
     //   const fecha = new Date();
-      const fecha = Date();
+    const fecha = new Date().toDateString();
+        // var hoy = new Date();
+        // var fechaH = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+        // var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+        // var fechaYHora = fechaH + ' ' + hora;
+        // const fecha = fechaYHora;
+
       const newpost = document.getElementById(idPost).value;
       let arrayId = [];
 
@@ -153,7 +159,9 @@ export const postHome = (idPost, formPost, idpostContainer) => {
 
 
       console.log(savePost(nameUser, fecha, newpost, uid));
+      PostH.reset();
     });
+
 };
 
 
