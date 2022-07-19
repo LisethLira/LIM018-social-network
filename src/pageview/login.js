@@ -101,7 +101,7 @@ export const loginActive = (idElementoForm) => {
         });
 
         
-        {alert(error)}
+        // {alert(error)}
         idForm.reset();
       });
   });
