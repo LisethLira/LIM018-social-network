@@ -1,4 +1,8 @@
-import { signOutUser, savePost, getPost } from '../firebaseConfig.js';
+
+import { signOutUser,
+    savePost, getPost, getUser
+} from '../firebaseConfig.js';
+import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 // import { likeCounter } from '../lib/index.js';
 
@@ -67,6 +71,8 @@ export default () => {
         </form>
         
         </div>
+
+        <button type="button" class="btnProbar" id="btnProbar" >Probando</button>
         
         <div id="postContainer"></div>
 
@@ -75,7 +81,7 @@ export default () => {
                 <label class="userNamePost">Nombre de usuario</label> 
                 <img class="dots" src="image/tresPuntos.png">
             </div>
-            
+            <label class="date">16 de Junio a las 16:40</label>
             <label class="postDescription">Publicación</label> 
             <div class="likeComment">
                 <div class="likeContainer">
@@ -113,7 +119,7 @@ export const SignOutActive = (idElementSignOut) => {
     });
 };
 
-export const postHome = (idPost, formPost) => {
+/* export const postHome = (idPost, formPost) => {
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -124,9 +130,89 @@ export const postHome = (idPost, formPost) => {
         console.log(savePost);
         createPost(post);
     });
+}; */
+
+export const postHome = (idPost, formPost, idpostContainer) => {
+    const PostH = document.getElementById(formPost);
+    PostH.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const uid = user.uid;
+    //   const fecha = new Date();
+      const fecha = Date();
+      const newpost = document.getElementById(idPost).value;
+      let arrayId = [];
+     const response = await getUser()
+    response.forEach((doc) => {
+                const arrayDocsId = doc.id;
+                const arrayDocsData = doc.data();
+                arrayId.push({
+                    id: arrayDocsId,
+                    name : arrayDocsData.name
+                })
+    });
+        let pruebaName;
+        for (let i = 0; i < arrayId.length; i++) {
+            if (uid == arrayId[i].id) {
+                pruebaName = arrayId[i].name
+            }    
+        }
+        console.log(pruebaName);
+        const nameUser=pruebaName;
+
+
+      console.log(savePost(nameUser, fecha, newpost, uid));
+    });
 };
 
-function createPost(post) {
+
+export const getP = (idbtnProbar, idpostContainer) => {
+  const btnProbar = document.getElementById(idbtnProbar);
+  const postContainer = document.getElementById(idpostContainer);
+  btnProbar.addEventListener('click', (e) => {
+     e.preventDefault();
+     getPost()
+     .then((dataPost) => {
+            dataPost.forEach((doc) => {
+                //console.log(doc.data());
+                const dataNewPost = doc.data();
+                // const dataUid = doc.data().uid;
+                postContainer.innerHTML += `
+                <div class="postComplete">
+                    <div class="userNameDots">
+                        <label class="userNamePost">${dataNewPost.nameUser}</label>
+                        <img class="dots" src="image/tresPuntos.png">
+                    </div>
+                    <label class="date">${dataNewPost.fecha}</label>
+                    <label class="postDescription">
+                        ${dataNewPost.newpost}
+                    </label> 
+                    <div class="likeComment">
+                        <div class="likeContainer">
+                            <button class= "likeBtn" id="likeBtn">
+                                <img class="likeIcon" src="image/likeHeart.png">
+                            </button>
+                            <label id="likeNumber" class="likeNumber">N°</label>
+                        </div>
+                        <button class="btnComment">Comentar</button>
+                    </div>
+                </div>`
+            });
+      });
+    });
+};
+
+
+
+
+
+
+/* function createPost(post){
+const postContainer = document.getElementById('postContainer');
+const postComplete = document.createElement('div');
+postContainer.appendChild(postComplete);
+postComplete.classList.add('postComplete');
 
     const postContainer = document.getElementById('postContainer');
     const postComplete = document.createElement('div');
@@ -181,25 +267,24 @@ function createPost(post) {
     btnComment.classList.add('btnComment');
     btnComment.innerText = 'Comentar';
 
-}
+} */
 
 /*window.addEventListener('load', (e) => {
+/* window.addEventListener('load', (e)=>{
     const auth = getAuth();
     console.log(auth.currentUser);
     const uid = auth.currentUser.uid;
-    console.log(getPost(uid));
-});*/
+    getPost(uid);
+    console.log(getPost);
+}); */
 
-let counter = 0;
-
-export const btnLikeCounter = (idBtn, idLikeNumber) => {
-    let counter = 0;
-    const likeBtn = document.getElementById(idBtn);
-    likeBtn.addEventListener('click', (e) => {
-        counter++;
-        // let like = likeCounter(likeBtn);
-        console.log(counter);
-        document.getElementById(idLikeNumber).innerHTML = counter;
-    });
+export const btnLikeCounter = (idBtn, idLikeNumber) =>{
+  let counter = 0;
+  const likeBtn = document.getElementById(idBtn);
+  likeBtn.addEventListener('click', (e)=>{
+    counter++;
+    // let like = likeCounter(likeBtn);
+    console.log(counter);
+    document.getElementById(idLikeNumber).innerHTML = counter;
+});
 }
-

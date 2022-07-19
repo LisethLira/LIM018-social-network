@@ -9,7 +9,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
-import { getFirestore, doc, setDoc, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+import { getFirestore, doc, addDoc, collection, setDoc, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,6 +33,7 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 const user = auth.currentUser;
 
+
 // FUNCIÓN REGISTER
 export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password)
 
@@ -44,6 +45,29 @@ export const createUserRegisterDB = (uid, name, email, password) => {
     password,
   });
 };
+
+
+
+/* //devuelve un array de ids
+export const getName = async() => {
+  const querySnapshot = await getDocs(collection(db, 'users'));
+  let array = [];
+  querySnapshot.forEach((doc) => {
+    array.push(doc.id);
+    //console.log(`${doc.id} => ${doc.data()}`);
+  });
+  console.log(array);
+  //console.log(array[0].name);
+} */
+
+
+/* export const getName = async(uid) => {
+const docRef = doc(db, "users", uid);
+const docSnap = await getDoc(docRef);
+//console.log(docSnap.data().name);
+  return docSnap.data().name;
+}; */
+
 
 // FUNCIÓN LOGIN
 export const loginUser = (email, password) => signInWithEmailAndPassword(auth, email, password);
@@ -79,6 +103,7 @@ export const loginGoogle = () => {
 // FUNCIÓN LOGOUT
 export const signOutUser = () => signOut(auth)
 
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
@@ -87,7 +112,8 @@ onAuthStateChanged(auth, (user) => {
     console.log(getPost(uid));
     console.log('Hay un usuario');
     console.log(uid);
-  } else {
+//getName(uid);
+   } else {
     // User is signed out
     // ...
     console.log('No hay un usuario');
@@ -95,29 +121,71 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-// export const savePost = (uid, addPost) =>{
-//   setDoc(doc(db,'post', uid), {
-//     addPost,
-// });
-// };
-
-export const savePost = async(uid, addPost) =>{
+export const savePost = async(nameUser, fecha, newpost, uid) => {
   try {
-    const createPost = await addDoc(collection(db, "posts", uid, "newPost"), {
-      addPost,
-    });
-    console.log("Document written with ID: ", createPost.id);
-  } 
+    const cratePost = await addDoc(collection(db, 'posts'), {
+    nameUser,
+    fecha,
+    newpost,
+    uid,
+  });
+  console.log("post publicado");
+}
   catch (e) {
-    console.error("Error adding document: ", e);
-  }
+  console.error("Error adding posts: ", e);
+}
+};
+
+
+/* export const getPost = async(uid) => {
+  const querySnapshot = await getDocs(collection(db, "posts", uid, "newPost"));
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+} */
+
+export const getPost = async() =>{ 
+const querySnapshot = await getDocs(collection(db, "posts"));
+return querySnapshot;
+};
+
+export const getUser = async() =>{ 
+  const userInfoPost = await getDocs(collection(db, "users"));
+  return userInfoPost;
+  };
+
+  // getPost()
+// .then((dataPost) => {
+// dataPost.forEach((doc) => {
+//   console.log(doc.data());
+//   const dataNewPost = doc.data();
+//   divContainer.innerHTML += ´<div>${dataNewPost.newPost}</div>
+//   <div>${dataNewPost.fecha}</div>´
+// });
+// });
+
+/* export const getPost = async() => {
+  const querySnapshot = await getDocs(collection(db, "posts"));
+  querySnapshot.forEach((doc) => {
+    console.log(doc.data());
+
+    const getP = doc.data();
+  });
+} */
+
+/* export const getFecha = async() => {
+  const querySnapshot = await getDocs(collection(db, "posts"));
+  querySnapshot.forEach((doc) => {
+    doc.data().fecha;
+  });
 }
 
-export const getPost = async(uid) => {
+export const getNewPost = async() => {
   const querySnapshot = await getDocs(collection(db, "posts"));
-  let arrayPosts = [];
   querySnapshot.forEach((doc) => {
-      arrayPosts.push(doc.data());
-  }); 
-  return arrayPosts;
-}
+    doc.data().newpost;
+  });
+} */
+
+//export const getPost = () => getDocs(collection(db, "posts"))
+
