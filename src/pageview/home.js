@@ -72,7 +72,8 @@ export default () => {
         
         </div>
 
-        <button type="button" class="btnProbar" id="btnProbar" >Ver Publicaciones</button>
+        <button type="button" class="btnProbar" id="btnProbar" >Ver publicaciones</button>
+
         
         <div id="postContainer"></div>
 
