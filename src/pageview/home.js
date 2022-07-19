@@ -131,6 +131,7 @@ export const postHome = (idPost, formPost, idpostContainer) => {
       const fecha = Date();
       const newpost = document.getElementById(idPost).value;
       let arrayId = [];
+
      const response = await getUser()
     response.forEach((doc) => {
                 const arrayDocsId = doc.id;
