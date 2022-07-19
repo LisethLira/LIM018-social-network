@@ -7,7 +7,7 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.
 // import { likeCounter } from '../lib/index.js';
 
 export default () => {
-  const viewHome = `<section class= "sectionHome">
+    const viewHome = `<section class= "sectionHome">
     <header>
         <nav>
             <input type="checkbox" id="check">
@@ -96,45 +96,33 @@ export default () => {
     </section>
     </section>`;
 
-  const divElem = document.createElement('div');
-  divElem.classList.add('divElem');
-  divElem.innerHTML = viewHome;
-  return divElem;
+    const divElem = document.createElement('div');
+    divElem.classList.add('divElem');
+    divElem.innerHTML = viewHome;
+    return divElem;
 };
 
 export const SignOutActive = (idElementSignOut) => {
-  const idBtnSignOut = document.getElementById(idElementSignOut);
+    const idBtnSignOut = document.getElementById(idElementSignOut);
     idBtnSignOut.addEventListener('click', () => {
-    window.location.href = '#/login';
-    signOutUser()
-      .then(() => {
-        // Sign-out successful.
-        console.log('Salió');
         window.location.href = '#/login';
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log('Ocurrió un error al querer salir' + error);
-      });
-  });
+        signOutUser()
+            .then(() => {
+                // Sign-out successful.
+                console.log('Salió');
+                window.location.href = '#/login';
+            })
+            .catch((error) => {
+                // An error happened.
+                console.log('Ocurrió un error al querer salir' + error);
+            });
+    });
 };
 
-/* export const postHome = (idPost, formPost) => {
-    const PostH = document.getElementById(formPost);
-    PostH.addEventListener('submit', (e) => {
-        e.preventDefault();
-    const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    const post = document.getElementById(idPost).value;
-        savePost(uid, post);        
-        console.log(savePost);
-        createPost(post);
-    });
-}; */
 
 export const postHome = (idPost, formPost, idpostContainer) => {
     const PostH = document.getElementById(formPost);
-    PostH.addEventListener('submit', (e) => {
+    PostH.addEventListener('submit', async (e) => {
       e.preventDefault();
       const auth = getAuth();
       const user = auth.currentUser;
@@ -143,44 +131,27 @@ export const postHome = (idPost, formPost, idpostContainer) => {
       const fecha = Date();
       const newpost = document.getElementById(idPost).value;
       let arrayId = [];
-      getUser()
-        .then((dataUser) =>{
-            dataUser.forEach((doc) => {
-                    // let arrayDocsId = doc.id;
-                    // // arrayId.push(arrayDocsId);
-                    // let arrayDocsData = doc.data();
-                    // objectId.name = arrayDocsData.name;
-                //    arrayId.push(objectId);
-            
-            // let arrayId = [];
-            // let objectId = {};
-            // dataUser.forEach((doc) => {
-            //     let arrayDocsId = doc.id;
-            //     arrayId.push(arrayDocsId);
-            //     let arrayDocsData = doc.data();
-            //     objectId.name = arrayDocsData.name;
-            //    arrayId.push(objectId);
-            //  });
-            // console.log(arrayId);
-                });
-            
-        });
-        // console.log(arrayDocsId);
-        // console.log(arrayDocsData.name);     
-        });
+
+     const response = await getUser()
+    response.forEach((doc) => {
+                const arrayDocsId = doc.id;
+                const arrayDocsData = doc.data();
+                arrayId.push({
+                    id: arrayDocsId,
+                    name : arrayDocsData.name
+                })
+    });
+        let pruebaName;
+        for (let i = 0; i < arrayId.length; i++) {
+            if (uid == arrayId[i].id) {
+                pruebaName = arrayId[i].name
+            }    
+        }
+        console.log(pruebaName);
+        const nameUser=pruebaName;
 
 
-        //  let arrayId = [{
-        //     name: 'luisa',
-        //     id: 12345,
-        //  }, 
-        //  { name:'pablo', 
-        //     id: 67891,}];
-        // const newArray = arrayId.map(idVariable => {
-        //     return idVariable.name}); 
-        // console.log(newArray);
-
-      console.log(savePost(fecha, newpost, uid));
+      console.log(savePost(nameUser, fecha, newpost, uid));
     });
 };
 
@@ -199,7 +170,7 @@ export const getP = (idbtnProbar, idpostContainer) => {
                 postContainer.innerHTML += `
                 <div class="postComplete">
                     <div class="userNameDots">
-                        <label class="userNamePost">${dataNewPost.uid}</label>
+                        <label class="userNamePost">${dataNewPost.nameUser}</label>
                         <img class="dots" src="image/tresPuntos.png">
                     </div>
                     <label class="date">${dataNewPost.fecha}</label>
@@ -221,73 +192,6 @@ export const getP = (idbtnProbar, idpostContainer) => {
     });
 };
 
-
-
-
-
-
-/* function createPost(post){
-const postContainer = document.getElementById('postContainer');
-const postComplete = document.createElement('div');
-postContainer.appendChild(postComplete);
-postComplete.classList.add('postComplete');
-
-const userNameDots = document.createElement('div');
-postComplete.appendChild(userNameDots);
-userNameDots.classList.add('userNameDots');
-
-const userNamePost = document.createElement('label');
-userNameDots.appendChild(userNamePost);
-userNamePost.classList.add('userNamePost');
-userNamePost.innerText= 'Nombre de usuario';
-
-const dots = document.createElement('img');
-userNameDots.appendChild(dots);
-dots.classList.add('dots');
-dots.src='image/tresPuntos.png';
-
-const postDescription = document.createElement('label');
-postComplete.appendChild(postDescription);
-postDescription.innerHTML = post;
-postDescription.classList.add('postDescription');
-
-const likeComment = document.createElement('div');
-postComplete.appendChild(likeComment);
-likeComment.classList.add('likeComment');
-
-const likeContainer = document.createElement('div');
-likeComment.appendChild(likeContainer);
-likeContainer.classList.add('likeContainer');
-
-const likeBtn = document.createElement('button');
-likeContainer.appendChild(likeBtn);
-likeBtn.classList.add('likeBtn');
-likeBtn.setAttribute('id', 'likeBtn');
-
-const likeIcon = document.createElement('img');
-likeBtn.appendChild(likeIcon);
-likeIcon.classList.add('likeIcon');
-likeIcon.src='image/likeHeart.png';
-
-const likeNumber = document.createElement('label');
-likeContainer.appendChild(likeNumber);
-likeNumber.classList.add('likeNumber');
-likeBtn.setAttribute('id', 'likeNumber');
-likeNumber.innerText= 'N°';
-
-const btnComment = document.createElement('button');
-likeComment.appendChild(btnComment);
-btnComment.classList.add('btnComment');
-btnComment.innerText= 'Comentar';
-
-} */
-
-/* window.addEventListener('load', (e)=>{
-    const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    getPost(uid);
-    console.log(getPost);
-}); */
 
 export const btnLikeCounter = (idBtn, idLikeNumber) =>{
   let counter = 0;

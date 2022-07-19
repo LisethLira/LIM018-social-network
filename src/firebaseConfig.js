@@ -46,29 +46,6 @@ export const createUserRegisterDB = (uid, name, email, password) => {
   });
 };
 
-
-
-/* //devuelve un array de ids
-export const getName = async() => {
-  const querySnapshot = await getDocs(collection(db, 'users'));
-  let array = [];
-  querySnapshot.forEach((doc) => {
-    array.push(doc.id);
-    //console.log(`${doc.id} => ${doc.data()}`);
-  });
-  console.log(array);
-  //console.log(array[0].name);
-} */
-
-
-/* export const getName = async(uid) => {
-const docRef = doc(db, "users", uid);
-const docSnap = await getDoc(docRef);
-//console.log(docSnap.data().name);
-  return docSnap.data().name;
-}; */
-
-
 // FUNCIÓN LOGIN
 export const loginUser = (email, password) => signInWithEmailAndPassword(auth, email, password);
 
@@ -109,6 +86,7 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     const uid = user.uid;
+    console.log(getPost(uid));
     console.log('Hay un usuario');
     console.log(uid);
 //getName(uid);
@@ -120,9 +98,10 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-export const savePost = async(fecha, newpost, uid) => {
+export const savePost = async(nameUser, fecha, newpost, uid) => {
   try {
     const cratePost = await addDoc(collection(db, 'posts'), {
+    nameUser,
     fecha,
     newpost,
     uid,
@@ -134,14 +113,6 @@ export const savePost = async(fecha, newpost, uid) => {
 }
 };
 
-
-/* export const getPost = async(uid) => {
-  const querySnapshot = await getDocs(collection(db, "posts", uid, "newPost"));
-  querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
-} */
-
 export const getPost = async() =>{ 
 const querySnapshot = await getDocs(collection(db, "posts"));
 return querySnapshot;
@@ -152,38 +123,10 @@ export const getUser = async() =>{
   return userInfoPost;
   };
 
-  // getPost()
-// .then((dataPost) => {
-// dataPost.forEach((doc) => {
-//   console.log(doc.data());
-//   const dataNewPost = doc.data();
-//   divContainer.innerHTML += ´<div>${dataNewPost.newPost}</div>
-//   <div>${dataNewPost.fecha}</div>´
-// });
-// });
-
-/* export const getPost = async() => {
-  const querySnapshot = await getDocs(collection(db, "posts"));
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data());
-
-    const getP = doc.data();
-  });
-} */
-
-/* export const getFecha = async() => {
-  const querySnapshot = await getDocs(collection(db, "posts"));
-  querySnapshot.forEach((doc) => {
-    doc.data().fecha;
-  });
-}
-
 export const getNewPost = async() => {
   const querySnapshot = await getDocs(collection(db, "posts"));
   querySnapshot.forEach((doc) => {
     doc.data().newpost;
   });
-} */
-
-//export const getPost = () => getDocs(collection(db, "posts"))
+}
 
