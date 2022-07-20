@@ -209,6 +209,7 @@ export const getP = (idbtnProbar, idpostContainer) => {
                 dotsSetings.addEventListener('click', () => {
                     showOptionSetings(optionSetingsPost);
                     console.log('funciona click');
+
                 //     optionSetingsPost.forEach( probandoDisplay =>  
                 // probandoDisplay.style.display = 'flex');
                 // })
