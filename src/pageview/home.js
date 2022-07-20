@@ -215,18 +215,20 @@ export const getP = async (idbtnProbar, idpostContainer) => {
         console.log("funciona like");
     })) */
 
+    //cuando se cree el post debemos crear un elemento contador de likes con el valor de 0 para que alli podamos editar y guardar el contador
     const likeAction = document.querySelectorAll('.likeBtn');
     const likeNumber = document.querySelectorAll('.likeNumber');
+    // este array lo debemos sacar del doc.data.contadordelikes
     let arrayCounter = [];
     for(let i=0; i<likeAction.length; i++){
         arrayCounter.push(' ');
     }
-
+    // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
     for(let i=0; i<likeAction.length; i++){
         let counter = 0;
         likeAction[i].addEventListener('click', () => {
             counter++;
-            arrayCounter[i]= counter;
+            arrayCounter[i] = counter;
             likeNumber[i].innerHTML = counter;
     });
 };
