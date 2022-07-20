@@ -28,6 +28,7 @@ const changeView = async (name) => {
     { container.appendChild(components.home());
       SignOutActive('signOut');
       postHome('addPost', 'formPost');
+
       await getP('btnProbar', 'postContainer');
       //btnLikeCounter('likeBtn', 'likeNumber');
      // btnLikeAction('.likeBtn');
