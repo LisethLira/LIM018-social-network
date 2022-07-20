@@ -71,29 +71,8 @@ export default () => {
         </form>
         
         </div>
-
-        <button type="button" class="btnProbar" id="btnProbar" >Ver publicaciones</button>
-
         
         <div id="postContainer"></div>
-
-        <div class="postComplete">
-            <div class="userNameDots">
-                <label class="userNamePost">Nombre de usuario</label> 
-                <img class="dots" src="image/tresPuntos.png">
-            </div>
-            <label class="date">16 de Junio a las 16:40</label>
-            <label class="postDescription">Publicación</label> 
-            <div class="likeComment">
-                <div class="likeContainer">
-                    <button class= "likeBtn" id="likeBtn">
-                        <img class="likeIcon" src="image/likeHeart.png">
-                    </button>
-                    <label id="likeNumber" class="likeNumber">N°</label>
-                </div>
-                <button class="btnComment">Comentar</button>
-            </div>
-        </div>
     </section>
     </section>`;
 
@@ -165,75 +144,96 @@ export const postHome = (idPost, formPost, idpostContainer) => {
 };
 
 
-export const getP = (idbtnProbar, idpostContainer) => {
-  const btnProbar = document.getElementById(idbtnProbar);
-  const postContainer = document.getElementById(idpostContainer);
-  btnProbar.addEventListener('click', async (e) => {
-     e.preventDefault();
-     const dataPost = await getPost()
-    //  .then((dataPost) => {
+export const getP = async (idbtnProbar, idpostContainer) => {
+    const postContainer = document.getElementById(idpostContainer);
+    const dataPost = await getPost()
+    dataPost.forEach((doc) => {
+        //console.log(doc.data());
+        const dataNewPost = doc.data();
+        // const dataUid = doc.data().uid;
+        postContainer.innerHTML += `
+        <div class="postComplete">
+            <div class="userNameDots">
+                <label class="userNamePost">${dataNewPost.nameUser}</label>
+                <img id="elementDots" class="dots"  src="image/tresPuntos.png">
+                <div class="optionSetingsPost">
+                <label>Editar</label>
+                <label>Eliminar</label>
+                </div>
+            </div>
+            <label class="date">${dataNewPost.fecha}</label>
+            <label class="postDescription">
+                ${dataNewPost.newpost}
+            </label> 
+            <div class="likeComment">
+                <div class="likeContainer">
+                    <button class= "likeBtn">
+                        <img class="likeIcon" src="image/likeHeart.png">
+                    </button>
+                    <label id="likeNumber" class="likeNumber">N°</label>
+                </div>
+                <button class="btnComment">Comentar</button>
+            </div>
+        </div>`
+    });
+
+/*     const dots = document.querySelectorAll('.dots');
+    const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
+    dots.forEach(dotsSetings => 
+        dotsSetings.addEventListener('click', () => {
+            // showOptionSetings(optionSetingsPost);
+            console.log('funciona click');
+        optionSetingsPost.forEach( probandoDisplay =>  
+        probandoDisplay.style.display = 'flex');
+        })
+    );   */ 
+
+/*     const dots = document.querySelectorAll('.dots');
+    //const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
+    console.log(dots);
+    dots.forEach(dotsSetings => 
+        dotsSetings.addEventListener('click', () => {
+            let elementDot = document.getElementById("elementDots");
+            let padreEncontrado = elementDot.closest('.userNameDots');
+            let elHermanoPerdido = padreEncontrado.querySelector('.optionSetingsPost');
+            elHermanoPerdido.style.display = 'flex';
+        })
+    );   */
+
+    const dots = document.querySelectorAll('.dots');
+    const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
+
+    for(let i=0; i<dots.length; i++){
+        dots[i].addEventListener('click', () => {
+        optionSetingsPost[i].style.display = 'flex';
+    });
+}
     
-            dataPost.forEach((doc) => {
-                //console.log(doc.data());
-                const dataNewPost = doc.data();
-                // const dataUid = doc.data().uid;
-                postContainer.innerHTML += `
-                <div class="postComplete">
-                    <div class="userNameDots">
-                        <label class="userNamePost">${dataNewPost.nameUser}</label>
-                        <img class="dots"  src="image/tresPuntos.png">
-                        <div class="optionSetingsPost">
-                        <label>Editar</label>
-                        <label>Eliminar</label>
-                        </div>
-                    </div>
-                    <label class="date">${dataNewPost.fecha}</label>
-                    <label class="postDescription">
-                        ${dataNewPost.newpost}
-                    </label> 
-                    <div class="likeComment">
-                        <div class="likeContainer">
-                            <button class= "likeBtn">
-                                <img class="likeIcon" src="image/likeHeart.png">
-                            </button>
-                            <label id="likeNumber" class="likeNumber">N°</label>
-                        </div>
-                        <button class="btnComment">Comentar</button>
-                    </div>
-                </div>`
-            });
+/*     const likeAction = document.querySelectorAll('.likeBtn');
+    likeAction.forEach(btn => 
+    btn.addEventListener('click', () =>{
+        console.log("funciona like");
+    })) */
 
-            const dots = document.querySelectorAll('.dots');
-            const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
-            dots.forEach(dotsSetings => 
-                dotsSetings.addEventListener('click', () => {
-                    showOptionSetings(optionSetingsPost);
-                    console.log('funciona click');
-                //     optionSetingsPost.forEach( probandoDisplay =>  
-                // probandoDisplay.style.display = 'flex');
-                // })
-            })
-            )      
-            // optionSetingsPost.forEach( probandoDisplay => 
-            //     probandoDisplay.addEventListener('click', (e)=> {
-            //         // console.log("funciona options");
-            //     })
-                    
-            //     );
-            
-         
-            const likeAction = document.querySelectorAll('.likeBtn');
-            likeAction.forEach(btn => 
-            btn.addEventListener('click', () =>{
-                console.log("funciona like");
-            }))
-      });
+    const likeAction = document.querySelectorAll('.likeBtn');
+    const likeNumber = document.querySelectorAll('.likeNumber');
+    let arrayCounter = [];
+    for(let i=0; i<likeAction.length; i++){
+        arrayCounter.push(' ');
+    }
 
+    for(let i=0; i<likeAction.length; i++){
+        let counter = 0;
+        likeAction[i].addEventListener('click', () => {
+            counter++;
+            arrayCounter[i]= counter;
+            likeNumber[i].innerHTML = counter;
+    });
 };
 
-function showOptionSetings(optionSetingsPost){
+/* function showOptionSetings(optionSetingsPost){
     optionSetingsPost.style.display = 'flex';
-}
+} */
 
 // export const btnLikeAction = (classBtnLikeAction) => {
 //     const likeAction = document.querySelectorAll(classBtnLikeAction);
@@ -243,7 +243,7 @@ function showOptionSetings(optionSetingsPost){
 //     }))
 // /}
 
-export const btnLikeCounter = (idBtn, idLikeNumber) =>{
+/* export const btnLikeCounter = (idBtn, idLikeNumber) =>{
   let counter = 0;
   const likeBtn = document.getElementById(idBtn);
   likeBtn.addEventListener('click', (e)=>{
@@ -251,5 +251,5 @@ export const btnLikeCounter = (idBtn, idLikeNumber) =>{
     // let like = likeCounter(likeBtn);
     console.log(counter);
     document.getElementById(idLikeNumber).innerHTML = counter;
-});
+});*/
 }
