@@ -704,18 +704,6 @@ color:#DC7A5D;
 
 }
 
-.btnProbar{
-    display: flex;
-    margin: 0 auto;
-    background-color: #c29650;
-    color: white;
-    border: none;
-    border-radius: 17px;
-    padding: 8px;
-    font-weight: 700;
-    font-size: 17px;
-}
-
 .optionSetingsPost{
     display: none;
 }

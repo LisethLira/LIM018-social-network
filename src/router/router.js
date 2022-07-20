@@ -1,9 +1,9 @@
 import { components } from '../pageview/viewlist.js';
 import { buttonShow, loginActive, GoogleBtnActive } from '../pageview/login.js';
 import { registerActive, buttonShowRegister } from '../pageview/register.js';
-import { SignOutActive, postHome, getP, btnLikeCounter } from '../pageview/home.js';
+import { SignOutActive, postHome, getP } from '../pageview/home.js';
 
-const changeView = (name) => {
+const changeView = async (name) => {
   const container = document.getElementById('container');
   container.innerHTML = ' ';
 
@@ -28,8 +28,9 @@ const changeView = (name) => {
     { container.appendChild(components.home());
       SignOutActive('signOut');
       postHome('addPost', 'formPost');
-      await getP('btnProbar', 'postContainer')
-      btnLikeCounter('likeBtn', 'likeNumber');
+
+      await getP('btnProbar', 'postContainer');
+      //btnLikeCounter('likeBtn', 'likeNumber');
      // btnLikeAction('.likeBtn');
       break; }
 
