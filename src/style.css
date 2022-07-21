@@ -590,7 +590,8 @@ color:#DC7A5D;
 }
 
 .EditBtnStyle, .deleteBtnStyle{
-    padding: 3px;
+    padding: 5px;
+
 }
 
 @media only screen and (min-width: 676px){
