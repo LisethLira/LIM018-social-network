@@ -140,9 +140,7 @@ export const postHome = (idPost, formPost, idpostContainer) => {
       console.log(savePost(nameUser, fecha, newpost, uid));
       PostH.reset();
     });
-
 };
-
 
 export const getP = async (idpostContainer) => {
     const postContainer = document.getElementById(idpostContainer);
