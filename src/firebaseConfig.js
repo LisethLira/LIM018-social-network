@@ -9,7 +9,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
-import { getFirestore, doc, addDoc, collection, setDoc, getDocs, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+import { getFirestore, doc, addDoc, collection, setDoc, getDocs, onSnapshot, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -130,10 +130,4 @@ export const onGetPost = async(callback) => {
 };
 
 
-// export const getNewPost = async() => {
-//   const querySnapshot = await getDocs(collection(db, "posts"));
-//   querySnapshot.forEach((doc) => {
-//     doc.data().newpost;
-//   });
-// };
-
+export const deletePost = id => deleteDoc(doc(db, 'posts', id));

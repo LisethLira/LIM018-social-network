@@ -527,11 +527,14 @@ color:#DC7A5D;
 .likeComment{
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .likeContainer{
     display: flex;
     align-items: center;
+    height: 45px;
+    width: 67px;
 }
 .likeIcon{
     height: 35px;
@@ -540,13 +543,19 @@ color:#DC7A5D;
 .likeBtn{
     border: none;
     background: none;
-    margin-right: 10px;
+    width: 42px;
+}
+
+.likeIcon:hover{
+    cursor: pointer;
+    height: 40px;
 }
 
 .likeNumber{
     font-weight: bold;
     font-size: 15px;
     color: #62442f;
+    margin-left: 5px;
 }
 
 .btnSalir{
@@ -564,15 +573,15 @@ color:#DC7A5D;
     border-radius: 100px;
     font-family: 'Lato';
     font-weight: 500;
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     text-align: center;
     color: #62442F;
-    width: 102px;
     justify-content: center;  
     background:#FFF3E7;
-    padding: 8px 10px;
+    padding: 0px 11px;
+    height: 30px;
 }
 
 /* .optionSetingsPost{
@@ -582,16 +591,23 @@ color:#DC7A5D;
     flex-direction: column;
      position: absolute;
      margin-top: 20px;
-     margin-left: 180px;
+     margin-left: 200px;
     background: white;
     border: 1px solid #c29650c4;
     border-radius: 3px;
-    padding: 7px;
 }
 
-.EditBtnStyle, .deleteBtnStyle{
-    padding: 3px;
+.editBtn, .deleteBtnStyle{
+    padding: 5px;
+    font-size: 15px;
+    
 }
+
+.editBtnStyle:hover ,.deleteBtnStyle:hover {
+        background-color: #fac3858f;
+        cursor: pointer;
+    }
+    
 
 @media only screen and (min-width: 676px){
 
@@ -721,7 +737,10 @@ color:#DC7A5D;
     }
 
     .optionSetingsPostStyle {
-         margin-left: 370px;
+         margin-left: 390px;
     }
+
+    
+
 }
 
