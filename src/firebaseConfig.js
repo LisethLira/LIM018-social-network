@@ -9,7 +9,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
-import { getFirestore, doc, addDoc, collection, setDoc, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+import { getFirestore, doc, addDoc, collection, setDoc, getDocs, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -112,20 +112,28 @@ export const savePost = async(nameUser, fecha, newpost, uid) => {
 }
 };
 
-export const getPost = async() =>{ 
+
+export const getPost = async() => { 
 const querySnapshot = await getDocs(collection(db, "posts"));
 return querySnapshot;
 };
 
-export const getUser = async() =>{ 
+export const getUser = async() => { 
   const userInfoPost = await getDocs(collection(db, "users"));
   return userInfoPost;
   };
 
-export const getNewPost = async() => {
-  const querySnapshot = await getDocs(collection(db, "posts"));
-  querySnapshot.forEach((doc) => {
-    doc.data().newpost;
-  });
+export const onGetPost = async(callback) => {
+  const currentPost = await onSnapshot(collection(db, "posts"), 
+  (callback))
+  // console.log(currentPost);
 };
+
+
+// export const getNewPost = async() => {
+//   const querySnapshot = await getDocs(collection(db, "posts"));
+//   querySnapshot.forEach((doc) => {
+//     doc.data().newpost;
+//   });
+// };
 

@@ -575,6 +575,24 @@ color:#DC7A5D;
     padding: 8px 10px;
 }
 
+/* .optionSetingsPost{
+    display: none;
+} */
+.optionSetingsPostStyle {
+    flex-direction: column;
+     position: absolute;
+     margin-top: 20px;
+     margin-left: 180px;
+    background: white;
+    border: 1px solid #c29650c4;
+    border-radius: 3px;
+    padding: 7px;
+}
+
+.EditBtnStyle, .deleteBtnStyle{
+    padding: 3px;
+}
+
 @media only screen and (min-width: 676px){
 
     .divElem{
@@ -702,8 +720,8 @@ color:#DC7A5D;
         width: 500px;
     }
 
+    .optionSetingsPostStyle {
+         margin-left: 370px;
+    }
 }
 
-.optionSetingsPost{
-    display: none;
-}
