@@ -1,6 +1,6 @@
 
 import { signOutUser,
-    savePost, getPost, getUser, onGetPost
+    savePost, getPost, getUser, onGetPost, deletePost
 } from '../firebaseConfig.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
@@ -161,7 +161,7 @@ export const getP = async (idpostContainer) => {
                 </div>
                 <div class="optionSetingsPost optionSetingsPostStyle">
                         <label class="editBtn editBtnStyle">Editar</label>
-                        <label class="deleteBtn deleteBtnStyle">Eliminar</label>
+                        <label class="deleteBtn deleteBtnStyle" data-id="${doc.id}">Eliminar</label>
                         </div>
                 <label class="date">${dataNewPost.fecha}</label>
                 <label class="postDescription">
@@ -189,18 +189,16 @@ export const getP = async (idpostContainer) => {
                 
                 if(optionSetingsPost[i].style.display === 'none'){
                     optionSetingsPost[i].style.display = 'flex';
-                console.log('aparezco'); 
                 }
                  else{ optionSetingsPost[i].style.display = 'none';
-                console.log('ya no existo'); 
                 }
             });
         }
 
         const deleteBtn = document.querySelectorAll('.deleteBtn');
         for(let i=0; i<deleteBtn.length; i++){
-            deleteBtn[i].addEventListener('click', () => {
-            console.log('deleting post');
+            deleteBtn[i].addEventListener('click', ({target : {dataset}}) => {
+                deletePost(dataset.id);
             });
         }
 
