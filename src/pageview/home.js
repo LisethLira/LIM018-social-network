@@ -1,6 +1,6 @@
 
 import { signOutUser,
-    savePost, getPost, getUser
+    savePost, getPost, getUser, onGetPost
 } from '../firebaseConfig.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
@@ -144,39 +144,93 @@ export const postHome = (idPost, formPost, idpostContainer) => {
 };
 
 
-export const getP = async (idbtnProbar, idpostContainer) => {
+export const getP = async (idpostContainer) => {
     const postContainer = document.getElementById(idpostContainer);
-    const dataPost = await getPost()
-    dataPost.forEach((doc) => {
-        //console.log(doc.data());
-        const dataNewPost = doc.data();
-        // const dataUid = doc.data().uid;
-        postContainer.innerHTML += `
-        <div class="postComplete">
-            <div class="userNameDots">
-                <label class="userNamePost">${dataNewPost.nameUser}</label>
-                <img id="elementDots" class="dots"  src="image/tresPuntos.png">
-                <div class="optionSetingsPost">
-                <label>Editar</label>
-                <label>Eliminar</label>
+    const dataPost = await getPost();
+    onGetPost((dataPost) =>{
+        postContainer.innerHTML = '';
+        dataPost.forEach((doc) => {
+            //console.log(doc.data());
+            const dataNewPost = doc.data();
+            // const dataUid = doc.data().uid;
+            postContainer.innerHTML += `
+            <div class="postComplete">
+                <div class="userNameDots">
+                    <label class="userNamePost">${dataNewPost.nameUser}</label>
+                    <div class="dotsEditDelete">
+                        <img id="elementDots" class="dots" src="image/tresPuntos.png">
+                    </div>
                 </div>
-            </div>
-            <label class="date">${dataNewPost.fecha}</label>
-            <label class="postDescription">
-                ${dataNewPost.newpost}
-            </label> 
-            <div class="likeComment">
-                <div class="likeContainer">
-                    <button class= "likeBtn">
-                        <img class="likeIcon" src="image/likeHeart.png">
-                    </button>
-                    <label id="likeNumber" class="likeNumber">N°</label>
+                <div class="optionSetingsPost optionSetingsPostStyle">
+                        <label class="editBtn editBtnStyle">Editar</label>
+                        <label class="deleteBtn deleteBtnStyle">Eliminar</label>
+                        </div>
+                <label class="date">${dataNewPost.fecha}</label>
+                <label class="postDescription">
+                    ${dataNewPost.newpost}
+                </label> 
+                <div class="likeComment">
+                    <div class="likeContainer">
+                        <button class= "likeBtn">
+                            <img class="likeIcon" src="image/likeHeart.png">
+                        </button>
+                        <label id="likeNumber" class="likeNumber">N°</label>
+                    </div>
+                    <button class="btnComment">Comentar</button>
                 </div>
-                <button class="btnComment">Comentar</button>
-            </div>
-        </div>`
-    });
+            </div>`
+        })
+    
+        const dots = document.querySelectorAll('.dots');
+        const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
+        for(let i=0; i<dots.length; i++){
+            optionSetingsPost[i].style.display = 'none';
+            dots[i].addEventListener('click', () => {
+                
+                if(optionSetingsPost[i].style.display === 'none'){
+                    optionSetingsPost[i].style.display = 'flex';
+                console.log('aparezco'); 
+                }
+                 else{ optionSetingsPost[i].style.display = 'none';
+                console.log('ya no existo'); 
+                }
+            });
+        }
 
+        const deleteBtn = document.querySelectorAll('.deleteBtn');
+        for(let i=0; i<deleteBtn.length; i++){
+            deleteBtn[i].addEventListener('click', () => {
+            console.log('deleting post');
+            });
+        }
+
+        const editBtn = document.querySelectorAll('.editBtn');
+        for(let i=0; i<editBtn.length; i++){
+            editBtn[i].addEventListener('click', () => {
+            console.log('editing post');
+            });
+        }
+
+        //cuando se cree el post debemos crear un elemento contador de likes con el valor de 0 para que alli podamos editar y guardar el contador
+        const likeAction = document.querySelectorAll('.likeBtn');
+        const likeNumber = document.querySelectorAll('.likeNumber');
+        // este array lo debemos sacar del doc.data.contadordelikes
+        let arrayCounter = [];
+        for(let i=0; i<likeAction.length; i++){
+            arrayCounter.push(' ');
+        }
+        // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
+        for(let i=0; i<likeAction.length; i++){
+            let counter = 0;
+            likeAction[i].addEventListener('click', () => {
+                counter++;
+                arrayCounter[i] = counter;
+                likeNumber[i].innerHTML = counter;
+            });
+        };
+    
+    });
+    
 /*     const dots = document.querySelectorAll('.dots');
     const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
     dots.forEach(dotsSetings => 
@@ -200,13 +254,6 @@ export const getP = async (idbtnProbar, idpostContainer) => {
         })
     );   */
 
-    const dots = document.querySelectorAll('.dots');
-    const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
-
-    for(let i=0; i<dots.length; i++){
-        dots[i].addEventListener('click', () => {
-        optionSetingsPost[i].style.display = 'flex';
-    });
 }
     
 /*     const likeAction = document.querySelectorAll('.likeBtn');
@@ -215,27 +262,6 @@ export const getP = async (idbtnProbar, idpostContainer) => {
         console.log("funciona like");
     })) */
 
-    //cuando se cree el post debemos crear un elemento contador de likes con el valor de 0 para que alli podamos editar y guardar el contador
-    const likeAction = document.querySelectorAll('.likeBtn');
-    const likeNumber = document.querySelectorAll('.likeNumber');
-    // este array lo debemos sacar del doc.data.contadordelikes
-    let arrayCounter = [];
-    for(let i=0; i<likeAction.length; i++){
-        arrayCounter.push(' ');
-    }
-    // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
-    for(let i=0; i<likeAction.length; i++){
-        let counter = 0;
-        likeAction[i].addEventListener('click', () => {
-            counter++;
-            arrayCounter[i] = counter;
-            likeNumber[i].innerHTML = counter;
-    });
-};
-
-/* function showOptionSetings(optionSetingsPost){
-    optionSetingsPost.style.display = 'flex';
-} */
 
 // export const btnLikeAction = (classBtnLikeAction) => {
 //     const likeAction = document.querySelectorAll(classBtnLikeAction);
@@ -254,4 +280,4 @@ export const getP = async (idbtnProbar, idpostContainer) => {
     console.log(counter);
     document.getElementById(idLikeNumber).innerHTML = counter;
 });*/
-}
+

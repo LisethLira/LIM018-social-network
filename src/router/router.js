@@ -29,7 +29,7 @@ const changeView = async (name) => {
       SignOutActive('signOut');
       postHome('addPost', 'formPost');
 
-      await getP('btnProbar', 'postContainer');
+      await getP('postContainer');
       //btnLikeCounter('likeBtn', 'likeNumber');
      // btnLikeAction('.likeBtn');
       break; }
