@@ -1,7 +1,5 @@
-
 import { signOutUser,
-    savePost, getPost, getUser, onGetPost, deletePost
-} from '../firebaseConfig.js';
+    savePost, getPost, getUser, onGetPost, deletePost, gettingPost, editPost } from '../firebaseConfig.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 // import { likeCounter } from '../lib/index.js';
@@ -99,6 +97,8 @@ export const SignOutActive = (idElementSignOut) => {
     });
 };
 
+let editingPost = false;
+let id = '';
 
 export const postHome = (idPost, formPost, idpostContainer) => {
     const PostH = document.getElementById(formPost);
@@ -107,13 +107,7 @@ export const postHome = (idPost, formPost, idpostContainer) => {
       const auth = getAuth();
       const user = auth.currentUser;
       const uid = user.uid;
-    //   const fecha = new Date();
-    const fecha = new Date().toDateString();
-        // var hoy = new Date();
-        // var fechaH = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
-        // var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
-        // var fechaYHora = fechaH + ' ' + hora;
-        // const fecha = fechaYHora;
+      const fecha = new Date().toDateString();
 
       const newpost = document.getElementById(idPost).value;
       let arrayId = [];
@@ -136,15 +130,21 @@ export const postHome = (idPost, formPost, idpostContainer) => {
         console.log(pruebaName);
         const nameUser=pruebaName;
 
+    if (!editingPost){
+        savePost(nameUser, fecha, newpost, uid);
+    }else {
+        editPost(id, newpost);
+    }
 
-      console.log(savePost(nameUser, fecha, newpost, uid));
+    editingPost = false;
       PostH.reset();
     });
 
 };
 
 
-export const getP = async (idpostContainer) => {
+export const getP = async (idpostContainer, idaddPost) => {
+    const textArea = document.getElementById(idaddPost);
     const postContainer = document.getElementById(idpostContainer);
     const dataPost = await getPost();
     onGetPost((dataPost) =>{
@@ -162,7 +162,7 @@ export const getP = async (idpostContainer) => {
                     </div>
                 </div>
                 <div class="optionSetingsPost optionSetingsPostStyle">
-                        <label class="editBtn editBtnStyle">Editar</label>
+                        <label class="editBtn editBtnStyle" data-id="${doc.id}">Editar</label>
                         <label class="deleteBtn deleteBtnStyle" data-id="${doc.id}">Eliminar</label>
                         </div>
                 <label class="date">${dataNewPost.fecha}</label>
@@ -204,8 +204,14 @@ export const getP = async (idpostContainer) => {
 
         const editBtn = document.querySelectorAll('.editBtn');
         for(let i=0; i<editBtn.length; i++){
-            editBtn[i].addEventListener('click', () => {
-            console.log('editing post');
+            editBtn[i].addEventListener('click', async ({target : {dataset}}) => {
+                const doc = await gettingPost(dataset.id);
+                const post = doc.data();
+                textArea.value = post.newpost;
+                editingPost = true;
+                id = dataset.id;
+                
+            //console.log(doc.data());
             });
         }
 
@@ -228,54 +234,4 @@ export const getP = async (idpostContainer) => {
         };
     
     });
-    
-/*     const dots = document.querySelectorAll('.dots');
-    const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
-    dots.forEach(dotsSetings => 
-        dotsSetings.addEventListener('click', () => {
-            // showOptionSetings(optionSetingsPost);
-            console.log('funciona click');
-        optionSetingsPost.forEach( probandoDisplay =>  
-        probandoDisplay.style.display = 'flex');
-        })
-    );   */ 
-
-/*     const dots = document.querySelectorAll('.dots');
-    //const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
-    console.log(dots);
-    dots.forEach(dotsSetings => 
-        dotsSetings.addEventListener('click', () => {
-            let elementDot = document.getElementById("elementDots");
-            let padreEncontrado = elementDot.closest('.userNameDots');
-            let elHermanoPerdido = padreEncontrado.querySelector('.optionSetingsPost');
-            elHermanoPerdido.style.display = 'flex';
-        })
-    );   */
-
 }
-    
-/*     const likeAction = document.querySelectorAll('.likeBtn');
-    likeAction.forEach(btn => 
-    btn.addEventListener('click', () =>{
-        console.log("funciona like");
-    })) */
-
-
-// export const btnLikeAction = (classBtnLikeAction) => {
-//     const likeAction = document.querySelectorAll(classBtnLikeAction);
-//     likeAction.forEach(btn => 
-//     btn.addEventListener('click', () =>{
-//         console.log("funciona like");
-//     }))
-// /}
-
-/* export const btnLikeCounter = (idBtn, idLikeNumber) =>{
-  let counter = 0;
-  const likeBtn = document.getElementById(idBtn);
-  likeBtn.addEventListener('click', (e)=>{
-    counter++;
-    // let like = likeCounter(likeBtn);
-    console.log(counter);
-    document.getElementById(idLikeNumber).innerHTML = counter;
-});*/
-
