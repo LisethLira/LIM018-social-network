@@ -109,7 +109,7 @@ export const postHome = (idPost, formPost, idpostContainer) => {
       const uid = user.uid;
     //   const fecha = new Date();
     const fecha = new Date().toDateString();
-        // var hoy = new Date();
+         var hoy = new Date();
         // var fechaH = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
         // var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
         // var fechaYHora = fechaH + ' ' + hora;
