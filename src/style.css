@@ -597,10 +597,12 @@ color:#DC7A5D;
     border-radius: 3px;
 }
 
+
 .editBtn, .deleteBtnStyle{
     padding: 5px;
     font-size: 15px;
     
+
 }
 
 .editBtnStyle:hover ,.deleteBtnStyle:hover {

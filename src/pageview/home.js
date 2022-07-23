@@ -139,7 +139,6 @@ export const postHome = (idPost, formPost, idpostContainer) => {
     editingPost = false;
       PostH.reset();
     });
-
 };
 
 
@@ -176,7 +175,9 @@ export const getP = async (idpostContainer, idaddPost) => {
                         </button>
                         <label id="likeNumber" class="likeNumber">N°</label>
                     </div>
+                    <div class= "btnCommentContainer">
                     <button class="btnComment">Comentar</button>
+                    </div>
                 </div>
             </div>`
         })
