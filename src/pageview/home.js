@@ -61,16 +61,31 @@ export default () => {
         </nav>
     </header>
     <section class= "secHome">
+        
+        <div class="backgroundModal" id="backgroundModal">    
+            <form class="formPost" id="formPost">
+                <div class= "modalCreatePost">
+                    <div class="createPostTitle">
+                        <p class="modalTitle">Crear Publicación</p>
+                        <button type="button" class="cerrarModalPost" id="cerrarModalPost">X</button>
+                    </div>
+                    <div class="DescriptionUser">
+                        <div class= "userPost">
+                            <label class="userNamePost">nombre</label>
+                        </div>
+                        <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación" ></textarea>   
+                        <button type="button" class="btnCatImg">
+                           <img class="iconCatImg" alt="icono imagen" src="image/iconCatImg.png">
+                        </button>
+                        <button type="submit" class="btnPost" id="btnPost" >Publicar</button>
+                    </div>
+                </div>
+            </form>
+        </div>  
         <div class="postAddBtn">
-
-        <form class="formPost" id="formPost">
-            <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación:" ></textarea>
-            <button type="submit" class="btnPost" id="btnPost" >Publicar</button>
-        </form>
-        
+            <button type="button" class= "addPost" id="btnModalPost" >Agrega una publicación:</button>
+            <div id="postContainer"></div>
         </div>
-        
-        <div id="postContainer"></div>
     </section>
     </section>`;
 
@@ -100,7 +115,14 @@ export const SignOutActive = (idElementSignOut) => {
 let editingPost = false;
 let id = '';
 
-export const postHome = (idPost, formPost, idpostContainer) => {
+export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost) => {
+    const btnModalPost = document.getElementById(idBtnModalPost);
+    const backgroundModal = document.getElementById(idBackgroundModal);
+    const cerrarModalPost = document.getElementById (idCerrarModalPost);
+    backgroundModal.style.display = 'none';
+    btnModalPost.addEventListener('click', ()=>{
+        backgroundModal.style.display = 'flex';
+    })
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -139,6 +161,9 @@ export const postHome = (idPost, formPost, idpostContainer) => {
     editingPost = false;
       PostH.reset();
     });
+    cerrarModalPost.addEventListener('click', ()=> {
+        backgroundModal.style.display = 'none';
+    })
 };
 
 
