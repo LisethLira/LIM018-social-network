@@ -150,13 +150,13 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
       let imagen;
       let arrayId = [];
 
-      if(fileImage){
+      if(fileImage.value){
         const urlImage = fileImage.files[0].name;
         const nameFile = fileImage.files[0];
         imagen = await imageUrl (urlImage,nameFile);
         console.log(imagen);
-    }
-      
+    } 
+          
      const response = await getUser()
     response.forEach((doc) => {
                 const arrayDocsId = doc.id;
@@ -227,7 +227,6 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
     onGetPost((dataPost) =>{
         postContainer.innerHTML = '';
         dataPost.forEach((doc) => {
-            //console.log(doc.data());
             const dataNewPost = doc.data();
             const dataUid = doc.data().uid;
             postContainer.innerHTML += `
@@ -246,7 +245,7 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 <label class="postDescription">
                     ${dataNewPost.newpost}
                 </label> 
-                <img src="${dataNewPost.image}" style= "width:400px">
+                <img class="imagePost" src="${dataNewPost.image}">
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">

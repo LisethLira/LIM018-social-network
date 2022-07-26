@@ -139,7 +139,6 @@ export const getUser = async() => {
 export const onGetPost = async(callback) => {
   const currentPost = await onSnapshot(collection(db, "posts"), 
   (callback))
-  // console.log(currentPost);
 };
 
 
