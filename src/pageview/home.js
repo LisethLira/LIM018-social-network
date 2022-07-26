@@ -153,6 +153,7 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
       if(fileImage){
         const urlImage = fileImage.files[0].name;
         const nameFile = fileImage.files[0];
+
         imagen = await imageUrl (urlImage,nameFile);
         console.log(imagen);
     }
