@@ -155,7 +155,7 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
         const nameFile = fileImage.files[0];
         await imageUrl (urlImage,nameFile);
         imagen = imageUrl (urlImage,nameFile);
-        console.log(imagen);
+        //console.log(imagen);
     }
       
      const response = await getUser()
