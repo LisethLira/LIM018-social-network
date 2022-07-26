@@ -10,6 +10,18 @@ import {
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 import { getFirestore, doc, addDoc, collection, setDoc, getDocs, onSnapshot, deleteDoc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+import {
+  getStorage, ref, uploadBytes,
+  getDownloadURL,
+  // eslint-disable-next-line import/no-unresolved
+} from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-storage.js';
+
+export {
+  getStorage, 
+  ref, 
+  uploadBytes,
+  getDownloadURL,
+};
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -97,13 +109,14 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-export const savePost = async(nameUser, fecha, newpost, uid) => {
+export const savePost = async(nameUser, fecha, newpost, uid, image) => {
   try {
     const cratePost = await addDoc(collection(db, 'posts'), {
     nameUser,
     fecha,
     newpost,
     uid,
+    image
   });
   console.log("post publicado");
 }
