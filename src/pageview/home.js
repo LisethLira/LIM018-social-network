@@ -144,18 +144,18 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
       const user = auth.currentUser;
       const uid = user.uid;
       const fecha = new Date().toDateString();
-      const fileImage = btnImgFile.value;  
+      const fileImage = btnImgFile;  
       console.log(fileImage);
       const newpost = document.getElementById(idPost).value;
       let imagen;
       let arrayId = [];
 
-      if(fileImage.value){
+      if(fileImage){
         const urlImage = fileImage.files[0].name;
         const nameFile = fileImage.files[0];
-        await imageUrl (urlImage,nameFile);
-        imagen = imageUrl (urlImage,nameFile);
-        //console.log(imagen);
+
+        imagen = await imageUrl (urlImage,nameFile);
+        console.log(imagen);
     }
       
      const response = await getUser()
@@ -247,6 +247,7 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 <label class="postDescription">
                     ${dataNewPost.newpost}
                 </label> 
+                <img src="${dataNewPost.image}" style= "width:400px">
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
