@@ -2,6 +2,7 @@ import { signOutUser,
     savePost, getPost, getUser, onGetPost, deletePost, gettingPost, editPost } from '../firebaseConfig.js';
 import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
+import { imageUrl } from '../storage.js';
 // import { likeCounter } from '../lib/index.js';
 
 export default () => {
@@ -66,7 +67,7 @@ export default () => {
             <form class="formPost" id="formPost">
                 <div class= "modalCreatePost">
                     <div class="createPostTitle">
-                        <p class="modalTitle">Crear Publicación</p>
+                        <p class="modalTitle" id="modalTitle">Crear Publicación</p>
                         <button type="button" class="cerrarModalPost" id="cerrarModalPost">X</button>
                     </div>
                     <div class="DescriptionUser">
@@ -74,18 +75,24 @@ export default () => {
                             <label class="userNamePost">nombre</label>
                         </div>
                         <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación" ></textarea>   
-                        <button type="button" class="btnCatImg">
-                           <img class="iconCatImg" alt="icono imagen" src="image/iconCatImg.png">
-                        </button>
-                        <button type="submit" class="btnPost" id="btnPost" >Publicar</button>
+                        <p id="textEmptyModal"></p>
+                        <label type="button" class="btnCatImg" for="btnImgFile">
+                        <input id="btnImgFile" type ="file">   
+                        <img class="iconCatImg" alt="icono imagen" src="image/iconCatImg.png">
+                        </label>
+                        <button type="submit" class="btnPost" id="btnPost">Publicar</button>
                     </div>
                 </div>
             </form>
-        </div>  
+        </div>
+    
+        <div id="containerDelete"></div>
+        <div id= "containerEmpty"></div>
         <div class="postAddBtn">
             <button type="button" class= "addPost" id="btnModalPost" >Agrega una publicación:</button>
             <div id="postContainer"></div>
         </div>
+
     </section>
     </section>`;
 
@@ -114,15 +121,22 @@ export const SignOutActive = (idElementSignOut) => {
 
 let editingPost = false;
 let id = '';
-
-export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost) => {
+export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost, idBtnPost, idModalTitle, idTextEmptyModal, idBtnImgFile) => {
     const btnModalPost = document.getElementById(idBtnModalPost);
     const backgroundModal = document.getElementById(idBackgroundModal);
     const cerrarModalPost = document.getElementById (idCerrarModalPost);
+    const btnPost = document.getElementById (idBtnPost);
+    const modalTitle = document.getElementById (idModalTitle);
+    const textEmptyModal = document.getElementById(idTextEmptyModal);
+    const btnImgFile = document.getElementById(idBtnImgFile);
     backgroundModal.style.display = 'none';
     btnModalPost.addEventListener('click', ()=>{
         backgroundModal.style.display = 'flex';
+        btnPost.innerText = 'Publicar';
+        modalTitle.innerText = 'Crear Publicación';
     })
+
+    // btnPost.disabled = false;
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -130,10 +144,20 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
       const user = auth.currentUser;
       const uid = user.uid;
       const fecha = new Date().toDateString();
-
+      const fileImage = btnImgFile.value;  
+      console.log(fileImage);
       const newpost = document.getElementById(idPost).value;
+      let imagen;
       let arrayId = [];
 
+      if(fileImage.value){
+        const urlImage = fileImage.files[0].name;
+        const nameFile = fileImage.files[0];
+        await imageUrl (urlImage,nameFile);
+        imagen = imageUrl (urlImage,nameFile);
+        console.log(imagen);
+    }
+      
      const response = await getUser()
     response.forEach((doc) => {
                 const arrayDocsId = doc.id;
@@ -153,30 +177,60 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
         const nameUser=pruebaName;
 
     if (!editingPost){
-        savePost(nameUser, fecha, newpost, uid);
+        if(newpost.length === 0){
+            //     containerEmpty.innerHTML = `<div class="backgroundModal" id="backgroundModalEmpty">
+        //     <div id="warningEmpty" class="modalDeletePost">
+        //         <button type="button" class="cerrar" id="cerrarModalEmpty">X</button>
+        //         <img class="gatitoWarning" src="image/gatoTriste.png">
+        //         <p class="modalTitleDelete" id="warningTextLogin">Agrega contenido a tu publicación</p>
+        //     </div>
+        // </div>`
+        // btnPost.disabled = true;
+        // backgroundModal.style.display = 'flex';
+        textEmptyModal.innerText ='Publicación vacía, agrega contenido a tu publicación';
+        }
+        else{
+            textEmptyModal.innerHTML='';
+            console.log(imagen);
+            savePost(nameUser, fecha, newpost, uid, imagen);
+            backgroundModal.style.display = 'none';
+            
+        }
     }else {
         editPost(id, newpost);
     }
-
+    // const cerrarModalEmpty = document.getElementById('cerrarModalEmpty');
+    // cerrarModalEmpty.addEventListener('click', ()=>{
+    //     containerEmpty.innerHTML = '';
+    // })
+    
     editingPost = false;
       PostH.reset();
+    //   backgroundModal.style.display = 'none';
+
     });
+
     cerrarModalPost.addEventListener('click', ()=> {
         backgroundModal.style.display = 'none';
+        PostH.reset();
+        textEmptyModal.innerHTML='';
     })
+
 };
 
 
-export const getP = async (idpostContainer, idaddPost) => {
-    const textArea = document.getElementById(idaddPost);
+
+export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundModal, idCerrarModalPost, idModalTitle, idContainerDelete) => {
+    const textArea = document.getElementById(idAddPost);
     const postContainer = document.getElementById(idpostContainer);
-    const dataPost = await getPost();
+    const containerDelete = document.getElementById(idContainerDelete);
+    // const dataPost = await getPost();
     onGetPost((dataPost) =>{
         postContainer.innerHTML = '';
         dataPost.forEach((doc) => {
             //console.log(doc.data());
             const dataNewPost = doc.data();
-            // const dataUid = doc.data().uid;
+            const dataUid = doc.data().uid;
             postContainer.innerHTML += `
             <div class="postComplete">
                 <div class="userNameDots">
@@ -188,7 +242,7 @@ export const getP = async (idpostContainer, idaddPost) => {
                 <div class="optionSetingsPost optionSetingsPostStyle">
                         <label class="editBtn editBtnStyle" data-id="${doc.id}">Editar</label>
                         <label class="deleteBtn deleteBtnStyle" data-id="${doc.id}">Eliminar</label>
-                        </div>
+                </div>
                 <label class="date">${dataNewPost.fecha}</label>
                 <label class="postDescription">
                     ${dataNewPost.newpost}
@@ -224,22 +278,58 @@ export const getP = async (idpostContainer, idaddPost) => {
         const deleteBtn = document.querySelectorAll('.deleteBtn');
         for(let i=0; i<deleteBtn.length; i++){
             deleteBtn[i].addEventListener('click', ({target : {dataset}}) => {
+                containerDelete.innerHTML = ` <div class="backgroundModal" id="backgroundModalDelete">
+                <div id="warningPostDelete" class="modalDeletePost">
+                <button type="button" class="cerrarModalPost" id="cerrarDelete">X</button>
+                <img class="gatitoWarning" src="image/gatoTriste.png">
+                <p class="modalTitleDelete">¿Estás seguro que deseas eliminar?</p>
+                <div class= "btnsDeleteCancel">
+                <button type="button" class="btnPost" id="deletePostModal">Eliminar</button>
+                <button type="button" class= "btnPost" id="deleteCancel">Cancelar</button>
+              </div>
+              </div>
+                `
+            const deletePostModal = document.getElementById('deletePostModal');
+            deletePostModal.addEventListener('click', ()=>{
                 deletePost(dataset.id);
+                containerDelete.innerHTML = '';
+            })
+            const deleteCancel = document.getElementById('deleteCancel');
+            deleteCancel.addEventListener('click', ()=>{
+                containerDelete.innerHTML = '';
+            })  
+            
+            const cerrarDelete = document.getElementById('cerrarDelete');
+            cerrarDelete.addEventListener('click', ()=>{
+                containerDelete.innerHTML = '';
+            })  
+            optionSetingsPost[i].style.display = 'none';
             });
         }
 
         const editBtn = document.querySelectorAll('.editBtn');
+        const btnPost = document.getElementById(idbtnPost);
+        const backgroundModal = document.getElementById(idBackgroundModal);
+        const cerrarModalPost = document.getElementById (idCerrarModalPost);
+        const modalTitle = document.getElementById(idModalTitle);
         for(let i=0; i<editBtn.length; i++){
             editBtn[i].addEventListener('click', async ({target : {dataset}}) => {
+                backgroundModal.style.display = 'flex';
                 const doc = await gettingPost(dataset.id);
                 const post = doc.data();
                 textArea.value = post.newpost;
                 editingPost = true;
                 id = dataset.id;
-                
+                btnPost.innerText = 'Guardar';
+                modalTitle.innerText = 'Editar Publicación';
+                optionSetingsPost[i].style.display = 'none';       
             //console.log(doc.data());
             });
         }
+        cerrarModalPost.addEventListener('click', ()=> {
+            backgroundModal.style.display = 'none';
+            textArea.innerHTML = '';
+        })
 
         //cuando se cree el post debemos crear un elemento contador de likes con el valor de 0 para que alli podamos editar y guardar el contador
         const likeAction = document.querySelectorAll('.likeBtn');

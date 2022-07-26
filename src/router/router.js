@@ -27,9 +27,9 @@ const changeView = async (name) => {
     case '#/home':
     { container.appendChild(components.home());
       SignOutActive('signOut');
-      postHome('addPost', 'formPost', 'btnModalPost', 'backgroundModal', 'cerrarModalPost');
+      postHome('addPost', 'formPost', 'btnModalPost', 'backgroundModal', 'cerrarModalPost','btnPost', 'modalTitle', 'textEmptyModal', 'btnImgFile');
 
-      await getP('postContainer', 'addPost');
+      await getP('postContainer', 'addPost', 'btnPost', 'backgroundModal', 'cerrarModalPost','modalTitle', 'containerDelete');
       //btnLikeCounter('likeBtn', 'likeNumber');
      // btnLikeAction('.likeBtn');
       break; }

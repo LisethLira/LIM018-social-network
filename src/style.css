@@ -463,6 +463,7 @@ color:#DC7A5D;
     position:fixed;
     display: flex;
     justify-content: center;
+    z-index: 1;
 }
 
 .modalCreatePost{
@@ -514,6 +515,10 @@ color:#DC7A5D;
     background: none;
     display: flex;
     margin: 15px 0px;
+}
+
+#btnImgFile{
+    display: none;
 }
 
 .btnPost{
@@ -569,6 +574,38 @@ color:#DC7A5D;
     margin-left: 20px;
     flex-grow: 1;
 }
+
+.modalDeletePost{
+    width: 310px;
+    height: auto;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgb(98 68 47 / 16%);
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    margin: 100px auto;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 18px;
+    padding: 18px;
+    box-sizing: border-box;
+    position:fixed;
+    align-items: flex-end;
+}
+
+.modalTitleDelete{
+    display: flex;
+    justify-content: center;
+    margin: 10px auto;   
+}
+
+.btnsDeleteCancel{
+    display: flex;
+    margin: 20px auto;
+    gap: 20px;
+}
+
+
 .date{
     font-size: 13px;
     margin-top: 10px;
@@ -810,7 +847,8 @@ color:#DC7A5D;
          margin-left: 390px;
     }
 
-    
-
+    .modalDeletePost{    
+    width: 500px;
+    }
 }
 
