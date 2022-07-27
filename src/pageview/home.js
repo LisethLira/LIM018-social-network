@@ -246,7 +246,7 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 <label class="postDescription">
                     ${dataNewPost.newpost}
                 </label> 
-                <img src="${dataNewPost.image}" style= "width:400px">
+                <img src="${dataNewPost.image}" style=" width:400px margin:15px auto">
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
