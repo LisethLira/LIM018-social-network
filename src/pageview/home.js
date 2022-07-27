@@ -7,7 +7,7 @@ import {
     gettingPost,
     editPost
 } from '../firebase/baseDatos.js';
-import { imageUrl } from '../firebase/storage.js';
+import { gimageUrl } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
 // import { likeCounter } from '../lib/index.js';
 
