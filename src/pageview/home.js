@@ -87,7 +87,6 @@ export default () => {
         </div>
     
         <div id="containerDelete"></div>
-        <div id= "containerEmpty"></div>
         <div class="postAddBtn">
             <button type="button" class= "addPost" id="btnModalPost" >Agrega una publicación:</button>
             <div id="postContainer"></div>
@@ -247,7 +246,7 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 <label class="postDescription">
                     ${dataNewPost.newpost}
                 </label> 
-                <img src="${dataNewPost.image}" style= "width:400px">
+                <img src="${dataNewPost.image}" class="imagePost">
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
