@@ -1,11 +1,13 @@
 import { signOutUser } from '../firebase/firebaseAuth.js';
-import { savePost, 
-        onGetPost, 
-        deletePost,
-         gettingPost, 
-         editPost,
-        } from '../firebase/baseDatos.js';
-import { imageUrl, localStorgelike, likespostU } from '../firebase/storage.js';
+import {
+    savePost,
+    getUser,
+    onGetPost,
+    deletePost,
+    gettingPost,
+    editPost
+} from '../firebase/baseDatos.js';
+import { gimageUrl } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
 // import { likeCounter } from '../lib/index.js';
 
@@ -76,7 +78,7 @@ export default () => {
                     </div>
                     <div class="DescriptionUser">
                         <div class= "userPost">
-                            <label class="userNamePost">nombre</label>
+                            <label class="userNamePost" id="userNamePost"></label>
                         </div>
                         <textarea type="text" class= "addPost" id="addPost" placeholder="Agrega una publicación" ></textarea>   
                         <p id="textEmptyModal"></p>
@@ -128,64 +130,66 @@ let id = '';
 export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost, idBtnPost, idModalTitle, idTextEmptyModal, idBtnImgFile) => {
     const btnModalPost = document.getElementById(idBtnModalPost);
     const backgroundModal = document.getElementById(idBackgroundModal);
-    const cerrarModalPost = document.getElementById (idCerrarModalPost);
-    const btnPost = document.getElementById (idBtnPost);
-    const modalTitle = document.getElementById (idModalTitle);
+    const cerrarModalPost = document.getElementById(idCerrarModalPost);
+    const btnPost = document.getElementById(idBtnPost);
+    const modalTitle = document.getElementById(idModalTitle);
     const textEmptyModal = document.getElementById(idTextEmptyModal);
     const btnImgFile = document.getElementById(idBtnImgFile);
+    const userNamePost = document.getElementById("userNamePost");
     backgroundModal.style.display = 'none';
+    const userObject = localStorageCall();
+    const uid = userObject.id;
+    const nameUser = userObject.name;
 
-    btnModalPost.addEventListener('click', ()=>{
+    btnModalPost.addEventListener('click', () => {
         backgroundModal.style.display = 'flex';
         btnPost.innerText = 'Publicar';
         modalTitle.innerText = 'Crear Publicación';
+        userNamePost.innerText = nameUser;
     })
 
     // btnPost.disabled = false;
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const userObject = localStorageCall();
-      const uid = userObject.id;
-      const nameUser = userObject.name;
-      const fecha = new Date().toDateString();
-      const fileImage = btnImgFile;  
-      console.log(fileImage);
-      const newpost = document.getElementById(idPost).value;
-      let imagen;
+        e.preventDefault();
+        const fecha = new Date().toDateString();
+        const fileImage = btnImgFile;
+        console.log(fileImage);
+        const newpost = document.getElementById(idPost).value;
+        let imagen;
 
-      if(fileImage.value){
-        const urlImage = fileImage.files[0].name;
-        const nameFile = fileImage.files[0];
-        imagen = await imageUrl (urlImage,nameFile);
-        console.log(imagen);
-    } 
-          
-    if (!editingPost){
-        if(newpost.length === 0){
-        textEmptyModal.innerText ='Publicación vacía, agrega contenido a tu publicación';
-        }
-        else{
-            textEmptyModal.innerHTML='';
+        if (fileImage.value) {
+            const urlImage = fileImage.files[0].name;
+            const nameFile = fileImage.files[0];
+            imagen = await imageUrl(urlImage, nameFile);
             console.log(imagen);
-            savePost(nameUser, fecha, newpost, uid, imagen);
-            backgroundModal.style.display = 'none';
-            
         }
-    }else {
-        editPost(id, newpost);
-        backgroundModal.style.display = 'none';
-    }
-    
-    editingPost = false;
-    PostH.reset();
+
+        if (!editingPost) {
+            if (newpost.length === 0) {
+                textEmptyModal.innerText = 'Publicación vacía, agrega contenido a tu publicación';
+            }
+            else {
+                textEmptyModal.innerHTML = '';
+                console.log(imagen);
+                savePost(nameUser, fecha, newpost, uid, imagen);
+                backgroundModal.style.display = 'none';
+
+            }
+        } else {
+            editPost(id, newpost);
+            backgroundModal.style.display = 'none';
+        }
+
+        editingPost = false;
+        PostH.reset();
 
     });
 
-    cerrarModalPost.addEventListener('click', ()=> {
+    cerrarModalPost.addEventListener('click', () => {
         backgroundModal.style.display = 'none';
         PostH.reset();
-        textEmptyModal.innerHTML='';
+        textEmptyModal.innerHTML = '';
     })
 
 };
@@ -195,7 +199,7 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
 export const getP = async (idpostContainer, idAddPost) => {
     const textArea = document.getElementById(idAddPost);
     const postContainer = document.getElementById(idpostContainer);
-    onGetPost((dataPost) =>{
+    onGetPost((dataPost) => {
         postContainer.innerHTML = '';
         dataPost.forEach((doc) => {
             const dataNewPost = doc.data();
@@ -216,7 +220,7 @@ export const getP = async (idpostContainer, idAddPost) => {
                 <label class="postDescription">
                     ${dataNewPost.newpost}
                 </label> 
-                <img class="imagePost" src="${dataNewPost.image}">
+                <img class="imagePost" id="image-${dataUid}">
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
@@ -229,8 +233,11 @@ export const getP = async (idpostContainer, idAddPost) => {
                     </div>
                 </div>
             </div>`
+            console.log(dataNewPost.newpost, document.getElementById(`image-${dataUid}`));
+            document.getElementById(`image-${dataUid}`).src = dataNewPost.image;
+        
         })
-    
+
         const dots = document.querySelectorAll('.dots');
         const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
 
@@ -240,44 +247,30 @@ export const getP = async (idpostContainer, idAddPost) => {
         const editBtn = document.querySelectorAll('.editBtn');
         editingP(editBtn, optionSetingsPost, textArea)
 
-        //cuando se cree el post debemos crear un elemento contador de likes con el valor de 0 para que alli podamos editar y guardar el contador
         const likeAction = document.querySelectorAll('.likeBtn');
         const likeNumber = document.querySelectorAll('.likeNumber');
-        // este array lo debemos sacar del doc.data.contadordelikes
-        let arrayCounter = [];
-        for(let i=0; i<likeAction.length; i++){
-            arrayCounter.push(' ');
-        }
-        // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
-        for(let i=0; i<likeAction.length; i++){
-            let counter = 0;
-            likeAction[i].addEventListener('click', () => {
-                counter++;
-                arrayCounter[i] = counter;
-                likeNumber[i].innerHTML = counter;
-            });
-        };
-    
+        likeCounter(likeAction, likeNumber);
     });
 }
 
 
 
 
-function deletingPost(dots, optionSetingsPost, deleteBtn){
-    for(let i=0; i<dots.length; i++){
+function deletingPost(dots, optionSetingsPost, deleteBtn) {
+    for (let i = 0; i < dots.length; i++) {
         optionSetingsPost[i].style.display = 'none';
         dots[i].addEventListener('click', () => {
-            
-            if(optionSetingsPost[i].style.display === 'none'){
+
+            if (optionSetingsPost[i].style.display === 'none') {
                 optionSetingsPost[i].style.display = 'flex';
             }
-             else{ optionSetingsPost[i].style.display = 'none';
+            else {
+                optionSetingsPost[i].style.display = 'none';
             }
         });
     }
-    for(let i=0; i<deleteBtn.length; i++){
-        deleteBtn[i].addEventListener('click', ({target : {dataset}}) => {
+    for (let i = 0; i < deleteBtn.length; i++) {
+        deleteBtn[i].addEventListener('click', ({ target: { dataset } }) => {
             containerDelete.innerHTML = ` <div class="backgroundModal" id="backgroundModalDelete">
             <div id="warningPostDelete" class="modalDeletePost">
             <button type="button" class="cerrarModalPost" id="cerrarDelete">X</button>
@@ -289,42 +282,58 @@ function deletingPost(dots, optionSetingsPost, deleteBtn){
         </div>
         </div>
             `
-    const deletePostModal = document.getElementById('deletePostModal');
-    deletePostModal.addEventListener('click', ()=>{
-        deletePost(dataset.id);
-        containerDelete.innerHTML = '';
-    })
-    const deleteCancel = document.getElementById('deleteCancel');
-    deleteCancel.addEventListener('click', ()=>{
-        containerDelete.innerHTML = '';
-    })  
-    
-    const cerrarDelete = document.getElementById('cerrarDelete');
-    cerrarDelete.addEventListener('click', ()=>{
-        containerDelete.innerHTML = '';
-    })  
-    optionSetingsPost[i].style.display = 'none';
-    });
-}
+            const deletePostModal = document.getElementById('deletePostModal');
+            deletePostModal.addEventListener('click', () => {
+                deletePost(dataset.id);
+                containerDelete.innerHTML = '';
+            })
+            const deleteCancel = document.getElementById('deleteCancel');
+            deleteCancel.addEventListener('click', () => {
+                containerDelete.innerHTML = '';
+            })
+
+            const cerrarDelete = document.getElementById('cerrarDelete');
+            cerrarDelete.addEventListener('click', () => {
+                containerDelete.innerHTML = '';
+            })
+            optionSetingsPost[i].style.display = 'none';
+        });
+    }
 }
 
-function editingP(editBtn, optionSetingsPost, textArea){
-for(let i=0; i<editBtn.length; i++){
-    editBtn[i].addEventListener('click', async ({target : {dataset}}) => {
-        backgroundModal.style.display = 'flex';
-        const doc = await gettingPost(dataset.id);
-        const post = doc.data();
-        textArea.value = post.newpost;
-        editingPost = true;
-        id = dataset.id;
-        btnPost.innerText = 'Guardar';
-        modalTitle.innerText = 'Editar Publicación';
-        optionSetingsPost[i].style.display = 'none';     
-    //console.log(doc.data());
-    });
+function editingP(editBtn, optionSetingsPost, textArea) {
+    for (let i = 0; i < editBtn.length; i++) {
+        editBtn[i].addEventListener('click', async ({ target: { dataset } }) => {
+            backgroundModal.style.display = 'flex';
+            const doc = await gettingPost(dataset.id);
+            const post = doc.data();
+            textArea.value = post.newpost;
+            editingPost = true;
+            id = dataset.id;
+            btnPost.innerText = 'Guardar';
+            modalTitle.innerText = 'Editar Publicación';
+            optionSetingsPost[i].style.display = 'none';
+            //console.log(doc.data());
+        });
+    }
+    cerrarModalPost.addEventListener('click', () => {
+        backgroundModal.style.display = 'none';
+        textArea.innerHTML = '';
+    })
 }
-cerrarModalPost.addEventListener('click', ()=> {
-    backgroundModal.style.display = 'none';
-    textArea.innerHTML = '';
-})
+
+function likeCounter(likeAction, likeNumber) {
+    let arrayCounter = [];
+    for (let i = 0; i < likeAction.length; i++) {
+        arrayCounter.push(' ');
+    }
+    // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
+    for (let i = 0; i < likeAction.length; i++) {
+        let counter = 0;
+        likeAction[i].addEventListener('click', () => {
+            counter++;
+            arrayCounter[i] = counter;
+            likeNumber[i].innerHTML = counter;
+        });
+    };
 }
