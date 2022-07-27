@@ -3,8 +3,9 @@ import { savePost,
         onGetPost, 
         deletePost,
          gettingPost, 
-         editPost} from '../firebase/baseDatos.js';
-import { imageUrl } from '../firebase/storage.js';
+         editPost,
+        } from '../firebase/baseDatos.js';
+import { imageUrl, localStorgelike, likespostU } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
 // import { likeCounter } from '../lib/index.js';
 
