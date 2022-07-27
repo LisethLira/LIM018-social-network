@@ -616,7 +616,7 @@ color:#DC7A5D;
     display: flex;
     align-items: center;
     height: auto;
-    padding: 30px 10px;
+    padding: 10px 10px;
 }
 
 .likeComment{
@@ -677,6 +677,11 @@ color:#DC7A5D;
     background:#FFF3E7;
     padding: 0px 11px;
     height: 30px;
+}
+
+.imagePost{
+    width: 270px;
+    margin:15px auto;
 }
 
 /* .optionSetingsPost{
@@ -850,5 +855,9 @@ color:#DC7A5D;
     .modalDeletePost{    
     width: 500px;
     }
+
+    .imagePost{
+        width: 400px;
+     }
 }
 

@@ -1,4 +1,5 @@
-import { loginGoogle, loginUser } from '../firebaseConfig.js';
+import { loginGoogle, loginUser } from '../firebase/firebaseAuth.js';
+import { getUserById } from '../firebase/baseDatos.js';
 
 export default () => {
   const viewLogin = `<header class="nameLogo">
@@ -56,7 +57,14 @@ export const loginActive = (idElementoForm) => {
     loginUser(email, password)
       .then((userCredential) => {
       // Signed in
-        const user = userCredential.user;
+      const user = userCredential.user;
+      const uid = user.uid;
+      getUserById(uid, 'users').then((userData) => {
+        const data = userData;
+        data.id = uid;
+        localStorage.setItem('USER', JSON.stringify(userData));
+      });
+
         console.log(email, password);
         window.location.href = '#/home';
       // ...
@@ -69,23 +77,19 @@ export const loginActive = (idElementoForm) => {
         const warningText = document.getElementById('warningTextLogin');
         const errorMessage1='Firebase: Error (auth/user-not-found).';
         const errorMessage2= 'Firebase: Error (auth/wrong-password).';
-        let banderita = true;
         if (errorMessage === errorMessage1) {
-          banderita= true;
           warning.style.display='flex';
           cerrar.style.display='flex';
           warningText.innerText='Usuario no registrado. Registrate';
         }
         
         if(errorMessage === errorMessage2){
-          banderita=true;
           warning.style.display='flex';
           cerrar.style.display='flex';
           warningText.innerText='Contraseña incorrecta';
         }
 
         if(errorMessage === 'Firebase: Error (auth/email-already-in-use).'){
-          banderita=true;
           warning.style.display='flex';
           cerrar.style.display='flex';
           warningText.innerText='El correo ya está en uso';
@@ -100,7 +104,6 @@ export const loginActive = (idElementoForm) => {
           warning.style.display='none';
         });
 
-        
         // {alert(error)}
         idForm.reset();
       });

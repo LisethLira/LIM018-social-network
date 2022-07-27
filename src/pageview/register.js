@@ -1,4 +1,5 @@
-import { createUser, createUserRegisterDB, loginGoogle } from '../firebaseConfig.js';
+import { createUser, loginGoogle } from '../firebase/firebaseAuth.js';
+import { createUserRegisterDB, getUserById } from '../firebase/baseDatos.js';
 
 export default () => {
   const viewRegister = `<header class="nameLogo">
@@ -64,20 +65,32 @@ export const registerActive = (idElementoForm) => {
     const emailRegister = document.getElementById('emailRegister').value;
     const passwordRegister = document.getElementById('passwordRegister').value;
     const passwordRepeatRegister = document.getElementById('passwordRepeatRegister').value;
-    const warning= document.getElementById('warning');
-    const cerrar= document.getElementById('cerrar');
+
+    const warning = document.getElementById('warning');
+    const cerrar = document.getElementById('cerrar');
     const warningText = document.getElementById('warningText');
+
     if (passwordRepeatRegister !== passwordRegister) {
       warning.style.display='flex';
       cerrar.style.display='flex';
       warningText.innerText='No es la misma contraseña';
-      idForm.reset()
+      cerrar.addEventListener('click', ()=>{
+        warning.style.display='none';
+      });
+      idForm.reset();
     }
+    else{
     // aqui se puede colocar el método del firebase
     createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        const uid = user.uid;
+        getUserById(uid, 'users').then((userData) => {
+          const data = userData;
+          data.id = uid;
+          localStorage.setItem('USER', JSON.stringify(userData));
+        });
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
         console.log(userName, emailRegister, passwordRegister, 'Registrado');
         window.location.href = '#/home';
@@ -85,9 +98,6 @@ export const registerActive = (idElementoForm) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        const warning= document.getElementById('warning');
-        const cerrar= document.getElementById('cerrar');
-        const warningText = document.getElementById('warningText');
         if (errorMessage === 'Firebase: Password should be at least 6 characters (auth/weak-password).') {
           warning.style.display='flex';
           cerrar.style.display='flex';
@@ -113,6 +123,7 @@ export const registerActive = (idElementoForm) => {
         idForm.reset();
       // ..
       });
+    }
   });
 };
 
