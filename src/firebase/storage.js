@@ -12,8 +12,3 @@ export const imageUrl = async(urlImg, file) => {
     return urlReturn;
 }
 
-export const localStoragelike = () => {
-    const userInfo = localStorage.getItem('nameUser');
-    const userObject = JSON.parse(userInfo);
-    return userObject;
-}

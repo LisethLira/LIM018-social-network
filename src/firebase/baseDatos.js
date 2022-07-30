@@ -24,7 +24,7 @@ export const createUserRegisterDB = (uid, name, email, password) => {
     });
 };
 
-export const savePost = async (nameUser, fecha, newpost, uid, image) => {
+export const savePost = async (nameUser, fecha, newpost, uid, like, image) => {
     try {
         if (image) {
             const cratePost = await addDoc(collection(db, 'posts'), {
@@ -32,6 +32,7 @@ export const savePost = async (nameUser, fecha, newpost, uid, image) => {
                 fecha,
                 newpost,
                 uid,
+                like,
                 image
             });
         } else {
@@ -40,6 +41,7 @@ export const savePost = async (nameUser, fecha, newpost, uid, image) => {
                 fecha,
                 newpost,
                 uid,
+                like,
             });
         }
 
@@ -76,4 +78,8 @@ export const deletePost = id => deleteDoc(doc(db, 'posts', id));
 
 export const gettingPost = id => getDoc(doc(db, 'posts', id));
 
+export const gettingPostLike = id => getDoc(doc(db, 'posts', id));
+
 export const editPost = (id, changePost) => updateDoc(doc(db, 'posts', id), { "newpost": changePost });
+
+export const addLike = (id, changePost) => updateDoc(doc(db, 'posts', id), { "like": changePost });
