@@ -5,9 +5,11 @@ import {
     onGetPost,
     deletePost,
     gettingPost,
-    editPost
+    editPost,
+    addLike,
+    gettingPostLike,
 } from '../firebase/baseDatos.js';
-import { gimageUrl } from '../firebase/storage.js';
+import { imageUrl } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
 // import { likeCounter } from '../lib/index.js';
 
@@ -140,6 +142,7 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
     const userObject = localStorageCall();
     const uid = userObject.id;
     const nameUser = userObject.name;
+    let like = {};
 
     btnModalPost.addEventListener('click', () => {
         backgroundModal.style.display = 'flex';
@@ -172,9 +175,9 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
             else {
                 textEmptyModal.innerHTML = '';
                 console.log(imagen);
-                savePost(nameUser, fecha, newpost, uid, imagen);
+                savePost(nameUser, fecha, newpost, uid, like, imagen);
+                
                 backgroundModal.style.display = 'none';
-
             }
         } else {
             editPost(id, newpost);
@@ -195,16 +198,16 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
 };
 
 
-
 export const getP = async (idpostContainer, idAddPost) => {
     const textArea = document.getElementById(idAddPost);
     const postContainer = document.getElementById(idpostContainer);
     onGetPost((dataPost) => {
-        postContainer.innerHTML = '';
-        dataPost.forEach((doc) => {
+       postContainer.innerHTML = '';
+       dataPost.forEach((doc) => {
             const dataNewPost = doc.data();
             const dataUid = doc.data().uid;
-            postContainer.innerHTML += `
+            if (dataNewPost.image) {
+                postContainer.innerHTML += `
             <div class="postComplete">
                 <div class="userNameDots">
                     <label class="userNamePost">${dataNewPost.nameUser}</label>
@@ -220,24 +223,52 @@ export const getP = async (idpostContainer, idAddPost) => {
                 <label class="postDescription">
                     ${dataNewPost.newpost}
                 </label> 
-                <img class="imagePost" id="image-${dataUid}">
+                <img class="imagePost" src="${dataNewPost.image}">
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
-                            <img class="likeIcon" src="image/likeHeart.png">
+                            <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
                         </button>
-                        <label id="likeNumber" class="likeNumber">N°</label>
+                        <label id="likeNumber" class="likeNumber">${dataNewPost.like}</label>
                     </div>
                     <div class= "btnCommentContainer">
                     <button class="btnComment">Comentar</button>
                     </div>
                 </div>
             </div>`
-            console.log(dataNewPost.newpost, document.getElementById(`image-${dataUid}`));
-            document.getElementById(`image-${dataUid}`).src = dataNewPost.image;
-        
-        })
+            } else {
 
+                postContainer.innerHTML += `
+            <div class="postComplete">
+                <div class="userNameDots">
+                    <label class="userNamePost">${dataNewPost.nameUser}</label>
+                    <div class="dotsEditDelete">
+                        <img id="elementDots" class="dots" src="image/tresPuntos.png">
+                    </div>
+                </div>
+                <div class="optionSetingsPost optionSetingsPostStyle">
+                        <label class="editBtn editBtnStyle" data-id="${doc.id}">Editar</label>
+                        <label class="deleteBtn deleteBtnStyle" data-id="${doc.id}">Eliminar</label>
+                </div>
+                <label class="date">${dataNewPost.fecha}</label>
+                <label class="postDescription">
+                    ${dataNewPost.newpost}
+                </label>
+                <div class="likeComment">
+                    <div class="likeContainer">
+                        <button class= "likeBtn" type="button">
+                            <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
+                        </button>
+                        <label id="likeNumber" class="likeNumber">${dataNewPost.like}</label>
+                    </div>
+                    <div class= "btnCommentContainer">
+                    <button class="btnComment">Comentar</button>
+                    </div>
+                </div>
+            </div>`
+
+            }
+        })
         const dots = document.querySelectorAll('.dots');
         const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
 
@@ -249,7 +280,27 @@ export const getP = async (idpostContainer, idAddPost) => {
 
         const likeAction = document.querySelectorAll('.likeBtn');
         const likeNumber = document.querySelectorAll('.likeNumber');
-        likeCounter(likeAction, likeNumber);
+        //likeCounter(likeAction, likeNumber);
+        
+        for(let i= 0; i < likeAction.length; i++) {
+            //console.log(likeAction[i]);
+            likeAction[i].addEventListener('click', async ({ target: { dataset } }) =>{
+                 const doc = await gettingPostLike(dataset.id);
+                 const post = doc.data();
+                const userObject = localStorageCall();
+                const uidLike = userObject.id;
+                id = dataset.id;
+                 let likeobject=post.like;
+                 let array=Object.keys(likeobject);
+                 let num= array.length;
+                 likeobject[num]=uidLike;
+                 addLike(id, likeobject);
+                 //likeobject.x='usuario1';
+                 //likeobject.i='usuario2';
+                 console.log(likeobject);
+             });
+            
+        }
     });
 }
 
@@ -313,6 +364,7 @@ function editingP(editBtn, optionSetingsPost, textArea) {
             btnPost.innerText = 'Guardar';
             modalTitle.innerText = 'Editar Publicación';
             optionSetingsPost[i].style.display = 'none';
+            console.log(post);
             //console.log(doc.data());
         });
     }
@@ -322,7 +374,7 @@ function editingP(editBtn, optionSetingsPost, textArea) {
     })
 }
 
-function likeCounter(likeAction, likeNumber) {
+/*function likeCounter(likeAction, likeNumber) {
     let arrayCounter = [];
     for (let i = 0; i < likeAction.length; i++) {
         arrayCounter.push(' ');
@@ -336,4 +388,4 @@ function likeCounter(likeAction, likeNumber) {
             likeNumber[i].innerHTML = counter;
         });
     };
-}
+}*/
