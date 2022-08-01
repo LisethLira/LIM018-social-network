@@ -140,14 +140,11 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
     const btnImgFile = document.getElementById(idBtnImgFile);
     const userNamePost = document.getElementById("userNamePost");
     backgroundModal.style.display = 'none';
-<<<<<<< HEAD
     const userObject = localStorageCall();
     const uid = userObject.id;
     const nameUser = userObject.name;
     let like = {};
 
-=======
->>>>>>> 016ed1b9ec64e006a2f9e1881b08f8fed20dd056
     btnModalPost.addEventListener('click', () => {
         backgroundModal.style.display = 'flex';
         btnPost.innerText = 'Publicar';
@@ -158,12 +155,6 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', async (e) => {
         e.preventDefault();
-<<<<<<< HEAD
-=======
-        const auth = getAuth();
-        const user = auth.currentUser;
-        const uid = user.uid;
->>>>>>> 016ed1b9ec64e006a2f9e1881b08f8fed20dd056
         const fecha = new Date().toDateString();
         const fileImage = btnImgFile;
         console.log(fileImage);
