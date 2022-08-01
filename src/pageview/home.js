@@ -1,9 +1,8 @@
-import { signOutUser,
-    savePost, getPost, getUser, onGetPost, deletePost, gettingPost, editPost } from '../firebaseConfig.js';
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
+import {
+    signOutUser,
+    savePost, getPost, getUser, onGetPost, deletePost, gettingPost, editPost
+} from '../firebaseConfig.js';
 import { imageUrl } from '../storage.js';
-// import { likeCounter } from '../lib/index.js';
 
 export default () => {
     const viewHome = `<section class= "sectionHome">
@@ -101,6 +100,7 @@ export default () => {
     return divElem;
 };
 
+// FUMCIÓN CERRAR SESIÓN
 export const SignOutActive = (idElementSignOut) => {
     const idBtnSignOut = document.getElementById(idElementSignOut);
     idBtnSignOut.addEventListener('click', () => {
@@ -118,101 +118,90 @@ export const SignOutActive = (idElementSignOut) => {
     });
 };
 
+//FUNCIÓN GUARDADO DE DATOS PARA POST
 let editingPost = false;
 let id = '';
 export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost, idBtnPost, idModalTitle, idTextEmptyModal, idBtnImgFile) => {
     const btnModalPost = document.getElementById(idBtnModalPost);
     const backgroundModal = document.getElementById(idBackgroundModal);
-    const cerrarModalPost = document.getElementById (idCerrarModalPost);
-    const btnPost = document.getElementById (idBtnPost);
-    const modalTitle = document.getElementById (idModalTitle);
+    const cerrarModalPost = document.getElementById(idCerrarModalPost);
+    const btnPost = document.getElementById(idBtnPost);
+    const modalTitle = document.getElementById(idModalTitle);
     const textEmptyModal = document.getElementById(idTextEmptyModal);
     const btnImgFile = document.getElementById(idBtnImgFile);
     backgroundModal.style.display = 'none';
-    btnModalPost.addEventListener('click', ()=>{
+    btnModalPost.addEventListener('click', () => {
         backgroundModal.style.display = 'flex';
         btnPost.innerText = 'Publicar';
         modalTitle.innerText = 'Crear Publicación';
     })
 
-    // btnPost.disabled = false;
     const PostH = document.getElementById(formPost);
     PostH.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const uid = user.uid;
-      const fecha = new Date().toDateString();
-      const fileImage = btnImgFile;  
-      console.log(fileImage);
-      const newpost = document.getElementById(idPost).value;
-      let imagen;
-      let arrayId = [];
+        e.preventDefault();
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const uid = user.uid;
+        const fecha = new Date().toDateString();
+        const fileImage = btnImgFile;
+        console.log(fileImage);
+        const newpost = document.getElementById(idPost).value;
+        let imagen;
+        let arrayId = [];
 
-      if(fileImage){
-        const urlImage = fileImage.files[0].name;
-        const nameFile = fileImage.files[0];
+        if (fileImage) {
+            const urlImage = fileImage.files[0].name;
+            const nameFile = fileImage.files[0];
 
-        imagen = await imageUrl (urlImage,nameFile);
-        console.log(imagen);
-    }
-      
-     const response = await getUser()
-    response.forEach((doc) => {
-                const arrayDocsId = doc.id;
-                const arrayDocsData = doc.data();
-                arrayId.push({
-                    id: arrayDocsId,
-                    name : arrayDocsData.name
-                })
-    });
+            imagen = await imageUrl(urlImage, nameFile);
+            console.log(imagen);
+        }
+        else {
+            imagen = '';
+        }
+
+        const response = await getUser()
+        response.forEach((doc) => {
+            const arrayDocsId = doc.id;
+            const arrayDocsData = doc.data();
+            arrayId.push({
+                id: arrayDocsId,
+                name: arrayDocsData.name
+            })
+        });
         let pruebaName;
         for (let i = 0; i < arrayId.length; i++) {
             if (uid == arrayId[i].id) {
                 pruebaName = arrayId[i].name
-            }    
+            }
         }
         console.log(pruebaName);
-        const nameUser=pruebaName;
+        const nameUser = pruebaName;
 
-    if (!editingPost){
-        if(newpost.length === 0){
-            //     containerEmpty.innerHTML = `<div class="backgroundModal" id="backgroundModalEmpty">
-        //     <div id="warningEmpty" class="modalDeletePost">
-        //         <button type="button" class="cerrar" id="cerrarModalEmpty">X</button>
-        //         <img class="gatitoWarning" src="image/gatoTriste.png">
-        //         <p class="modalTitleDelete" id="warningTextLogin">Agrega contenido a tu publicación</p>
-        //     </div>
-        // </div>`
-        // btnPost.disabled = true;
-        // backgroundModal.style.display = 'flex';
-        textEmptyModal.innerText ='Publicación vacía, agrega contenido a tu publicación';
+        if (!editingPost) {
+            if (newpost.length === 0) {
+                textEmptyModal.innerText = 'Publicación vacía, agrega contenido a tu publicación';
+            }
+            else {
+                textEmptyModal.innerHTML = '';
+                console.log(imagen);
+                savePost(nameUser, fecha, newpost, uid, imagen);
+                backgroundModal.style.display = 'none';
+
+            }
+        } else {
+            editPost(id, newpost);
         }
-        else{
-            textEmptyModal.innerHTML='';
-            console.log(imagen);
-            savePost(nameUser, fecha, newpost, uid, imagen);
-            backgroundModal.style.display = 'none';
-            
-        }
-    }else {
-        editPost(id, newpost);
-    }
-    // const cerrarModalEmpty = document.getElementById('cerrarModalEmpty');
-    // cerrarModalEmpty.addEventListener('click', ()=>{
-    //     containerEmpty.innerHTML = '';
-    // })
-    
-    editingPost = false;
-      PostH.reset();
-    //   backgroundModal.style.display = 'none';
+
+        editingPost = false;
+        PostH.reset();
 
     });
 
-    cerrarModalPost.addEventListener('click', ()=> {
+    cerrarModalPost.addEventListener('click', () => {
         backgroundModal.style.display = 'none';
         PostH.reset();
-        textEmptyModal.innerHTML='';
+        textEmptyModal.innerHTML = '';
     })
 
 };
@@ -224,7 +213,7 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
     const postContainer = document.getElementById(idpostContainer);
     const containerDelete = document.getElementById(idContainerDelete);
     // const dataPost = await getPost();
-    onGetPost((dataPost) =>{
+    onGetPost((dataPost) => {
         postContainer.innerHTML = '';
         dataPost.forEach((doc) => {
             //console.log(doc.data());
@@ -250,9 +239,9 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
-                            <img class="likeIcon" src="image/likeHeart.png">
+                            <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
                         </button>
-                        <label id="likeNumber" class="likeNumber">N°</label>
+                        <label id="likeNumber" class="likeNumber"></label>
                     </div>
                     <div class= "btnCommentContainer">
                     <button class="btnComment">Comentar</button>
@@ -260,24 +249,25 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 </div>
             </div>`
         })
-    
+
         const dots = document.querySelectorAll('.dots');
         const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
-        for(let i=0; i<dots.length; i++){
+        for (let i = 0; i < dots.length; i++) {
             optionSetingsPost[i].style.display = 'none';
             dots[i].addEventListener('click', () => {
-                
-                if(optionSetingsPost[i].style.display === 'none'){
+
+                if (optionSetingsPost[i].style.display === 'none') {
                     optionSetingsPost[i].style.display = 'flex';
                 }
-                 else{ optionSetingsPost[i].style.display = 'none';
+                else {
+                    optionSetingsPost[i].style.display = 'none';
                 }
             });
         }
 
         const deleteBtn = document.querySelectorAll('.deleteBtn');
-        for(let i=0; i<deleteBtn.length; i++){
-            deleteBtn[i].addEventListener('click', ({target : {dataset}}) => {
+        for (let i = 0; i < deleteBtn.length; i++) {
+            deleteBtn[i].addEventListener('click', ({ target: { dataset } }) => {
                 containerDelete.innerHTML = ` <div class="backgroundModal" id="backgroundModalDelete">
                 <div id="warningPostDelete" class="modalDeletePost">
                 <button type="button" class="cerrarModalPost" id="cerrarDelete">X</button>
@@ -289,31 +279,31 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
               </div>
               </div>
                 `
-            const deletePostModal = document.getElementById('deletePostModal');
-            deletePostModal.addEventListener('click', ()=>{
-                deletePost(dataset.id);
-                containerDelete.innerHTML = '';
-            })
-            const deleteCancel = document.getElementById('deleteCancel');
-            deleteCancel.addEventListener('click', ()=>{
-                containerDelete.innerHTML = '';
-            })  
-            
-            const cerrarDelete = document.getElementById('cerrarDelete');
-            cerrarDelete.addEventListener('click', ()=>{
-                containerDelete.innerHTML = '';
-            })  
-            optionSetingsPost[i].style.display = 'none';
+                const deletePostModal = document.getElementById('deletePostModal');
+                deletePostModal.addEventListener('click', () => {
+                    deletePost(dataset.id);
+                    containerDelete.innerHTML = '';
+                })
+                const deleteCancel = document.getElementById('deleteCancel');
+                deleteCancel.addEventListener('click', () => {
+                    containerDelete.innerHTML = '';
+                })
+
+                const cerrarDelete = document.getElementById('cerrarDelete');
+                cerrarDelete.addEventListener('click', () => {
+                    containerDelete.innerHTML = '';
+                })
+                optionSetingsPost[i].style.display = 'none';
             });
         }
 
         const editBtn = document.querySelectorAll('.editBtn');
         const btnPost = document.getElementById(idbtnPost);
         const backgroundModal = document.getElementById(idBackgroundModal);
-        const cerrarModalPost = document.getElementById (idCerrarModalPost);
+        const cerrarModalPost = document.getElementById(idCerrarModalPost);
         const modalTitle = document.getElementById(idModalTitle);
-        for(let i=0; i<editBtn.length; i++){
-            editBtn[i].addEventListener('click', async ({target : {dataset}}) => {
+        for (let i = 0; i < editBtn.length; i++) {
+            editBtn[i].addEventListener('click', async ({ target: { dataset } }) => {
                 backgroundModal.style.display = 'flex';
                 const doc = await gettingPost(dataset.id);
                 const post = doc.data();
@@ -322,25 +312,25 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 id = dataset.id;
                 btnPost.innerText = 'Guardar';
                 modalTitle.innerText = 'Editar Publicación';
-                optionSetingsPost[i].style.display = 'none';       
-            //console.log(doc.data());
+                optionSetingsPost[i].style.display = 'none';
+                //console.log(doc.data());
             });
         }
-        cerrarModalPost.addEventListener('click', ()=> {
+        cerrarModalPost.addEventListener('click', () => {
             backgroundModal.style.display = 'none';
             textArea.innerHTML = '';
         })
 
-        //cuando se cree el post debemos crear un elemento contador de likes con el valor de 0 para que alli podamos editar y guardar el contador
+        //cuando se cree el post debemos crear un elemento contador addde likes con el valor de 0 para que alli podamos editar y guardar el contador
         const likeAction = document.querySelectorAll('.likeBtn');
         const likeNumber = document.querySelectorAll('.likeNumber');
         // este array lo debemos sacar del doc.data.contadordelikes
         let arrayCounter = [];
-        for(let i=0; i<likeAction.length; i++){
+        for (let i = 0; i < likeAction.length; i++) {
             arrayCounter.push(' ');
         }
         // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
-        for(let i=0; i<likeAction.length; i++){
+        for (let i = 0; i < likeAction.length; i++) {
             let counter = 0;
             likeAction[i].addEventListener('click', () => {
                 counter++;
@@ -348,6 +338,6 @@ export const getP = async (idpostContainer, idAddPost, idbtnPost, idBackgroundMo
                 likeNumber[i].innerHTML = counter;
             });
         };
-    
+
     });
 }
