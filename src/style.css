@@ -710,6 +710,10 @@ color:#DC7A5D;
         cursor: pointer;
     }
     
+.imagePost{
+        width: 401px;
+        margin:15px auto;
+}
 
 @media only screen and (min-width: 676px){
 

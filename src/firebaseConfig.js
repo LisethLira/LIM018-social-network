@@ -111,7 +111,7 @@ onAuthStateChanged(auth, (user) => {
 
 export const savePost = async(nameUser, fecha, newpost, uid, image) => {
   try {
-    const cratePost = await addDoc(collection(db, 'posts'), {
+    const createPost = await addDoc(collection(db, 'posts'), {
     nameUser,
     fecha,
     newpost,
