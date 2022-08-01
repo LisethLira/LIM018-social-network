@@ -206,6 +206,13 @@ export const getP = async (idpostContainer, idAddPost) => {
        dataPost.forEach((doc) => {
             const dataNewPost = doc.data();
             const dataUid = doc.data().uid;
+            const like = dataNewPost.like;
+            let ultimoLike = 0;
+            if (like){
+                let arrayLikes = Object.keys(like);
+                ultimoLike = arrayLikes.length + 1;
+            }
+
             if (dataNewPost.image) {
                 postContainer.innerHTML += `
             <div class="postComplete">
@@ -229,7 +236,7 @@ export const getP = async (idpostContainer, idAddPost) => {
                         <button class= "likeBtn">
                             <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
                         </button>
-                        <label id="likeNumber" class="likeNumber">${dataNewPost.like}</label>
+                        <label id="likeNumber" class="likeNumber">${ultimoLike}</label>
                     </div>
                     <div class= "btnCommentContainer">
                     <button class="btnComment">Comentar</button>
@@ -259,7 +266,7 @@ export const getP = async (idpostContainer, idAddPost) => {
                         <button class= "likeBtn" type="button">
                             <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
                         </button>
-                        <label id="likeNumber" class="likeNumber">${dataNewPost.like}</label>
+                        <label id="likeNumber" class="likeNumber">${ultimoLike}</label>
                     </div>
                     <div class= "btnCommentContainer">
                     <button class="btnComment">Comentar</button>
@@ -289,12 +296,26 @@ export const getP = async (idpostContainer, idAddPost) => {
                  const post = doc.data();
                 const userObject = localStorageCall();
                 const uidLike = userObject.id;
+                console.log(uidLike);
                 id = dataset.id;
                  let likeobject=post.like;
                  let array=Object.keys(likeobject);
                  let num= array.length;
                  likeobject[num]=uidLike;
-                 addLike(id, likeobject);
+                 let arrayid = Object.values(likeobject);
+                 console.log(arrayid);
+                 let contador = 0;
+                 for (let i=0; i<arrayid.length; i++){
+                    if (arrayid[i] == uidLike.toString()){
+                        contador += 1
+                    }
+                 }
+
+                 if (contador==0){
+                    addLike(id, likeobject);
+                 }
+                 console.log(contador);
+                 //addLike(id, likeobject);
                  //likeobject.x='usuario1';
                  //likeobject.i='usuario2';
                  console.log(likeobject);
