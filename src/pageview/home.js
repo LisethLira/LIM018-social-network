@@ -210,7 +210,7 @@ export const getP = async (idpostContainer, idAddPost) => {
             let ultimoLike = 0;
             if (like){
                 let arrayLikes = Object.keys(like);
-                ultimoLike = arrayLikes.length + 1;
+                ultimoLike = arrayLikes.length;
             }
 
             if (dataNewPost.image) {
@@ -298,34 +298,30 @@ export const getP = async (idpostContainer, idAddPost) => {
                 const uidLike = userObject.id;
                 console.log(uidLike);
                 id = dataset.id;
-                 let likeobject=post.like;
-                 let array=Object.keys(likeobject);
-                 let num= array.length;
-                 likeobject[num]=uidLike;
-                 let arrayid = Object.values(likeobject);
-                 console.log(arrayid);
-                 let contador = 0;
-                 for (let i=0; i<arrayid.length; i++){
-                    if (arrayid[i] == uidLike.toString()){
-                        contador += 1
+                let likeobject = post.like;
+                let array = Object.keys(likeobject);
+                let num = array.length;
+                let arrayid = Object.values(likeobject);
+                let contador = 0;
+                for (let i = 0; i < arrayid.length; i++) {
+                    if (arrayid[i] == uidLike.toString()) {
+                        console.log("ya le diste");
+                        contador += 1;
                     }
-                 }
+                }
+                if (contador == 0) {
+                    likeobject[num] = uidLike;
+                }
 
-                 if (contador==0){
-                    addLike(id, likeobject);
-                 }
-                 console.log(contador);
-                 //addLike(id, likeobject);
-                 //likeobject.x='usuario1';
-                 //likeobject.i='usuario2';
-                 console.log(likeobject);
-             });
-            
+                addLike(id, likeobject);
+                console.log(likeobject);
+            });
+
         }
     });
 }
 
-
+            
 
 
 function deletingPost(dots, optionSetingsPost, deleteBtn) {
