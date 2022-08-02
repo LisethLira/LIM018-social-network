@@ -210,7 +210,7 @@ export const getP = async (idpostContainer, idAddPost) => {
             let ultimoLike = 0;
             if (like){
                 let arrayLikes = Object.keys(like);
-                ultimoLike = arrayLikes.length + 1;
+                ultimoLike = arrayLikes.length;
             }
 
             if (dataNewPost.image) {
@@ -301,23 +301,24 @@ export const getP = async (idpostContainer, idAddPost) => {
                  let likeobject=post.like;
                  let array=Object.keys(likeobject);
                  let num= array.length;
-                 likeobject[num]=uidLike;
                  let arrayid = Object.values(likeobject);
-                 console.log(arrayid);
-                 let contador = 0;
+                 let contador = false;
+                 let uidLikeString = uidLike.toString();
                  for (let i=0; i<arrayid.length; i++){
-                    if (arrayid[i] == uidLike.toString()){
-                        contador += 1
+                    if (arrayid[i] == uidLikeString){
+                        console.log("ya le diste like");
+                        let newNum = getKeyByValue(likeobject, uidLikeString);
+                        console.log(likeobject[newNum]);
+                        delete likeobject[newNum];
+                        contador = true;
                     }
                  }
 
-                 if (contador==0){
-                    addLike(id, likeobject);
-                 }
-                 console.log(contador);
-                 //addLike(id, likeobject);
-                 //likeobject.x='usuario1';
-                 //likeobject.i='usuario2';
+                 if(contador == false){
+                    likeobject[num]=uidLike;
+                }
+
+                 addLike(id, likeobject);
                  console.log(likeobject);
              });
             
@@ -325,7 +326,9 @@ export const getP = async (idpostContainer, idAddPost) => {
     });
 }
 
-
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
 
 
 function deletingPost(dots, optionSetingsPost, deleteBtn) {
@@ -394,19 +397,3 @@ function editingP(editBtn, optionSetingsPost, textArea) {
         textArea.innerHTML = '';
     })
 }
-
-/*function likeCounter(likeAction, likeNumber) {
-    let arrayCounter = [];
-    for (let i = 0; i < likeAction.length; i++) {
-        arrayCounter.push(' ');
-    }
-    // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
-    for (let i = 0; i < likeAction.length; i++) {
-        let counter = 0;
-        likeAction[i].addEventListener('click', () => {
-            counter++;
-            arrayCounter[i] = counter;
-            likeNumber[i].innerHTML = counter;
-        });
-    };
-}*/
