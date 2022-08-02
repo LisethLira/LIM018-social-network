@@ -289,11 +289,11 @@ export const getP = async (idpostContainer, idAddPost) => {
         const likeNumber = document.querySelectorAll('.likeNumber');
         //likeCounter(likeAction, likeNumber);
         
-        for(let i= 0; i < likeAction.length; i++) {
+        for (let i = 0; i < likeAction.length; i++) {
             //console.log(likeAction[i]);
-            likeAction[i].addEventListener('click', async ({ target: { dataset } }) =>{
-                 const doc = await gettingPostLike(dataset.id);
-                 const post = doc.data();
+            likeAction[i].addEventListener('click', async ({ target: { dataset } }) => {
+                const doc = await gettingPostLike(dataset.id);
+                const post = doc.data();
                 const userObject = localStorageCall();
                 const uidLike = userObject.id;
                 console.log(uidLike);
@@ -302,14 +302,19 @@ export const getP = async (idpostContainer, idAddPost) => {
                 let array = Object.keys(likeobject);
                 let num = array.length;
                 let arrayid = Object.values(likeobject);
-                let contador = 0;
+                let contador = false;
+                let uidLikeString = uidLike.toString();
                 for (let i = 0; i < arrayid.length; i++) {
-                    if (arrayid[i] == uidLike.toString()) {
-                        console.log("ya le diste");
-                        contador += 1;
+                    if (arrayid[i] == uidLikeString) {
+                        console.log("ya le diste like");
+                        let newNum = getKeyByValue(likeobject, uidLikeString);
+                        console.log(likeobject[newNum]);
+                        delete likeobject[newNum];
+                        contador = true;
                     }
                 }
-                if (contador == 0) {
+
+                if (contador == false) {
                     likeobject[num] = uidLike;
                 }
 
@@ -321,8 +326,9 @@ export const getP = async (idpostContainer, idAddPost) => {
     });
 }
 
-            
-
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
 
 function deletingPost(dots, optionSetingsPost, deleteBtn) {
     for (let i = 0; i < dots.length; i++) {
@@ -390,19 +396,3 @@ function editingP(editBtn, optionSetingsPost, textArea) {
         textArea.innerHTML = '';
     })
 }
-
-/*function likeCounter(likeAction, likeNumber) {
-    let arrayCounter = [];
-    for (let i = 0; i < likeAction.length; i++) {
-        arrayCounter.push(' ');
-    }
-    // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
-    for (let i = 0; i < likeAction.length; i++) {
-        let counter = 0;
-        likeAction[i].addEventListener('click', () => {
-            counter++;
-            arrayCounter[i] = counter;
-            likeNumber[i].innerHTML = counter;
-        });
-    };
-}*/
