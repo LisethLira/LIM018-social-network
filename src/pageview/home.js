@@ -13,6 +13,7 @@ import { imageUrl } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
 // import { likeCounter } from '../lib/index.js';
 
+
 export default () => {
     const viewHome = `<section class= "sectionHome">
     <header class= "headerHome">
