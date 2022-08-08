@@ -1,4 +1,4 @@
-import { createUser, loginGoogle } from '../firebase/firebaseAuth.js';
+import { createUser, loginGoogle, emailVefirication } from '../firebase/firebaseAuth.js';
 import { createUserRegisterDB, getUserById } from '../firebase/baseDatos.js';
 
 export default () => {
@@ -83,17 +83,25 @@ export const registerActive = (idElementoForm) => {
     // aqui se puede colocar el método del firebase
     createUser(emailRegister, passwordRegister)
       .then((userCredential) => {
+        emailVefirication()
+        .then(() => {
+          // Email verification sent
+          console.log('se envió correo de verificación');
+        });
         // Signed in
         const user = userCredential.user;
         const uid = user.uid;
-        getUserById(uid, 'users').then((userData) => {
-          const data = userData;
-          data.id = uid;
-          localStorage.setItem('USER', JSON.stringify(userData));
-        });
         createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
         console.log(userName, emailRegister, passwordRegister, 'Registrado');
-        window.location.href = '#/home';
+        window.location.href = '#/login';
+        warning.style.display='flex';
+        cerrar.style.display='flex';
+        warningText.innerText='Revisa tu correo para validar tu cuenta';
+        cerrar.addEventListener('click', ()=>{
+          warning.style.display='none';
+        });
+       
+        // window.location.href = '#/home';
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -103,20 +111,17 @@ export const registerActive = (idElementoForm) => {
           cerrar.style.display='flex';
           warningText.innerText='La contraseña debe tener mínimo 6 carácteres';
         }
-        
         if(errorMessage === 'Firebase: Error (auth/invalid-email).'){
           warning.style.display='flex';
           cerrar.style.display='flex';
           warningText.innerText='Correo invalido. Revisa tu correo';
         }
-
         if(errorMessage === 'Firebase: Error (auth/email-already-in-use).'){
           warning.style.display='flex';
           cerrar.style.display='flex';
           warningText.innerText='El correo ya está en uso';
         }
         // else {alert(error);}
-
         cerrar.addEventListener('click', ()=>{
           warning.style.display='none';
         });

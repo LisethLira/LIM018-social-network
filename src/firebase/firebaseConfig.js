@@ -9,6 +9,7 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
+  sendEmailVerification,
 } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-auth.js';
 
 import { getFirestore, 
@@ -73,6 +74,7 @@ export {
   signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
+  sendEmailVerification,
 };
 
 export { getFirestore, 

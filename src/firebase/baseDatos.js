@@ -83,3 +83,5 @@ export const gettingPostLike = id => getDoc(doc(db, 'posts', id));
 export const editPost = (id, changePost) => updateDoc(doc(db, 'posts', id), { "newpost": changePost });
 
 export const addLike = (id, changePost) => updateDoc(doc(db, 'posts', id), { "like": changePost });
+
+// export const editImage = (id, changePost) => updateDoc(doc(db, 'posts', id), { "image": changePost });
