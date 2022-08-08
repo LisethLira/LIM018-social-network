@@ -5,12 +5,16 @@ import {
     signInWithPopup,
     signOut,
     onAuthStateChanged, 
-    auth, } from './firebaseConfig.js';
+    auth,
+    sendEmailVerification, 
+  } from './firebaseConfig.js';
     
 // FUNCIÓN REGISTER
 export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password)
 
 const provider = new GoogleAuthProvider();
+
+export const emailVefirication = () => sendEmailVerification(auth.currentUser)
 
 onAuthStateChanged(auth, (user) => {
     if (user) {

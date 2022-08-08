@@ -129,6 +129,7 @@ export const SignOutActive = (idElementSignOut) => {
 
 //FUNCIÓN GUARDADO DE DATOS PARA POST
 let editingPost = false;
+// let editingImage = false;
 let id = '';
 export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost, idBtnPost, idModalTitle, idTextEmptyModal, idBtnImgFile) => {
     const btnModalPost = document.getElementById(idBtnModalPost);
@@ -180,6 +181,10 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
                 backgroundModal.style.display = 'none';
             }
         } else {
+            
+            // if (imagen){
+            //     editImage(id,imagen);
+            // }
             editPost(id, newpost);
             backgroundModal.style.display = 'none';
         }
@@ -198,19 +203,20 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
 };
 
 
-export const getP = async (idpostContainer, idAddPost) => {
+export const getP = async (idpostContainer, idAddPost,) => {
     const textArea = document.getElementById(idAddPost);
+    // const btnImgFile = document.getElementById(idBtnImgFile);
     const postContainer = document.getElementById(idpostContainer);
     onGetPost((dataPost) => {
        postContainer.innerHTML = '';
        dataPost.forEach((doc) => {
             const dataNewPost = doc.data();
-            const dataUid = doc.data().uid;
+            // const dataUid = doc.data().uid;
             const like = dataNewPost.like;
             let ultimoLike = 0;
             if (like){
                 let arrayLikes = Object.keys(like);
-                ultimoLike = arrayLikes.length + 1;
+                ultimoLike = arrayLikes.length;
             }
 
             if (dataNewPost.image) {
@@ -234,7 +240,7 @@ export const getP = async (idpostContainer, idAddPost) => {
                 <div class="likeComment">
                     <div class="likeContainer">
                         <button class= "likeBtn">
-                            <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
+                        <img class="likeIcon" src="image/likeHeart.png" data-id="${doc.id}">
                         </button>
                         <label id="likeNumber" class="likeNumber">${ultimoLike}</label>
                     </div>
@@ -276,56 +282,63 @@ export const getP = async (idpostContainer, idAddPost) => {
 
             }
         })
+
+        //FUNCION BORRAR POST
         const dots = document.querySelectorAll('.dots');
         const optionSetingsPost = document.querySelectorAll('.optionSetingsPost');
-
         const deleteBtn = document.querySelectorAll('.deleteBtn');
         deletingPost(dots, optionSetingsPost, deleteBtn);
-
+        //FUNCION EDITAR TEXTO DE POST
         const editBtn = document.querySelectorAll('.editBtn');
         editingP(editBtn, optionSetingsPost, textArea)
 
+        //FUNCION LIKES
         const likeAction = document.querySelectorAll('.likeBtn');
         const likeNumber = document.querySelectorAll('.likeNumber');
+        const likeIcon = document.querySelectorAll('.likeIcon');
         //likeCounter(likeAction, likeNumber);
         
         for(let i= 0; i < likeAction.length; i++) {
             //console.log(likeAction[i]);
             likeAction[i].addEventListener('click', async ({ target: { dataset } }) =>{
-                 const doc = await gettingPostLike(dataset.id);
-                 const post = doc.data();
+                // console.log(e);
+                const doc = await gettingPostLike(dataset.id);
+                const post = doc.data();
                 const userObject = localStorageCall();
                 const uidLike = userObject.id;
                 console.log(uidLike);
                 id = dataset.id;
-                 let likeobject=post.like;
-                 let array=Object.keys(likeobject);
-                 let num= array.length;
-                 likeobject[num]=uidLike;
-                 let arrayid = Object.values(likeobject);
-                 console.log(arrayid);
-                 let contador = 0;
+                let likeobject=post.like;
+                let array=Object.keys(likeobject);
+                let num= array.length;
+                let arrayid = Object.values(likeobject);
+                let contador = false;
+                 let uidLikeString = uidLike.toString();
                  for (let i=0; i<arrayid.length; i++){
-                    if (arrayid[i] == uidLike.toString()){
-                        contador += 1
+                    if (arrayid[i] == uidLikeString){
+                        console.log("ya le diste like");
+                        let newNum = getKeyByValue(likeobject, uidLikeString);
+                        console.log(likeobject[newNum]);
+                        delete likeobject[newNum];
+                        contador = true;
                     }
                  }
+                 if(contador == false){
+                    likeobject[num]=uidLike;
+                }
 
-                 if (contador==0){
-                    addLike(id, likeobject);
-                 }
-                 console.log(contador);
-                 //addLike(id, likeobject);
-                 //likeobject.x='usuario1';
-                 //likeobject.i='usuario2';
-                 console.log(likeobject);
+                addLike(id, likeobject);
+                console.log(likeobject);
              });
-            
-        }
-    });
+
+            function getKeyByValue(object, value) {
+                return Object.keys(object).find(key => object[key] === value);
+            }
+
+           
+       }
+   });
 }
-
-
 
 
 function deletingPost(dots, optionSetingsPost, deleteBtn) {
