@@ -60,8 +60,10 @@ describe('Ingreso a la red social', () => {
 describe('Mostar y ocultar contraseña', () => {
     it('Icono de ojo que muestra y oculta la contraseña', () => {
         document.body.appendChild(viewLogin());
-        viewLogin();
+       // viewLogin();
+       //console.log("here --->", btnShow());
         const btnShow = buttonShow();
+        
         const password = btnShow.querySelector('#passwordLogin');
         const btnPassword = btnShow.querySelector('#btn-password-login');
         password.type = 'text';
@@ -71,22 +73,3 @@ describe('Mostar y ocultar contraseña', () => {
     });
 });
 
-
-        //})
-        //expect(getByTestId('emailLogin')).toBeRequired();
-        //expect(document.getElementById('emailLogin').value).toBe('');
-        //expect(document.getElementById('passwordLogin').value).toBe('');
-    //});
-//});
-
-// describe('Login', () => {
-//     it('', () => {
-//         // document.body.appendChild(loginActive());
-//         loginActive();
-//         const idform = document.getElementById('formLogin');
-//         idform.dispatchEvent(new Event('submit'));
-//         expect(document.getElementById('emailLogin').value).toBe('* correo electrónico');
-//         expect(document.getElementById('passwordLogin').value).toBe('*contraseña');
-//         console.log(signInWithEmailAndPassword.mock);
-//     });
-// });

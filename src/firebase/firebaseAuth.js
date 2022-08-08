@@ -1,4 +1,3 @@
-
 import { 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -15,25 +14,9 @@ import {
 // FUNCIÓN REGISTER
 export const createUser = (email, password) => createUserWithEmailAndPassword(auth, email, password);
 
-
-const provider = new GoogleAuthProvider();
+//const provider = new GoogleAuthProvider();
 
 export const emailVefirication = () => sendEmailVerification(auth.currentUser)
-
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      console.log('Hay un usuario');
-      console.log(uid);
-  //getName(uid);
-     } else {
-      // User is signed out
-      // ...
-      console.log('No hay un usuario');
-    }
-  });
 
 // FUNCIÓN LOGIN
 export const loginUser = (email, password) => signInWithEmailAndPassword(auth, email, password);

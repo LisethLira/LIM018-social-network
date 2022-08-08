@@ -61,11 +61,9 @@ onAuthStateChanged(auth, (user) => {
     //getName(uid);
   } else {
     // User is signed out
-    // ...
     console.log('No hay un usuario');
   }
 });
-//const user = auth.currentUser;
 
 export {
   createUserWithEmailAndPassword,

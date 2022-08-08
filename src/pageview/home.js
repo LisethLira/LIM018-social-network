@@ -11,8 +11,6 @@ import {
 } from '../firebase/baseDatos.js';
 import { imageUrl } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
-// import { likeCounter } from '../lib/index.js';
-
 
 export default () => {
     const viewHome = `<section class= "sectionHome">
@@ -130,7 +128,6 @@ export const SignOutActive = (idElementSignOut) => {
 
 //FUNCIÓN GUARDADO DE DATOS PARA POST
 let editingPost = false;
-// let editingImage = false;
 let id = '';
 export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, idCerrarModalPost, idBtnPost, idModalTitle, idTextEmptyModal, idBtnImgFile) => {
     const btnModalPost = document.getElementById(idBtnModalPost);
@@ -182,10 +179,6 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
                 backgroundModal.style.display = 'none';
             }
         } else {
-            
-            // if (imagen){
-            //     editImage(id,imagen);
-            // }
             editPost(id, newpost);
             backgroundModal.style.display = 'none';
         }
@@ -202,7 +195,6 @@ export const postHome = (idPost, formPost, idBtnModalPost, idBackgroundModal, id
     })
 
 };
-
 
 export const getP = async (idpostContainer, idAddPost,) => {
     const textArea = document.getElementById(idAddPost);
@@ -297,11 +289,8 @@ export const getP = async (idpostContainer, idAddPost,) => {
         const likeAction = document.querySelectorAll('.likeBtn');
         const likeNumber = document.querySelectorAll('.likeNumber');
         const likeIcon = document.querySelectorAll('.likeIcon');
-        //likeCounter(likeAction, likeNumber);
         
         for (let i = 0; i < likeAction.length; i++) {
-            //console.log(likeAction[i]);
-
             likeAction[i].addEventListener('click', async ({ target: { dataset } }) => {
                 const doc = await gettingPostLike(dataset.id);
                 const post = doc.data();
@@ -398,7 +387,6 @@ function editingP(editBtn, optionSetingsPost, textArea) {
             modalTitle.innerText = 'Editar Publicación';
             optionSetingsPost[i].style.display = 'none';
             console.log(post);
-            //console.log(doc.data());
         });
     }
     cerrarModalPost.addEventListener('click', () => {

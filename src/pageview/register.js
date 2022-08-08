@@ -71,63 +71,62 @@ export const registerActive = (idElementoForm) => {
     const warningText = document.getElementById('warningText');
 
     if (passwordRepeatRegister !== passwordRegister) {
-      warning.style.display='flex';
-      cerrar.style.display='flex';
-      warningText.innerText='No es la misma contraseña';
-      cerrar.addEventListener('click', ()=>{
-        warning.style.display='none';
+      warning.style.display = 'flex';
+      cerrar.style.display = 'flex';
+      warningText.innerText = 'No es la misma contraseña';
+      cerrar.addEventListener('click', () => {
+        warning.style.display = 'none';
       });
       idForm.reset();
     }
-    else{
-    // aqui se puede colocar el método del firebase
-    createUser(emailRegister, passwordRegister)
-      .then((userCredential) => {
-        emailVefirication()
-        .then(() => {
-          // Email verification sent
-          console.log('se envió correo de verificación');
-        });
-        // Signed in
-        const user = userCredential.user;
-        const uid = user.uid;
-        createUserRegisterDB(user.uid, userName, emailRegister, passwordRegister);
-        console.log(userName, emailRegister, passwordRegister, 'Registrado');
-        window.location.href = '#/login';
-        warning.style.display='flex';
-        cerrar.style.display='flex';
-        warningText.innerText='Revisa tu correo para validar tu cuenta';
-        cerrar.addEventListener('click', ()=>{
+    else {
+      createUser(emailRegister, passwordRegister)
+        .then((userCredential) => {
+          emailVefirication()
+            .then(() => {
+              // Email verification sent
+              console.log('se envió correo de verificación');
+            });
+          // Signed in
+          const user = userCredential.user;
+          const uid = user.uid;
+
+          createUserRegisterDB(uid, userName, emailRegister, passwordRegister)
+          console.log(userName, emailRegister, passwordRegister, 'Registrado');
+          warning.style.display='flex';
+          cerrar.style.display='flex';
+          warningText.innerText='Revisa tu correo para validar tu cuenta';
+          cerrar.addEventListener('click', ()=>{
           warning.style.display='none';
+          idForm.reset();
+          window.location.href = '#/login';
         });
-       
-        // window.location.href = '#/home';
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if (errorMessage === 'Firebase: Password should be at least 6 characters (auth/weak-password).') {
-          warning.style.display='flex';
-          cerrar.style.display='flex';
-          warningText.innerText='La contraseña debe tener mínimo 6 carácteres';
-        }
-        if(errorMessage === 'Firebase: Error (auth/invalid-email).'){
-          warning.style.display='flex';
-          cerrar.style.display='flex';
-          warningText.innerText='Correo invalido. Revisa tu correo';
-        }
-        if(errorMessage === 'Firebase: Error (auth/email-already-in-use).'){
-          warning.style.display='flex';
-          cerrar.style.display='flex';
-          warningText.innerText='El correo ya está en uso';
-        }
-        // else {alert(error);}
-        cerrar.addEventListener('click', ()=>{
-          warning.style.display='none';
+
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorMessage === 'Firebase: Password should be at least 6 characters (auth/weak-password).') {
+            warning.style.display = 'flex';
+            cerrar.style.display = 'flex';
+            warningText.innerText = 'La contraseña debe tener mínimo 6 carácteres';
+          }
+          if (errorMessage === 'Firebase: Error (auth/invalid-email).') {
+            warning.style.display = 'flex';
+            cerrar.style.display = 'flex';
+            warningText.innerText = 'Correo invalido. Revisa tu correo';
+          }
+          if (errorMessage === 'Firebase: Error (auth/email-already-in-use).') {
+            warning.style.display = 'flex';
+            cerrar.style.display = 'flex';
+            warningText.innerText = 'El correo ya está en uso';
+          }
+          // else {alert(error);}
+          cerrar.addEventListener('click', () => {
+            warning.style.display = 'none';
+          });
+          idForm.reset();
         });
-        idForm.reset();
-      // ..
-      });
     }
   });
 };

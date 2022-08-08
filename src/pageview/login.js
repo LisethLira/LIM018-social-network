@@ -67,7 +67,7 @@ export const loginActive = (idElementoForm) => {
       // const emailVerified = user.emailVerified;
       const uid = user.uid;
       if (!user.emailVerified) {
-         warning.style.display='flex';
+        warning.style.display='flex';
         cerrar.style.display='flex';
         warningText.innerText='Revisa tu correo y valida tu cuenta para ingresar';
         }
@@ -81,7 +81,6 @@ export const loginActive = (idElementoForm) => {
         });
         console.log(email, password);
       }
-      // ...
       })
 
       .catch((error) => {
@@ -113,18 +112,17 @@ export const loginActive = (idElementoForm) => {
           cerrar.style.display='flex';
           warningText.innerText='Demasiados intentos de inicio de sesión. Intentalo más tarde';
         }
-
-        // {alert(error)}
         idForm.reset();
       });
   });
 };
 
-
 export const buttonShow = (idbtn, idInput) => {
   const password = document.getElementById(idInput);
   const viewPassword = document.getElementById(idbtn);
   let click = false;
+
+  console.log("login -->", viewPassword);
 
   viewPassword.addEventListener('click', () => {
     if (!click) {
