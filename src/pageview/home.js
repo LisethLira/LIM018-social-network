@@ -13,6 +13,7 @@ import { imageUrl } from '../firebase/storage.js';
 import { localStorageCall } from '../lib/index.js';
 // import { likeCounter } from '../lib/index.js';
 
+
 export default () => {
     const viewHome = `<section class= "sectionHome">
     <header class= "headerHome">
@@ -298,24 +299,24 @@ export const getP = async (idpostContainer, idAddPost,) => {
         const likeIcon = document.querySelectorAll('.likeIcon');
         //likeCounter(likeAction, likeNumber);
         
-        for(let i= 0; i < likeAction.length; i++) {
+        for (let i = 0; i < likeAction.length; i++) {
             //console.log(likeAction[i]);
-            likeAction[i].addEventListener('click', async ({ target: { dataset } }) =>{
-                // console.log(e);
+
+            likeAction[i].addEventListener('click', async ({ target: { dataset } }) => {
                 const doc = await gettingPostLike(dataset.id);
                 const post = doc.data();
                 const userObject = localStorageCall();
                 const uidLike = userObject.id;
                 console.log(uidLike);
                 id = dataset.id;
-                let likeobject=post.like;
-                let array=Object.keys(likeobject);
-                let num= array.length;
+                let likeobject = post.like;
+                let array = Object.keys(likeobject);
+                let num = array.length;
                 let arrayid = Object.values(likeobject);
                 let contador = false;
-                 let uidLikeString = uidLike.toString();
-                 for (let i=0; i<arrayid.length; i++){
-                    if (arrayid[i] == uidLikeString){
+                let uidLikeString = uidLike.toString();
+                for (let i = 0; i < arrayid.length; i++) {
+                    if (arrayid[i] == uidLikeString) {
                         console.log("ya le diste like");
                         let newNum = getKeyByValue(likeobject, uidLikeString);
                         console.log(likeobject[newNum]);
@@ -334,8 +335,6 @@ export const getP = async (idpostContainer, idAddPost,) => {
             function getKeyByValue(object, value) {
                 return Object.keys(object).find(key => object[key] === value);
             }
-
-           
        }
    });
 }
@@ -407,19 +406,3 @@ function editingP(editBtn, optionSetingsPost, textArea) {
         textArea.innerHTML = '';
     })
 }
-
-/*function likeCounter(likeAction, likeNumber) {
-    let arrayCounter = [];
-    for (let i = 0; i < likeAction.length; i++) {
-        arrayCounter.push(' ');
-    }
-    // el counter lo deberíamos jalar del array traido del firebase (doc.data.contadordelikes)
-    for (let i = 0; i < likeAction.length; i++) {
-        let counter = 0;
-        likeAction[i].addEventListener('click', () => {
-            counter++;
-            arrayCounter[i] = counter;
-            likeNumber[i].innerHTML = counter;
-        });
-    };
-}*/
