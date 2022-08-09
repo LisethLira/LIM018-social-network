@@ -21,7 +21,9 @@ import { getFirestore,
   onSnapshot, 
   deleteDoc, 
   getDoc, 
-  updateDoc } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
+  updateDoc,
+  query,
+  orderBy, } from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js';
 
 import {
   getStorage, 
@@ -84,7 +86,10 @@ export { getFirestore,
   onSnapshot, 
   deleteDoc, 
   getDoc, 
-  updateDoc };
+  updateDoc,
+  query,
+  orderBy, 
+};
 
 export {
   getStorage, 

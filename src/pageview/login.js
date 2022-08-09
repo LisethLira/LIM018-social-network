@@ -64,7 +64,6 @@ export const loginActive = (idElementoForm) => {
       .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      // const emailVerified = user.emailVerified;
       const uid = user.uid;
       if (!user.emailVerified) {
         warning.style.display='flex';
