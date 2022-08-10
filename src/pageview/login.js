@@ -74,7 +74,6 @@ export const loginActive = (idElementoForm) => {
         window.location.hash = '#/home';
         getUserById(uid, 'users').then((userData) => {
           const data = userData;
-          console.log(uid);
           data.id = uid;
           localStorage.setItem('USER', JSON.stringify(userData));
         });

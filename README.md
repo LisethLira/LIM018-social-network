@@ -38,7 +38,7 @@ Los usuarios pueden realizar publicaciones de texto y/o imágenes, editarlas, el
 ![](https://github.com/GabrielaC3/LIM018-social-network/blob/main/src/image/Vista%20de%20Home.PNG)
 
 ## 5. Git Hub Pages <a name="id10"></a>
-https://gabrielac3.github.io/LIM018-social-network/
+https://lisethlira.github.io/LIM018-social-network/
 
 ## 6. Desarrolladoras del Proyecto: <a name="id11"></a>
 [Gabriela Córdova](https://github.com/GabrielaC3)
